@@ -45,3 +45,4 @@ public class HomeFragment extends Fragment {
     }
 
 }
+// try to replace Function By UI
