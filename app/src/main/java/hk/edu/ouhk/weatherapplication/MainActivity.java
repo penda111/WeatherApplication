@@ -59,8 +59,13 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         // animate the sun
-        new updateUI().execute();
+        //new updateUI().execute();
 
+    }
+
+    // method for animate the sun, will called by fragment
+    public void animateSun(){
+        new updateUI().execute();
     }
 
     @Override

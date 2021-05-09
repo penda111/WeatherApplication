@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import hk.edu.ouhk.weatherapplication.MainActivity;
 import hk.edu.ouhk.weatherapplication.R;
 
 public class HomeFragment extends Fragment {
@@ -30,6 +31,17 @@ public class HomeFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        setUserVisibleHint(false);
+        setUserVisibleHint(true);
         return root;
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        //Code executes EVERY TIME user views the fragment
+        ((MainActivity)getActivity()).animateSun();
+    }
+
 }
