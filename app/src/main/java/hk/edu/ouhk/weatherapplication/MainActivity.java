@@ -27,6 +27,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import hk.edu.ouhk.weatherapplication.APIHandler.MoonAPIHandler;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -127,7 +129,10 @@ public class MainActivity extends AppCompatActivity {
                         center_y + (sunView.getDrawable().getIntrinsicHeight()/2.0f));
                 newPath.addArc(oval, 180, 180);
 
-                float percentage = 70.0f; // initialize to your desired percentage
+                MoonAPIHandler moonAPIHandler = new MoonAPIHandler(2021,5,9);
+                float percentage = moonAPIHandler.calMoonTimePass();
+
+                //float percentage = 70.0f; // initialize to your desired percentage
                 int duration = Math.round(3 * percentage/100) * 1000;
 
                 PathMeasure measure = new PathMeasure(newPath, false);
