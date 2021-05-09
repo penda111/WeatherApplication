@@ -10,15 +10,24 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,10 +36,23 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+
+import hk.edu.ouhk.weatherapplication.ui.gallery.GalleryFragment;
+import hk.edu.ouhk.weatherapplication.ui.home.HomeFragment;
+import hk.edu.ouhk.weatherapplication.ui.slideshow.SlideshowFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private ActionBar mActionBar;
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
+
+    private boolean mToolBarNavigationListenerIsRegistered = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -46,10 +68,20 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });*/
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        mActionBar = getSupportActionBar();
+        drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                int id = item.getItemId();
+
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
                 .setDrawerLayout(drawer)
@@ -57,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer , toolbar, R.string.drawer_open, R.string.drawer_close);
+        actionBarDrawerToggle.syncState();
+        drawer.addDrawerListener(actionBarDrawerToggle);
 
         // animate the sun
         //new updateUI().execute();
@@ -68,6 +104,16 @@ public class MainActivity extends AppCompatActivity {
         new updateUI().execute();
     }
 
+   @Override
+    public void onBackPressed() {
+
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+
+        } else {
+                super.onBackPressed();
+        }
+    }
     @Override
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,6 +128,30 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+        //Testing Menu Item Click
+        dialog.setTitle("Menu Item Click Test");
+        dialog.setMessage("Selected Item: " + String.valueOf(id));
+        AlertDialog ad = dialog.create();
+        ad.show();
+        if (id == R.id.action_settings) {
+            return true;
+
+        } else if (id == android.R.id.home) {
+            onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+
 
 
     public void displaySun(){
