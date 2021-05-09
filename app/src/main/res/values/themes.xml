@@ -24,4 +24,8 @@
     <style name="Theme.WeatherApplication.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
 
     </style>
+
+
+
+
 </resources>
