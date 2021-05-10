@@ -4,60 +4,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_1"
+    android:background="@drawable/cloud_5"
     android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
+
+
+    <LinearLayout
+        android:id="@+id/weather_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="136dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/temp_high"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="最高氣溫"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/temp_low"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="最低氣溫"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/temp_high" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/sunLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/grass"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05"
-        >
+        app:layout_constraintVertical_bias="1.0">
 
         <ImageView
             android:id="@+id/sunView"
-            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:maxWidth="100dp"
             android:scaleType="fitStart"
             android:src="@drawable/sun2"
-            />
+            android:visibility="invisible" />
+
+
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="102dp"
-        android:layout_height="134dp"
-        android:src="@drawable/ic_launcher"
+        android:id="@+id/grass"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_11_1"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.814" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-8dp" />
 
     <pl.droidsonroids.gif.GifImageView
-        android:layout_width="264dp"
-        android:layout_height="253dp"
-        android:src="@drawable/plant1"
+        android:id="@+id/gifImageView"
+        android:layout_width="221dp"
+        android:layout_height="279dp"
+        android:src="@drawable/p1_s5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.255" />
+        app:layout_constraintVertical_bias="0.968" />
 
-
-
-    <TextView
+    <!--<TextView
         android:id="@+id/text_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,10 +93,11 @@
         android:textAlignment="center"
         android:textColor="@color/red"
         android:textSize="20sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.54" />
+        app:layout_constraintVertical_bias="0.011" /> -->
 </androidx.constraintlayout.widget.ConstraintLayout>
