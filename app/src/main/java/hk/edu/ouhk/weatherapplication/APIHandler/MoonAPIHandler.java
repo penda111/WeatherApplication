@@ -6,33 +6,58 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class MoonAPIHandler {
     private static final String TAG = "MoonAPIHandler";
+    private static final String DATATYPE = "MRS";
+    private static final String FORMAT = "json";
+    private static final String lang = "tc";
     private String url;
     public static JSONObject jsonObject;
 
     public MoonAPIHandler(int year,int month,int day){
-        url = "https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType=MRS&lang=tc&rformat=json&year="+year+"&month="+month+"&day="+day;
-        JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(this,url,"Moon");
+        url = "https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType="+DATATYPE+"&lang="+lang+"&rformat="+FORMAT+"&year="+year+"&month="+month+"&day="+day;
+        JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Moon");
         jsonHandlerThread.start();
         try {
             jsonHandlerThread.join();
         }catch (InterruptedException e){
-
         }
     }
 
-    public static void replaceJsonObj(JSONObject jsonObj){
-        jsonObject = jsonObj;
+    public MoonAPIHandler(){
+        List<String> todayDate = getTodayDate();
+        String day = todayDate.get(0);
+        String month = todayDate.get(1);
+        String year = todayDate.get(2);
+
+        url = "https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType="+DATATYPE+"&lang="+lang+"&rformat="+FORMAT+"&year="+year+"&month="+month+"&day="+day;
+        JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Moon");
+        jsonHandlerThread.start();
+        try {
+            jsonHandlerThread.join();
+        }catch (InterruptedException e){
+        }
     }
 
-    public float calMoonTimePass(){
+    public List<String> getTodayDate(){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        Log.d(TAG, "Check Date: " + formatter.format(date));
+        return Arrays.asList(formatter.format(date).split("/"));
+    }
+
+    /*public static void replaceJsonObj(JSONObject jsonObj){
+        jsonObject = jsonObj;
+    }*/
+
+    public float calSunTimePass(){
         float f = 0;
 
             try {
@@ -54,6 +79,7 @@ public class MoonAPIHandler {
                 LocalDateTime setTime = LocalDateTime.parse(date + " "+ set, formatter);
 
                 LocalDateTime nowTime = LocalDateTime.now();
+                Log.d(TAG, "Check riseTime: " +riseTime+","+setTime);
 
                 if(nowTime.compareTo(riseTime) >= 0 &&  nowTime.compareTo(setTime) <= 0){
                     long diffInMinutes = java.time.Duration.between(riseTime, setTime).toMinutes();

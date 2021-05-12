@@ -2,7 +2,6 @@ package hk.edu.ouhk.weatherapplication.APIHandler;
 
 import android.util.Log;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,17 +15,18 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.FndAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHandler;
+
 public class JsonHandlerThread extends Thread {
     private static final String TAG = "JsonHandlerThread";
     // URL to get contacts JSON file
     private static String jsonUrl;
     private String api;
-    private Object object;
 
-    public JsonHandlerThread(Object obj,String url, String api){
+    public JsonHandlerThread(String url, String api){
         jsonUrl = url;
         this.api = api;
-        object = obj;
     }
 
 
@@ -85,8 +85,25 @@ public class JsonHandlerThread extends Thread {
                 {
                     case "Moon":
                         Log.d(TAG, "Check jsonObject from Thread: " + jsonObj);
-                        MoonAPIHandler moon = (MoonAPIHandler) object;
-                        moon.replaceJsonObj(jsonObj);
+                        /*MoonAPIHandler moon = (MoonAPIHandler) object;
+                        moon.replaceJsonObj(jsonObj);*/
+                        MoonAPIHandler.jsonObject = jsonObj;
+                        break;
+                    case "Sun":
+                        SunAPIHandler.jsonObject = jsonObj;
+                        break;
+                    case "Flw":
+                        FlwAPIHandler.jsonObject = jsonObj;
+                        FlwAPIHandler.getJsonData();
+                        break;
+                    case "Fnd":
+                        FndAPIHandler.jsonObject = jsonObj;
+                        FndAPIHandler.getJsonData();
+                        break;
+                    case "Rhrread":
+                        RhrreadAPIHandler.jsonObject = jsonObj;
+                        RhrreadAPIHandler.getJsonData();
+                        break;
 
                 }
 

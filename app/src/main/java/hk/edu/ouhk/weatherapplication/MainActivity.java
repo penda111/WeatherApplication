@@ -2,7 +2,6 @@ package hk.edu.ouhk.weatherapplication;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.graphics.Bitmap;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.RectF;
@@ -15,8 +14,6 @@ import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -27,7 +24,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import hk.edu.ouhk.weatherapplication.APIHandler.MoonAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.FlwAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.FndAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHandler;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
 
         // animate the sun
         //new updateUI().execute();
+        FlwAPIHandler flwAPIHandler = new FlwAPIHandler();
+        FndAPIHandler fndAPIHandler = new FndAPIHandler();
+        RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
 
     }
 
@@ -124,15 +126,19 @@ public class MainActivity extends AppCompatActivity {
                 // draw half oval path
                 sunView.setVisibility(View.VISIBLE);
                 oval.set(0,
-                        0,
+                        center_y,
                         center_x +(sunView.getDrawable().getIntrinsicHeight()/2.0f),
-                        center_y + (sunView.getDrawable().getIntrinsicHeight()/2.0f));
+                        height + (sunView.getDrawable().getIntrinsicHeight()));
                 newPath.addArc(oval, 180, 180);
 
-                MoonAPIHandler moonAPIHandler = new MoonAPIHandler(2021,5,9);
-                float percentage = moonAPIHandler.calMoonTimePass();
+                //MoonAPIHandler moonAPIHandler = new MoonAPIHandler(2021,5,10);
+                //SunAPIHandler sunAPIHandler = new SunAPIHandler(2021,5,10);
 
-                //float percentage = 70.0f; // initialize to your desired percentage
+
+                //SunAPIHandler sunAPIHandler = new SunAPIHandler();
+                //float percentage = sunAPIHandler.calSunTimePass();
+
+                float percentage = 10.0f; // initialize to your desired percentage
                 int duration = Math.round(3 * percentage/100) * 1000;
 
                 PathMeasure measure = new PathMeasure(newPath, false);
