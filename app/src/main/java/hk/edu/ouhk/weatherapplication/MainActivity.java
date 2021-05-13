@@ -25,8 +25,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.ActionBar;
@@ -45,6 +43,17 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import hk.edu.ouhk.weatherapplication.APIHandler.FeltearthquakeAPIHandler.FeltearthquakeAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.FlwAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.FndAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.HhotAPIHandler.HhotAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.HltAPIHandler.HltAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.QemAPIHandler.QemAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.SwtAPIHandler.SwtAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.WarningInfoAPIHandler.WarningInfoAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHandler;
 
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -116,6 +125,31 @@ public class MainActivity extends AppCompatActivity {
 
         // animate the sun
         //new updateUI().execute();
+        FlwAPIHandler flwAPIHandler = new FlwAPIHandler();
+        FndAPIHandler fndAPIHandler = new FndAPIHandler();
+        RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
+
+        WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
+        //Test warnsumAPIHandler with json example (warnsumTest.json)
+        /*warnsumAPIHandler.loadJSONFromAsset(this);
+        warnsumAPIHandler.getJsonData();*/
+
+        WarningInfoAPIHandler warningInfoAPIHandler = new WarningInfoAPIHandler();
+        //Test warningInfoAPIHandler with json example (warningInfoTest.json)
+        /*warningInfoAPIHandler.loadJSONFromAsset(this);
+        warningInfoAPIHandler.getJsonData();*/
+
+        SwtAPIHandler swtAPIHandler = new SwtAPIHandler();
+        //Test swtAPIHandler with json example (swtTest.json)
+        /*swtAPIHandler.loadJSONFromAsset(this);
+        swtAPIHandler.getJsonData();*/
+
+        QemAPIHandler qemAPIHandler = new QemAPIHandler();
+        FeltearthquakeAPIHandler feltearthquakeAPIHandler = new FeltearthquakeAPIHandler();
+
+        HhotAPIHandler hhotAPIHandler = new HhotAPIHandler("CCH");
+        HltAPIHandler hltAPIHandler = new HltAPIHandler("CCH");
+
 
     }
     public static Context getContext(){
@@ -316,16 +350,24 @@ public class MainActivity extends AppCompatActivity {
                 // draw half oval path
                 sunView.setVisibility(View.VISIBLE);
                 oval.set(0,
-                        0,
+                        center_y,
                         center_x +(sunView.getDrawable().getIntrinsicHeight()/2.0f),
-                        height + (sunView.getDrawable().getIntrinsicHeight())/2.0f);
+                        //height + (sunView.getDrawable().getIntrinsicHeight())/2.0f);
+                        height + (sunView.getDrawable().getIntrinsicHeight()));
                 newPath.addArc(oval, 180, 180);
 
-                float percentage = 30.0f; // initialize to your desired percentage
+                //MoonAPIHandler moonAPIHandler = new MoonAPIHandler(2021,5,10);
+                //SunAPIHandler sunAPIHandler = new SunAPIHandler(2021,5,10);
+
+
+                //SunAPIHandler sunAPIHandler = new SunAPIHandler();
+                //float percentage = sunAPIHandler.calSunTimePass();
+
+                float percentage = 10.0f; // initialize to your desired percentage
                 int duration = Math.round(3 * percentage/100) * 1000;
                 //Changing UI component attributes value
-                changeToolbarColor(percentage);
-                changeBackground(percentage);
+                //changeToolbarColor(percentage);
+                //changeBackground(percentage);
 
                 PathMeasure measure = new PathMeasure(newPath, false);
                 float length = measure.getLength();
@@ -374,3 +416,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+
