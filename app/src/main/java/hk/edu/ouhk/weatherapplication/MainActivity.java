@@ -9,6 +9,8 @@ import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,6 +52,7 @@ import java.util.Map;
 
 import hk.edu.ouhk.weatherapplication.ui.gallery.GalleryFragment;
 import hk.edu.ouhk.weatherapplication.ui.home.HomeFragment;
+import hk.edu.ouhk.weatherapplication.ui.home.HomeViewModel;
 import hk.edu.ouhk.weatherapplication.ui.slideshow.SlideshowFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -60,16 +63,23 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private Menu menu;
+    private TextView displayDate;
+    private Calendar calendar;
+    private SimpleDateFormat dateFormat;
+    private String date;
 
+    public static Context mContext;
 
     private boolean mToolBarNavigationListenerIsRegistered = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        mContext = getApplicationContext();
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         /*FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,15 +121,16 @@ public class MainActivity extends AppCompatActivity {
         //new updateUI().execute();
 
     }
-
+    public static Context getContext(){
+        return mContext;
+    }
     @Override
     public void onResume() {
-        updateWeatherInfo(R.id.windspeed, R.string.windspeed, "100", R.string.mph);
-        updateWeatherInfo(R.id.temp_high, R.string.temp_high, "33", R.string.celsius);
-        updateWeatherInfo(R.id.temp_low, R.string.temp_low, "28", R.string.celsius);
-        updateWeatherInfo(R.id.humidity, R.string.humidity, "88", R.string.percentage);
-        updateWeatherInfo(R.id.rainingchance, R.string.rainingchance, "30", R.string.percentage);
         super.onResume();
+    }
+    @Override
+    public void onRestart() {
+        super.onRestart();
     }
     @Override
 
@@ -234,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
             dialog.setTitle("Refresh Option");
             dialog.setMessage("Refresh weather information method invoked here");
             dialog.show();*/
-            //updateWeatherInfo();
+
         }
             else if (id == android.R.id.home) {
             onBackPressed();
@@ -243,11 +254,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void updateWeatherInfo(int id, String tag, String value, String unit){
+    /*public void updateWeatherInfo(int id, String tag, String value, String unit){
         View root = HomeFragment.root;
         TextView humidity = root.findViewById(id);
         humidity.setText(tag + ": " + value + " " +unit);
     }
+
     public void updateWeatherInfo(int viewId, int tagId, String str, int unitId){
         View root = HomeFragment.root;
         TextView humidity = root.findViewById(viewId);
@@ -255,6 +267,21 @@ public class MainActivity extends AppCompatActivity {
         String unit = getResources().getString(unitId);
         humidity.setText(tag + ": " + str + " " +unit);
     }
+    public void updateAllWeatherInfo(){
+        updateWeatherInfo(R.id.windspeed, R.string.windspeed, "100", R.string.mph);
+        updateWeatherInfo(R.id.temp_high, R.string.temp_high, "33", R.string.celsius);
+        updateWeatherInfo(R.id.temp_low, R.string.temp_low, "28", R.string.celsius);
+        updateWeatherInfo(R.id.humidity, R.string.humidity, "88", R.string.percentage);
+        updateWeatherInfo(R.id.rainingchance, R.string.rainingchance, "30", R.string.percentage);
+    }
+    public void showDate(){
+        displayDate = HomeFragment.root.findViewById(R.id.display_date);
+        calendar = Calendar.getInstance();
+        dateFormat = new SimpleDateFormat("dd/MM/yyyy (EEE)");
+        //dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+        date = dateFormat.format(calendar.getTime());
+        displayDate.setText(date);
+    }*/
 
     public void displaySun(){
         //Sun display

@@ -30,6 +30,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
+                HomeViewModel.updateAllWeatherInfo();
+                HomeViewModel.showDate();
             }
         });
 
