@@ -27,6 +27,8 @@ import androidx.appcompat.widget.Toolbar;
 import hk.edu.ouhk.weatherapplication.APIHandler.FeltearthquakeAPIHandler.FeltearthquakeAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.FlwAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.FndAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.HhotAPIHandler.HhotAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.HltAPIHandler.HltAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.QemAPIHandler.QemAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.SwtAPIHandler.SwtAPIHandler;
@@ -87,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
 
         QemAPIHandler qemAPIHandler = new QemAPIHandler();
         FeltearthquakeAPIHandler feltearthquakeAPIHandler = new FeltearthquakeAPIHandler();
+
+        HhotAPIHandler hhotAPIHandler = new HhotAPIHandler("CCH");
+        HltAPIHandler hltAPIHandler = new HltAPIHandler("CCH");
+
 
     }
 

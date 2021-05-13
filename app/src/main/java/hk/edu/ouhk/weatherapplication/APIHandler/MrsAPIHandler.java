@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class MoonAPIHandler {
+public class MrsAPIHandler {
     private static final String TAG = "MoonAPIHandler";
     private static final String DATATYPE = "MRS";
     private static final String FORMAT = "json";
@@ -21,9 +21,9 @@ public class MoonAPIHandler {
     private String url;
     public static JSONObject jsonObject;
 
-    public MoonAPIHandler(int year,int month,int day){
+    public MrsAPIHandler(int year, int month, int day){
         url = "https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType="+DATATYPE+"&lang="+lang+"&rformat="+FORMAT+"&year="+year+"&month="+month+"&day="+day;
-        JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Moon");
+        JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Mrs");
         jsonHandlerThread.start();
         try {
             jsonHandlerThread.join();
@@ -31,14 +31,14 @@ public class MoonAPIHandler {
         }
     }
 
-    public MoonAPIHandler(){
+    public MrsAPIHandler(){
         List<String> todayDate = getTodayDate();
         String day = todayDate.get(0);
         String month = todayDate.get(1);
         String year = todayDate.get(2);
 
         url = "https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType="+DATATYPE+"&lang="+lang+"&rformat="+FORMAT+"&year="+year+"&month="+month+"&day="+day;
-        JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Moon");
+        JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Mrs");
         jsonHandlerThread.start();
         try {
             jsonHandlerThread.join();
@@ -57,8 +57,8 @@ public class MoonAPIHandler {
         jsonObject = jsonObj;
     }*/
 
-    public float calSunTimePass(){
-        float f = 0;
+    public float calMoonTimePass(){
+        float f = -1;
 
             try {
 

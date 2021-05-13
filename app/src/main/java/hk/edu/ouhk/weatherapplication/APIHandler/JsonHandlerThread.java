@@ -15,9 +15,10 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-import hk.edu.ouhk.weatherapplication.APIHandler.FeltearthquakeAPIHandler.Feltearthquake;
 import hk.edu.ouhk.weatherapplication.APIHandler.FeltearthquakeAPIHandler.FeltearthquakeAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.FndAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.HhotAPIHandler.HhotAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.HltAPIHandler.HltAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.QemAPIHandler.QemAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.SwtAPIHandler.SwtAPIHandler;
@@ -89,14 +90,14 @@ public class JsonHandlerThread extends Thread {
 
                 switch(api)
                 {
-                    case "Moon":
+                    case "Mrs":
                         Log.d(TAG, "Check jsonObject from Thread: " + jsonObj);
                         /*MoonAPIHandler moon = (MoonAPIHandler) object;
                         moon.replaceJsonObj(jsonObj);*/
-                        MoonAPIHandler.jsonObject = jsonObj;
+                        MrsAPIHandler.jsonObject = jsonObj;
                         break;
-                    case "Sun":
-                        SunAPIHandler.jsonObject = jsonObj;
+                    case "Srs":
+                        SrsAPIHandler.jsonObject = jsonObj;
                         break;
                     case "Flw":
                         FlwAPIHandler.jsonObject = jsonObj;
@@ -129,6 +130,14 @@ public class JsonHandlerThread extends Thread {
                     case "Feltearthquake":
                         FeltearthquakeAPIHandler.jsonObject = jsonObj;
                         FeltearthquakeAPIHandler.getJsonData();
+                        break;
+                    case "Hhot":
+                        HhotAPIHandler.jsonObject = jsonObj;
+                        HhotAPIHandler.getJsonData();
+                        break;
+                    case "Hlt":
+                        HltAPIHandler.jsonObject = jsonObj;
+                        HltAPIHandler.getJsonData();
                         break;
 
 

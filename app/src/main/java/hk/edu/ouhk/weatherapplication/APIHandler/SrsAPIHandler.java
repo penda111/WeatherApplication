@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class SunAPIHandler {
+public class SrsAPIHandler {
 
     private static final String TAG = "SunAPIHandler";
     private static final String DATATYPE = "SRS";
@@ -23,9 +23,9 @@ public class SunAPIHandler {
     private String url;
     public static JSONObject jsonObject;
 
-    public SunAPIHandler(int year,int month,int day){
+    public SrsAPIHandler(int year, int month, int day){
         url = "https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType="+DATATYPE+"&lang="+lang+"&rformat="+FORMAT+"&year="+year+"&month="+month+"&day="+day;
-        JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Sun");
+        JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Srs");
         jsonHandlerThread.start();
         try {
             jsonHandlerThread.join();
@@ -33,14 +33,14 @@ public class SunAPIHandler {
         }
     }
 
-    public SunAPIHandler(){
+    public SrsAPIHandler(){
         List<String> todayDate = getTodayDate();
         String day = todayDate.get(0);
         String month = todayDate.get(1);
         String year = todayDate.get(2);
 
         url = "https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType="+DATATYPE+"&lang="+lang+"&rformat="+FORMAT+"&year="+year+"&month="+month+"&day="+day;
-        JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Sun");
+        JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Srs");
         jsonHandlerThread.start();
         try {
             jsonHandlerThread.join();
@@ -56,8 +56,7 @@ public class SunAPIHandler {
     }
 
     public float calSunTimePass(){
-        float f = 0;
-
+        float f = -1;
         try {
             //Log.d(TAG, "Check jsonObject: " + jsonObject);
             //Log.e(TAG, "Test1: " +jsonObject);
