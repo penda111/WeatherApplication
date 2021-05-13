@@ -117,6 +117,15 @@
             android:maxWidth="100dp"
             android:scaleType="fitStart"
             android:src="@drawable/sun2"
+            android:visibility="gone" />
+        <ImageView
+            android:id="@+id/moonView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:maxWidth="100dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/fullmoon"
             android:visibility="invisible" />
 
 

@@ -49,8 +49,10 @@ import hk.edu.ouhk.weatherapplication.APIHandler.FlwAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.FndAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.HhotAPIHandler.HhotAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.HltAPIHandler.HltAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.MrsAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.QemAPIHandler.QemAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.SrsAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.SwtAPIHandler.SwtAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarningInfoAPIHandler.WarningInfoAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHandler;
@@ -150,13 +152,15 @@ public class MainActivity extends AppCompatActivity {
         HhotAPIHandler hhotAPIHandler = new HhotAPIHandler("CCH");
         HltAPIHandler hltAPIHandler = new HltAPIHandler("CCH");
 
-
     }
     public static Context getContext(){
         return mContext;
     }
     @Override
     public void onResume() {
+        /*actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer , toolbar, R.string.drawer_open, R.string.drawer_close);
+        actionBarDrawerToggle.syncState();
+        drawer.addDrawerListener(actionBarDrawerToggle);*/
         super.onResume();
     }
     @Override
@@ -197,9 +201,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void changeToolbarColor(float ratio){
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer , toolbar, R.string.drawer_open, R.string.drawer_close);
+        actionBarDrawerToggle.syncState();
+        drawer.addDrawerListener(actionBarDrawerToggle);
         Drawable overflowicon = toolbar.getOverflowIcon();
 
-        if( ratio >= 25.0f){
+        if( ratio > 25.0f){
             toolbar.setTitleTextColor(Color.WHITE);
             overflowicon.setTint(Color.WHITE);
             actionBarDrawerToggle.getDrawerArrowDrawable().setColor(Color.WHITE);
@@ -322,10 +329,12 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 Path newPath = new Path();
                 ImageView sunView = findViewById(R.id.sunView);
+                ImageView moonView = findViewById(R.id.moonView);
 
                 LinearLayout sunLayout = findViewById(R.id.sunLayout);
                 // set the layout size to double of sun image size
-                sunLayout.setMinimumHeight(sunView.getMeasuredHeight()*2);
+                //sunLayout.setMinimumHeight(sunView.getMeasuredHeight()*2);
+                sunLayout.setMinimumHeight(moonView.getMeasuredHeight()*2);
 
                 float height = (float) sunLayout.getHeight();
                 float width = (float) sunLayout.getWidth();
@@ -348,26 +357,33 @@ public class MainActivity extends AppCompatActivity {
                 center_y = height/2;
 
                 // draw half oval path
-                sunView.setVisibility(View.VISIBLE);
-                oval.set(0,
-                        center_y,
+                //sunView.setVisibility(View.VISIBLE);
+                moonView.setVisibility(View.VISIBLE);
+                /*oval.set(0,
+                        height,
                         center_x +(sunView.getDrawable().getIntrinsicHeight()/2.0f),
-                        //height + (sunView.getDrawable().getIntrinsicHeight())/2.0f);
-                        height + (sunView.getDrawable().getIntrinsicHeight()));
+                        height + (sunView.getDrawable().getIntrinsicHeight()/2.0f)
+                        );
+                newPath.addArc(oval, 180, 180);*/
+                oval.set(0,
+                        height/2,
+                        center_x +(moonView.getDrawable().getIntrinsicHeight()/2.0f),
+                        height + (moonView.getDrawable().getIntrinsicHeight()/2.0f)
+                );
                 newPath.addArc(oval, 180, 180);
-
-                //MoonAPIHandler moonAPIHandler = new MoonAPIHandler(2021,5,10);
-                //SunAPIHandler sunAPIHandler = new SunAPIHandler(2021,5,10);
+                SrsAPIHandler srsAPIHandler = new SrsAPIHandler();
+                MrsAPIHandler mrsAPIHandler = new MrsAPIHandler();
 
 
                 //SunAPIHandler sunAPIHandler = new SunAPIHandler();
-                //float percentage = sunAPIHandler.calSunTimePass();
+                //float percentage = srsAPIHandler.calSunTimePass();
+                float percentage = mrsAPIHandler.calMoonTimePass();
 
-                float percentage = 10.0f; // initialize to your desired percentage
+                //float percentage = 10.0f; // initialize to your desired percentage
                 int duration = Math.round(3 * percentage/100) * 1000;
                 //Changing UI component attributes value
-                //changeToolbarColor(percentage);
-                //changeBackground(percentage);
+                changeToolbarColor(percentage);
+                changeBackground(percentage);
 
                 PathMeasure measure = new PathMeasure(newPath, false);
                 float length = measure.getLength();
@@ -375,7 +391,8 @@ public class MainActivity extends AppCompatActivity {
                 measure.getSegment(0.0f, (length * percentage) / 100.0f, partialPath, true);
                 partialPath.rLineTo(0.0f, 0.0f); // workaround to display on hardware accelerated canvas as described in docs
 
-                ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
+                //ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
+                ValueAnimator pathAnimator = ObjectAnimator.ofFloat(moonView,"x","y", partialPath);
                 pathAnimator.setDuration(duration);
                 pathAnimator.start();
             }
