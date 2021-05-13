@@ -2,11 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/cloud_5"
     android:orientation="vertical"
-    tools:context=".ui.home.HomeFragment">
+    tools:context=".ui.home.HomeFragment"
+    >
 
 
     <LinearLayout
@@ -22,30 +23,39 @@
             android:id="@+id/temp_high"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="最高氣溫"
-            android:textColor="@color/black"
+            android:text="High"
+            android:textColor="@color/white"
+            android:shadowColor="@color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="7"
             android:textSize="25sp" />
 
         <TextView
             android:id="@+id/temp_low"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="最低氣溫"
-            android:textColor="@color/black"
+            android:text="Low"
+            android:textColor="@color/white"
+            android:shadowColor="@color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="7"
             android:textSize="25sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/temp_high" />
     </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/sunLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/grass"
+        app:layout_constraintBottom_toBottomOf="@+id/grass"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.716">
 
         <ImageView
             android:id="@+id/sunView"
@@ -65,23 +75,37 @@
         android:layout_width="match_parent"
         android:layout_height="230dp"
         android:scaleType="fitXY"
-        android:src="@drawable/bg_11_1"
+        android:src="@drawable/bg_11_2"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="-8dp" />
 
     <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/gifImageView"
-        android:layout_width="221dp"
-        android:layout_height="279dp"
+        android:id="@+id/plant"
+        android:layout_width="204dp"
+        android:layout_height="222dp"
         android:src="@drawable/p1_s5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.968" />
+        app:layout_constraintVertical_bias="0.934"
+        android:visibility="visible"/>
 
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/plant_blender"
+        android:layout_width="204dp"
+        android:layout_height="222dp"
+        android:src="@drawable/p1_s5_bender"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.934"
+        android:visibility="invisible"/>
     <!--<TextView
         android:id="@+id/text_home"
         android:layout_width="match_parent"

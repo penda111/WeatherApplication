@@ -3,16 +3,20 @@ package hk.edu.ouhk.weatherapplication;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -24,6 +28,8 @@ import com.google.android.material.navigation.NavigationView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -48,8 +54,10 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActionBar mActionBar;
+    private Toolbar toolbar;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle actionBarDrawerToggle;
+
 
 
     private boolean mToolBarNavigationListenerIsRegistered = false;
@@ -58,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         /*FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         mActionBar = getSupportActionBar();
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -104,6 +114,37 @@ public class MainActivity extends AppCompatActivity {
         new updateUI().execute();
     }
 
+    //UI render, changing
+    public void changeBackground(float ratio){
+        View root = HomeFragment.root;
+        ConstraintLayout home = root.findViewById(R.id.fragment_home);
+        ImageView grass = root.findViewById(R.id.grass);
+        if(ratio <= 25.0f ){
+            home.setBackgroundResource(R.drawable.cloud_3);
+            grass.setImageResource(R.drawable.bg_11_1);
+        } else if (ratio <= 75.0f){
+            home.setBackgroundResource(R.drawable.cloud_5);
+            grass.setImageResource(R.drawable.bg_11_1);
+        } else if (ratio <= 83.3f){
+            home.setBackgroundResource(R.drawable.cloud_2);
+            grass.setImageResource(R.drawable.bg_11_2);
+        } else{
+            home.setBackgroundResource(R.drawable.night_2);
+            grass.setImageResource(R.drawable.bg_11_2);
+        }
+    }
+    public void changeToolbarColor(float ratio){
+        Drawable overflowicon = toolbar.getOverflowIcon();
+        if( ratio > 75.0f){
+            toolbar.setTitleTextColor(Color.WHITE);
+            overflowicon.setTint(Color.WHITE);
+            actionBarDrawerToggle.getDrawerArrowDrawable().setColor(Color.WHITE);
+        } else{
+            toolbar.setTitleTextColor(Color.BLACK);
+            overflowicon.setTint(Color.BLACK);
+            actionBarDrawerToggle.getDrawerArrowDrawable().setColor(Color.BLACK);
+        }
+    }
    @Override
     public void onBackPressed() {
 
@@ -139,19 +180,28 @@ public class MainActivity extends AppCompatActivity {
         dialog.setMessage("Selected Item: " + String.valueOf(id));
         AlertDialog ad = dialog.create();
         ad.show();
-        if (id == R.id.action_settings) {
-            return true;
+        float ratio;
+        if(id == R.id.action_language){
+            ratio = 20.0f;
+            changeBackground(ratio);
+            changeToolbarColor(ratio);
+        }
+        else if (id == R.id.action_settings) {
+            ratio = 50.0f;
+            changeBackground(ratio);
+            changeToolbarColor(ratio);
 
-        } else if (id == android.R.id.home) {
+        } else if (id == R.id.action_test){
+            ratio = 85.0f;
+            changeBackground(ratio);
+            changeToolbarColor(ratio);
+        }
+            else if (id == android.R.id.home) {
             onBackPressed();
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
 
 
     public void displaySun(){
@@ -194,11 +244,14 @@ public class MainActivity extends AppCompatActivity {
                 oval.set(0,
                         0,
                         center_x +(sunView.getDrawable().getIntrinsicHeight()/2.0f),
-                        center_y + (sunView.getDrawable().getIntrinsicHeight()/2.0f));
+                        height + (sunView.getDrawable().getIntrinsicHeight())/2.0f);
                 newPath.addArc(oval, 180, 180);
 
-                float percentage = 70.0f; // initialize to your desired percentage
+                float percentage = 30.0f; // initialize to your desired percentage
                 int duration = Math.round(3 * percentage/100) * 1000;
+                //Changing UI component attributes value
+                changeToolbarColor(percentage);
+                changeBackground(percentage);
 
                 PathMeasure measure = new PathMeasure(newPath, false);
                 float length = measure.getLength();
