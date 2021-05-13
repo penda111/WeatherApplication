@@ -24,9 +24,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import hk.edu.ouhk.weatherapplication.APIHandler.FeltearthquakeAPIHandler.FeltearthquakeAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.FlwAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.FndAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.QemAPIHandler.QemAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.SwtAPIHandler.SwtAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.WarningInfoAPIHandler.WarningInfoAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHandler;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,6 +69,24 @@ public class MainActivity extends AppCompatActivity {
         FlwAPIHandler flwAPIHandler = new FlwAPIHandler();
         FndAPIHandler fndAPIHandler = new FndAPIHandler();
         RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
+
+        WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
+        //Test warnsumAPIHandler with json example (warnsumTest.json)
+        /*warnsumAPIHandler.loadJSONFromAsset(this);
+        warnsumAPIHandler.getJsonData();*/
+
+        WarningInfoAPIHandler warningInfoAPIHandler = new WarningInfoAPIHandler();
+        //Test warningInfoAPIHandler with json example (warningInfoTest.json)
+        /*warningInfoAPIHandler.loadJSONFromAsset(this);
+        warningInfoAPIHandler.getJsonData();*/
+
+        SwtAPIHandler swtAPIHandler = new SwtAPIHandler();
+        //Test swtAPIHandler with json example (swtTest.json)
+        /*swtAPIHandler.loadJSONFromAsset(this);
+        swtAPIHandler.getJsonData();*/
+
+        QemAPIHandler qemAPIHandler = new QemAPIHandler();
+        FeltearthquakeAPIHandler feltearthquakeAPIHandler = new FeltearthquakeAPIHandler();
 
     }
 

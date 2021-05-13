@@ -29,7 +29,7 @@ public class FlwAPIHandler {
         jsonHandlerThread.start();
         try {
             jsonHandlerThread.join();
-            getJsonData();
+            //getJsonData();
         }catch (InterruptedException e){
         }
     }

@@ -15,8 +15,14 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import hk.edu.ouhk.weatherapplication.APIHandler.FeltearthquakeAPIHandler.Feltearthquake;
+import hk.edu.ouhk.weatherapplication.APIHandler.FeltearthquakeAPIHandler.FeltearthquakeAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.FndAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.QemAPIHandler.QemAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.SwtAPIHandler.SwtAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.WarningInfoAPIHandler.WarningInfoAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHandler;
 
 public class JsonHandlerThread extends Thread {
     private static final String TAG = "JsonHandlerThread";
@@ -104,6 +110,27 @@ public class JsonHandlerThread extends Thread {
                         RhrreadAPIHandler.jsonObject = jsonObj;
                         RhrreadAPIHandler.getJsonData();
                         break;
+                    case "Warnsum":
+                        WarnsumAPIHandler.jsonObject = jsonObj;
+                        WarnsumAPIHandler.getJsonData();
+                        break;
+                    case "WarningInfo":
+                        WarningInfoAPIHandler.jsonObject = jsonObj;
+                        WarningInfoAPIHandler.getJsonData();
+                        break;
+                    case "Swt":
+                        SwtAPIHandler.jsonObject = jsonObj;
+                        SwtAPIHandler.getJsonData();
+                        break;
+                    case "Qem":
+                        QemAPIHandler.jsonObject = jsonObj;
+                        QemAPIHandler.getJsonData();
+                        break;
+                    case "Feltearthquake":
+                        FeltearthquakeAPIHandler.jsonObject = jsonObj;
+                        FeltearthquakeAPIHandler.getJsonData();
+                        break;
+
 
                 }
 
