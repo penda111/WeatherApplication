@@ -18,6 +18,16 @@
     <string name="about_content_name">App Name: Little Plant Weather </string>
     <string name="about_content_author">Authors: Keith Cheng, Sam Shum </string>
 
+    <!-- Weather Information String tags -->
+    <string name="celsius">°C</string>
+    <string name="percentage">%</string>
+    <string name="mph">mph</string>
+    <string name="temp_high">High</string>
+    <string name="temp_low">Low</string>
+    <string name="rainingchance">Raining Chance</string>
+    <string name="humidity">Humidity</string>
+    <string name="windspeed">Windspeed</string>
+
 
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>

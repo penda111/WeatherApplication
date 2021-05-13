@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -105,11 +106,21 @@ public class MainActivity extends AppCompatActivity {
         actionBarDrawerToggle.syncState();
         drawer.addDrawerListener(actionBarDrawerToggle);
 
+
         // animate the sun
         //new updateUI().execute();
 
     }
 
+    @Override
+    public void onResume() {
+        updateWeatherInfo(R.id.windspeed, R.string.windspeed, "100", R.string.mph);
+        updateWeatherInfo(R.id.temp_high, R.string.temp_high, "33", R.string.celsius);
+        updateWeatherInfo(R.id.temp_low, R.string.temp_low, "28", R.string.celsius);
+        updateWeatherInfo(R.id.humidity, R.string.humidity, "88", R.string.percentage);
+        updateWeatherInfo(R.id.rainingchance, R.string.rainingchance, "30", R.string.percentage);
+        super.onResume();
+    }
     @Override
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -128,9 +139,9 @@ public class MainActivity extends AppCompatActivity {
 
     //UI render, changing
     public void changeBackground(float ratio){
-        View homeRoot = HomeFragment.root;
-        ConstraintLayout home = homeRoot.findViewById(R.id.fragment_home);
-        ImageView grass = homeRoot.findViewById(R.id.grass);
+        View root = HomeFragment.root;
+        ConstraintLayout home = root.findViewById(R.id.fragment_home);
+        ImageView grass = root.findViewById(R.id.grass);
         if(ratio <= 25.0f ){
             home.setBackgroundResource(R.drawable.cloud_3);
             grass.setImageResource(R.drawable.bg_11_1);
@@ -182,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        View root = HomeFragment.root;
         int id = item.getItemId();
         //Testing Menu Item Click
         //AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
@@ -201,11 +212,13 @@ public class MainActivity extends AppCompatActivity {
             changeBackground(ratio);
             changeToolbarColor(ratio);
 
-        } else if (id == R.id.action_test){
+        }
+        else if (id == R.id.action_test){
             ratio = 85.0f;
             changeBackground(ratio);
             changeToolbarColor(ratio);
-        } else if (id == R.id.action_about){
+        }
+        else if (id == R.id.action_about){
             StringBuilder sb = new StringBuilder();
             sb.append(getResources().getString(R.string.about_content_name));
             sb.append("\n");
@@ -215,11 +228,13 @@ public class MainActivity extends AppCompatActivity {
             dialog.setTitle(R.string.about);
             dialog.setMessage(sb.toString());
             dialog.show();
-        } else if (id == R.id.action_refresh){
-            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+        }
+        else if (id == R.id.action_refresh){
+            /*AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
             dialog.setTitle("Refresh Option");
             dialog.setMessage("Refresh weather information method invoked here");
-            dialog.show();
+            dialog.show();*/
+            //updateWeatherInfo();
         }
             else if (id == android.R.id.home) {
             onBackPressed();
@@ -228,6 +243,18 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void updateWeatherInfo(int id, String tag, String value, String unit){
+        View root = HomeFragment.root;
+        TextView humidity = root.findViewById(id);
+        humidity.setText(tag + ": " + value + " " +unit);
+    }
+    public void updateWeatherInfo(int viewId, int tagId, String str, int unitId){
+        View root = HomeFragment.root;
+        TextView humidity = root.findViewById(viewId);
+        String tag = getResources().getString(tagId);
+        String unit = getResources().getString(unitId);
+        humidity.setText(tag + ": " + str + " " +unit);
+    }
 
     public void displaySun(){
         //Sun display

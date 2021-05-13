@@ -21,28 +21,65 @@
 
         <TextView
             android:id="@+id/temp_high"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="High"
+            android:text="High °C "
             android:textColor="@color/white"
             android:shadowColor="@color/black"
-            android:shadowDx="1"
+            android:shadowDx="3"
             android:shadowDy="1"
-            android:shadowRadius="7"
-            android:textSize="25sp" />
+            android:shadowRadius="9"
+            android:textSize="25sp"
+            />
 
         <TextView
             android:id="@+id/temp_low"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Low"
             android:textColor="@color/white"
             android:shadowColor="@color/black"
-            android:shadowDx="1"
+            android:shadowDx="3"
             android:shadowDy="1"
-            android:shadowRadius="7"
+            android:shadowRadius="9"
             android:textSize="25sp"
             app:layout_constraintBaseline_toBaselineOf="@+id/temp_high" />
+        <TextView
+            android:id="@+id/rainingchance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RainingChnace %"
+            android:textColor="@color/white"
+            android:shadowColor="@color/black"
+            android:shadowDx="3"
+            android:shadowDy="1"
+            android:shadowRadius="9"
+            android:textSize="25sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/temp_low" />
+        <TextView
+            android:id="@+id/humidity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="%"
+            android:textColor="@color/white"
+            android:shadowColor="@color/black"
+            android:shadowDx="3"
+            android:shadowDy="1"
+            android:shadowRadius="9"
+            android:textSize="25sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/rainingchance" />
+        <TextView
+            android:id="@+id/windspeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="mph"
+            android:textColor="@color/white"
+            android:shadowColor="@color/black"
+            android:shadowDx="3"
+            android:shadowDy="1"
+            android:shadowRadius="9"
+            android:textSize="25sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/humidity" />
     </LinearLayout>
 
 
