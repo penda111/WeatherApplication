@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import hk.edu.ouhk.weatherapplication.APIHandler.HhotAPIHandler.Hhot;
 import hk.edu.ouhk.weatherapplication.APIHandler.JsonHandlerThread;
 
 public class HltAPIHandler {
