@@ -9,10 +9,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.JsonHandlerThread;
-import hk.edu.ouhk.weatherapplication.APIHandler.WarningInfoAPIHandler.WarningInfo;
 
 
 public class SwtAPIHandler {

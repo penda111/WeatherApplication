@@ -50,6 +50,7 @@ import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.FndAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.HhotAPIHandler.HhotAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.HltAPIHandler.HltAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.MrsAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.MoonPhase;
 import hk.edu.ouhk.weatherapplication.APIHandler.QemAPIHandler.QemAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.SrsAPIHandler;
@@ -151,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
         HhotAPIHandler hhotAPIHandler = new HhotAPIHandler("CCH");
         HltAPIHandler hltAPIHandler = new HltAPIHandler("CCH");
+        MoonPhase moonPhase = new MoonPhase();
 
     }
     public static Context getContext(){
@@ -433,4 +435,3 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
-

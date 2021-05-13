@@ -1,16 +1,11 @@
 package hk.edu.ouhk.weatherapplication.APIHandler.FeltearthquakeAPIHandler;
 
-import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import hk.edu.ouhk.weatherapplication.APIHandler.JsonHandlerThread;
-import hk.edu.ouhk.weatherapplication.APIHandler.QemAPIHandler.Qem;
 
 
 public class FeltearthquakeAPIHandler {

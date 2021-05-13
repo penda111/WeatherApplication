@@ -3,7 +3,6 @@ package hk.edu.ouhk.weatherapplication.APIHandler.QemAPIHandler;
 import android.content.Context;
 import android.util.Log;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -11,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.JsonHandlerThread;
-import hk.edu.ouhk.weatherapplication.APIHandler.SwtAPIHandler.Swt;
 
 
 public class QemAPIHandler {

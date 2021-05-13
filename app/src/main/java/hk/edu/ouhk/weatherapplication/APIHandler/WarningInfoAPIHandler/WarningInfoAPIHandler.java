@@ -12,8 +12,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.JsonHandlerThread;
-import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.Rainfall;
-import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.Warnsum;
 
 
 public class WarningInfoAPIHandler {
