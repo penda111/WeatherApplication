@@ -23,6 +23,10 @@
 
     </style>
     <style name="Theme.WeatherApplication.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
 
     </style>
 

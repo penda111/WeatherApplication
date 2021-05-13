@@ -2,6 +2,7 @@ package hk.edu.ouhk.weatherapplication;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Path;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle actionBarDrawerToggle;
-
+    private Menu menu;
 
 
     private boolean mToolBarNavigationListenerIsRegistered = false;
@@ -109,6 +110,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+
+        this.menu = menu;
+
+        return true;
+    }
+
     // method for animate the sun, will called by fragment
     public void animateSun(){
         new updateUI().execute();
@@ -116,9 +128,9 @@ public class MainActivity extends AppCompatActivity {
 
     //UI render, changing
     public void changeBackground(float ratio){
-        View root = HomeFragment.root;
-        ConstraintLayout home = root.findViewById(R.id.fragment_home);
-        ImageView grass = root.findViewById(R.id.grass);
+        View homeRoot = HomeFragment.root;
+        ConstraintLayout home = homeRoot.findViewById(R.id.fragment_home);
+        ImageView grass = homeRoot.findViewById(R.id.grass);
         if(ratio <= 25.0f ){
             home.setBackgroundResource(R.drawable.cloud_3);
             grass.setImageResource(R.drawable.bg_11_1);
@@ -135,16 +147,20 @@ public class MainActivity extends AppCompatActivity {
     }
     public void changeToolbarColor(float ratio){
         Drawable overflowicon = toolbar.getOverflowIcon();
-        if( ratio > 75.0f){
+
+        if( ratio >= 25.0f){
             toolbar.setTitleTextColor(Color.WHITE);
             overflowicon.setTint(Color.WHITE);
             actionBarDrawerToggle.getDrawerArrowDrawable().setColor(Color.WHITE);
+
         } else{
             toolbar.setTitleTextColor(Color.BLACK);
             overflowicon.setTint(Color.BLACK);
             actionBarDrawerToggle.getDrawerArrowDrawable().setColor(Color.BLACK);
+
         }
     }
+
    @Override
     public void onBackPressed() {
 
@@ -155,13 +171,7 @@ public class MainActivity extends AppCompatActivity {
                 super.onBackPressed();
         }
     }
-    @Override
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -174,20 +184,20 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-        AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
         //Testing Menu Item Click
-        dialog.setTitle("Menu Item Click Test");
+        //AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+        /*dialog.setTitle("Menu Item Click Test");
         dialog.setMessage("Selected Item: " + String.valueOf(id));
         AlertDialog ad = dialog.create();
-        ad.show();
+        ad.show();*/
         float ratio;
-        if(id == R.id.action_language){
-            ratio = 20.0f;
+        if(id == R.id.action_settings){
+            ratio = 78.0f;
             changeBackground(ratio);
             changeToolbarColor(ratio);
         }
-        else if (id == R.id.action_settings) {
-            ratio = 50.0f;
+        else if (id == R.id.action_language) {
+            ratio = 25.0f;
             changeBackground(ratio);
             changeToolbarColor(ratio);
 
@@ -195,6 +205,21 @@ public class MainActivity extends AppCompatActivity {
             ratio = 85.0f;
             changeBackground(ratio);
             changeToolbarColor(ratio);
+        } else if (id == R.id.action_about){
+            StringBuilder sb = new StringBuilder();
+            sb.append(getResources().getString(R.string.about_content_name));
+            sb.append("\n");
+            sb.append(getResources().getString(R.string.about_content_author));
+            sb.append("\n");
+            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+            dialog.setTitle(R.string.about);
+            dialog.setMessage(sb.toString());
+            dialog.show();
+        } else if (id == R.id.action_refresh){
+            AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
+            dialog.setTitle("Refresh Option");
+            dialog.setMessage("Refresh weather information method invoked here");
+            dialog.show();
         }
             else if (id == android.R.id.home) {
             onBackPressed();

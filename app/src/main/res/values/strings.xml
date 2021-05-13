@@ -14,6 +14,9 @@
     <string name="menu_9_day">9-Day Forecast</string>
     <string name="menu_global">Global Forecast</string>
     <string name="menu_setting">Setting</string>
+    <string name="about">About This App</string>
+    <string name="about_content_name">App Name: Little Plant Weather </string>
+    <string name="about_content_author">Authors: Keith Cheng, Sam Shum </string>
 
 
     <string name="drawer_open">drawer open</string>
