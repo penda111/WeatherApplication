@@ -36,7 +36,7 @@
 
         <LinearLayout
         android:id="@+id/high"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
@@ -46,13 +46,13 @@
             android:id="@+id/temp_high"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="High °C "
+            android:text="°C "
             android:textColor="@color/white"
             android:shadowColor="@color/black"
             android:shadowDx="3"
             android:shadowDy="1"
             android:shadowRadius="9"
-            android:textSize="23sp"
+            android:textSize="26sp"
             />
             <ImageView
                 android:id="@+id/arrowUp"
@@ -65,7 +65,7 @@
         </LinearLayout>
         <LinearLayout
             android:id="@+id/low"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
@@ -73,13 +73,13 @@
             android:id="@+id/temp_low"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Low °C "
+            android:text="°C "
             android:textColor="@color/white"
             android:shadowColor="@color/black"
             android:shadowDx="3"
             android:shadowDy="1"
             android:shadowRadius="9"
-            android:textSize="23sp"
+            android:textSize="26sp"
             />
             <ImageView
                 android:id="@+id/arrowDown"
@@ -96,7 +96,7 @@
             android:id="@+id/current"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Current °C "
+            android:text="°C "
             android:textColor="@color/white"
             android:shadowColor="@color/black"
             android:shadowDx="3"
@@ -107,7 +107,7 @@
             />
     <LinearLayout
         android:id="@+id/chanceofrain_icon"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/current"
@@ -122,9 +122,9 @@
         android:visibility="visible" />
         <TextView
             android:id="@+id/rainingchance"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="RainingChnace %"
+            android:text=" %"
             android:textColor="@color/white"
             android:shadowColor="@color/black"
             android:shadowDx="3"
@@ -132,10 +132,24 @@
             android:shadowRadius="9"
             android:textSize="20sp"
             />
+        <TextView
+            android:id="@+id/sunTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sun"
+            android:textColor="@color/white"
+            android:shadowColor="@color/black"
+            android:shadowDx="3"
+            android:shadowDy="1"
+            android:shadowRadius="9"
+            android:textSize="18sp"
+            android:gravity="right"
+            />
+
     </LinearLayout>
     <LinearLayout
         android:id="@+id/pastrainfall_icon"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/chanceofrain_icon"
@@ -150,9 +164,9 @@
             android:visibility="visible" />
         <TextView
             android:id="@+id/pastrainfall"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rainfall(hourly)"
+            android:text="mm"
             android:textColor="@color/white"
             android:shadowColor="@color/black"
             android:shadowDx="3"
@@ -161,10 +175,22 @@
             android:textSize="20sp"
             app:layout_constraintTop_toBottomOf="@+id/current"
             />
+        <TextView
+            android:id="@+id/sunTimeValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:shadowColor="@color/black"
+            android:shadowDx="3"
+            android:shadowDy="1"
+            android:shadowRadius="9"
+            android:textSize="18sp"
+            android:gravity="right"
+            />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/humidity_icon"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/pastrainfall_icon"
@@ -179,9 +205,9 @@
             android:visibility="visible" />
         <TextView
             android:id="@+id/humidity"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Humidity %"
+            android:text="%"
             android:textColor="@color/white"
             android:shadowColor="@color/black"
             android:shadowDx="3"
@@ -189,10 +215,23 @@
             android:shadowRadius="9"
             android:textSize="20sp"
       />
+        <TextView
+            android:id="@+id/moonTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/moon"
+            android:textColor="@color/white"
+            android:shadowColor="@color/black"
+            android:shadowDx="3"
+            android:shadowDy="1"
+            android:shadowRadius="9"
+            android:textSize="18sp"
+            android:gravity="right"
+            />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/windspeed_icon"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/humidity_icon"
@@ -207,7 +246,7 @@
             android:visibility="visible" />
         <TextView
             android:id="@+id/windspeed"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="mph"
             android:textColor="@color/white"
@@ -217,10 +256,36 @@
             android:shadowRadius="9"
             android:textSize="20sp"
             />
+        <TextView
+            android:id="@+id/moonTimeValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:textColor="@color/white"
+            android:shadowColor="@color/black"
+            android:shadowDx="3"
+            android:shadowDy="1"
+            android:shadowRadius="9"
+            android:textSize="18sp"
+            android:gravity="right"
+            />
         </LinearLayout>
         <TextView
+            android:id="@+id/uv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UV"
+            android:textColor="@color/white"
+            android:shadowColor="@color/black"
+            android:shadowDx="3"
+            android:shadowDy="1"
+            android:shadowRadius="9"
+            android:textSize="20sp"
+            android:visibility="invisible"
+            />
+        <TextView
             android:id="@+id/updatetime"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Retrieved Date Time"
             android:textColor="@color/white"
@@ -302,22 +367,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.934"
         android:visibility="invisible"/>
-    <!--<TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@android:color/transparent"
-        android:textAlignment="center"
-        android:textColor="@color/red"
-        android:textSize="20sp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.011" /> -->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

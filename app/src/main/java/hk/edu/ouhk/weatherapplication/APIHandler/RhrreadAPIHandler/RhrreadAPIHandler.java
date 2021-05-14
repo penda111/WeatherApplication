@@ -15,7 +15,7 @@ public class RhrreadAPIHandler {
 
     private static final String TAG = "RhrreadAPIHandler";
     private static final String DATATYPE = "rhrread";
-    private static String lang = "tc";
+    private static String lang = "en";
 
     public static ArrayList<String> iconList = new ArrayList<>();
     public static ArrayList<String> warningMessageList = new ArrayList<>();
@@ -143,7 +143,7 @@ public class RhrreadAPIHandler {
     public static void getUvindexJson(){
         try {
             if(jsonObject.has("uvindex")) {
-                if(jsonObject.get("warningMessage") instanceof JSONArray) {
+                if(jsonObject.get("uvindex") instanceof JSONArray) {
                     String uvMessage = null;
                     JSONObject unindex = jsonObject.getJSONObject("uvindex");
                     JSONArray unindexData = unindex.getJSONArray("data");

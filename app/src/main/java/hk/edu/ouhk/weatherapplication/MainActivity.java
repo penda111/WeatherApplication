@@ -1,8 +1,10 @@
 package hk.edu.ouhk.weatherapplication;
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Path;
@@ -11,6 +13,9 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,17 +30,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -62,12 +75,13 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+import hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastViewModel;
 import hk.edu.ouhk.weatherapplication.ui.gallery.GalleryFragment;
 import hk.edu.ouhk.weatherapplication.ui.home.HomeFragment;
 import hk.edu.ouhk.weatherapplication.ui.home.HomeViewModel;
 import hk.edu.ouhk.weatherapplication.ui.slideshow.SlideshowFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LocationListener {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActionBar mActionBar;
@@ -75,11 +89,21 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
-
-
     public static Context mContext;
 
+    private static final String LOGTAG = "MainActivity";
+    static final int MY_PERMISSIONS_REQUEST_LOCATION = 1;
+    private FusedLocationProviderClient fusedLocationClient;
+    private String latitude;
+    private String longitude;
+    private String address;
+    public Double latitudeGet;
+    public Double longitudeGet;
+
+
+
     private boolean mToolBarNavigationListenerIsRegistered = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -114,23 +138,31 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_home, R.id.nav_local, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_abouticons)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer , toolbar, R.string.drawer_open, R.string.drawer_close);
+        /*actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer , toolbar, R.string.drawer_open, R.string.drawer_close);
         actionBarDrawerToggle.syncState();
-        drawer.addDrawerListener(actionBarDrawerToggle);
+        drawer.addDrawerListener(actionBarDrawerToggle);*/
+        if (!checkPermission()) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_LOCATION);
+        } else {
+            setUpLocationClient();
+        }
 
 
         // animate the sun
         //new updateUI().execute();
-        FlwAPIHandler flwAPIHandler = new FlwAPIHandler();
-        FndAPIHandler fndAPIHandler = new FndAPIHandler();
-        RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
+        //FlwAPIHandler flwAPIHandler = new FlwAPIHandler();
+        //updateLocalForecast();
+        //FndAPIHandler fndAPIHandler = new FndAPIHandler();
+        //RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
 
         WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
         //Test warnsumAPIHandler with json example (warnsumTest.json)
@@ -155,14 +187,57 @@ public class MainActivity extends AppCompatActivity {
         MoonPhase moonPhase = new MoonPhase();
 
     }
+
+    public boolean checkPermission() {
+        return ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION:
+                if (grantResults.length > 0 &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    setUpLocationClient();
+                } else {
+                    String msg = "Please run the app again and grant the required permission.";
+                    Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                return;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    private void setUpLocationClient() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        getLastLocation();
+    }
+
+    private void getLastLocation() {
+        /*if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getLastLocation().addOnSuccessListener(this,
+                    new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            longitudeGet = location.getLongitude();
+                            latitudeGet = location.getLatitude();
+                        }
+                    });
+        }*/
+
+    }
+
     public static Context getContext(){
         return mContext;
     }
     @Override
     public void onResume() {
-        /*actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer , toolbar, R.string.drawer_open, R.string.drawer_close);
-        actionBarDrawerToggle.syncState();
-        drawer.addDrawerListener(actionBarDrawerToggle);*/
+
         super.onResume();
     }
     @Override
@@ -212,11 +287,13 @@ public class MainActivity extends AppCompatActivity {
             toolbar.setTitleTextColor(Color.WHITE);
             overflowicon.setTint(Color.WHITE);
             actionBarDrawerToggle.getDrawerArrowDrawable().setColor(Color.WHITE);
+            actionBarDrawerToggle.syncState();
 
         } else{
             toolbar.setTitleTextColor(Color.BLACK);
             overflowicon.setTint(Color.BLACK);
             actionBarDrawerToggle.getDrawerArrowDrawable().setColor(Color.BLACK);
+            actionBarDrawerToggle.syncState();
 
         }
     }
@@ -281,10 +358,10 @@ public class MainActivity extends AppCompatActivity {
         else if (id == R.id.action_refresh){
             /*AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
             dialog.setTitle("Refresh Option");
-            dialog.setMessage("Refresh weather information method invoked here");
+            dialog.setMessage(longitude);
             dialog.show();*/
             //HomeFragment.updateWeatherInfo(R.id.current, "30", R.string.celsius);
-
+            //HomeFragment.getWeatherData();
         }
             else if (id == android.R.id.home) {
             onBackPressed();
@@ -293,34 +370,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /*public void updateWeatherInfo(int id, String tag, String value, String unit){
-        View root = HomeFragment.root;
-        TextView humidity = root.findViewById(id);
-        humidity.setText(tag + ": " + value + " " +unit);
-    }
 
-    public void updateWeatherInfo(int viewId, int tagId, String str, int unitId){
-        View root = HomeFragment.root;
-        TextView humidity = root.findViewById(viewId);
-        String tag = getResources().getString(tagId);
-        String unit = getResources().getString(unitId);
-        humidity.setText(tag + ": " + str + " " +unit);
+    public void updateLocalForecast(){
+        LocalForecastViewModel lfvm =
+            new ViewModelProvider(this).get(LocalForecastViewModel.class);
     }
-    public void updateAllWeatherInfo(){
-        updateWeatherInfo(R.id.windspeed, R.string.windspeed, "100", R.string.mph);
-        updateWeatherInfo(R.id.temp_high, R.string.temp_high, "33", R.string.celsius);
-        updateWeatherInfo(R.id.temp_low, R.string.temp_low, "28", R.string.celsius);
-        updateWeatherInfo(R.id.humidity, R.string.humidity, "88", R.string.percentage);
-        updateWeatherInfo(R.id.rainingchance, R.string.rainingchance, "30", R.string.percentage);
-    }
-    public void showDate(){
-        displayDate = HomeFragment.root.findViewById(R.id.display_date);
-        calendar = Calendar.getInstance();
-        dateFormat = new SimpleDateFormat("dd/MM/yyyy (EEE)");
-        //dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
-        date = dateFormat.format(calendar.getTime());
-        displayDate.setText(date);
-    }*/
 
     public void displaySun(){
         //Sun display
@@ -400,6 +454,11 @@ public class MainActivity extends AppCompatActivity {
                 pathAnimator.start();
             }
         });
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+
     }
 
     private class updateUI extends AsyncTask<Void , Void , Void> {

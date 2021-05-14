@@ -12,6 +12,11 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
+        android:id="@+id/nav_local"
+        android:name="hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastFragment"
+        android:label="@string/menu_local"
+        tools:layout="@layout/fragment_local" />
+    <fragment
         android:id="@+id/nav_gallery"
         android:name="hk.edu.ouhk.weatherapplication.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
@@ -22,4 +27,9 @@
         android:name="hk.edu.ouhk.weatherapplication.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_abouticons"
+        android:name="hk.edu.ouhk.weatherapplication.ui.abouticons.AboutIconsFragment"
+        android:label="@string/menu_abouticons"
+        tools:layout="@layout/fragment_abouticons" />
 </navigation>

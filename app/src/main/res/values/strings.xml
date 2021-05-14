@@ -13,6 +13,8 @@
     <string name="menu_local">Local Forecast</string>
     <string name="menu_9_day">9-Day Forecast</string>
     <string name="menu_global">Global Forecast</string>
+    <string name="menu_abouticons">About Icons</string>
+
     <string name="menu_setting">Setting</string>
     <string name="about">About This App</string>
     <string name="about_content_name">App Name: Little Plant Weather </string>
@@ -25,6 +27,7 @@
     <string name="mph">mph</string>
     <string name="mm">mm</string>
     <string name="kmh">km/h</string>
+    <string name="slash">/</string>
 
 
     <string name="temp_high">High</string>
@@ -33,6 +36,10 @@
     <string name="rainingchance">Raining Chance</string>
     <string name="humidity">Humidity</string>
     <string name="windspeed">Windspeed</string>
+    <string name="uv">UV index</string>
+
+    <string name="sun">Sunrise/Sunset</string>
+    <string name="moon">Moonrise/Moonset</string>
 
 
     <string name="drawer_open">drawer open</string>
