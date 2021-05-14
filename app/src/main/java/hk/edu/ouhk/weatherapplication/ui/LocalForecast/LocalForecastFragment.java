@@ -1,6 +1,7 @@
 package hk.edu.ouhk.weatherapplication.ui.LocalForecast;
 
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class LocalForecastFragment extends Fragment{
                 new ViewModelProvider(this).get(LocalForecastViewModel.class);
         View root = inflater.inflate(R.layout.fragment_local, container, false);
         final TextView textView = root.findViewById(R.id.text_localforecast);
+        textView.setMovementMethod(new ScrollingMovementMethod());
         lfvm.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

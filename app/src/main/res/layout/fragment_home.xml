@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_home"
@@ -43,10 +44,11 @@
 
 
         <TextView
+            android:paddingLeft="10dp"
             android:id="@+id/temp_high"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="°C "
+            android:text="@string/celsius"
             android:textColor="@color/white"
             android:shadowColor="@color/black"
             android:shadowDx="3"
@@ -70,10 +72,11 @@
             android:orientation="horizontal"
             >
         <TextView
+            android:paddingLeft="10dp"
             android:id="@+id/temp_low"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="°C "
+            android:text="@string/celsius"
             android:textColor="@color/white"
             android:shadowColor="@color/black"
             android:shadowDx="3"
@@ -93,10 +96,11 @@
             </LinearLayout>
 
         <TextView
+            android:paddingLeft="10dp"
             android:id="@+id/current"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="°C "
+            android:text="@string/celsius"
             android:textColor="@color/white"
             android:shadowColor="@color/black"
             android:shadowDx="3"
@@ -124,7 +128,7 @@
             android:id="@+id/rainingchance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" %"
+            android:text="@string/percentage"
             android:textColor="@color/white"
             android:shadowColor="@color/black"
             android:shadowDx="3"
@@ -133,6 +137,7 @@
             android:textSize="20sp"
             />
         <TextView
+            android:paddingRight="10dp"
             android:id="@+id/sunTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -166,7 +171,7 @@
             android:id="@+id/pastrainfall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="mm"
+            android:text="@string/mm"
             android:textColor="@color/white"
             android:shadowColor="@color/black"
             android:shadowDx="3"
@@ -177,6 +182,7 @@
             />
         <TextView
             android:id="@+id/sunTimeValue"
+            android:paddingRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -207,7 +213,7 @@
             android:id="@+id/humidity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="%"
+            android:text="@string/percentage"
             android:textColor="@color/white"
             android:shadowColor="@color/black"
             android:shadowDx="3"
@@ -217,6 +223,7 @@
       />
         <TextView
             android:id="@+id/moonTime"
+            android:paddingRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/moon"
@@ -248,7 +255,7 @@
             android:id="@+id/windspeed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="mph"
+            android:text="@string/mph"
             android:textColor="@color/white"
             android:shadowColor="@color/black"
             android:shadowDx="3"
@@ -260,7 +267,7 @@
             android:id="@+id/moonTimeValue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:paddingRight="10dp"
             android:textColor="@color/white"
             android:shadowColor="@color/black"
             android:shadowDx="3"
@@ -284,6 +291,7 @@
             android:visibility="invisible"
             />
         <TextView
+            android:paddingLeft="10dp"
             android:id="@+id/updatetime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

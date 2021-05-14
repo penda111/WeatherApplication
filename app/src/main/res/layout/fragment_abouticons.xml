@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/midgrey"
+    android:background="@drawable/bg_1"
     tools:context=".ui.abouticons.AboutIconsFragment"
 >
 
@@ -14,16 +14,19 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="-3dp">
+        app:layout_constraintVertical_bias="0.631"
+        tools:layout_editor_absoluteX="0dp">
 
         <LinearLayout
             android:id="@+id/high"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="10dp">
 
 
             <ImageView
+
                 android:id="@+id/arrowUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,13 +37,14 @@
 
             <TextView
                 android:id="@+id/temp_high"
+                android:paddingLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:shadowColor="@color/black"
                 android:shadowDx="3"
                 android:shadowDy="1"
                 android:shadowRadius="9"
-                android:text=": Highest temperature "
+                android:text="@string/about_icon_up"
                 android:textColor="@color/white"
                 android:textSize="26sp" />
         </LinearLayout>
@@ -49,7 +53,8 @@
             android:id="@+id/low"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="10dp">
 
             <ImageView
                 android:id="@+id/arrowDown"
@@ -63,13 +68,14 @@
 
             <TextView
                 android:id="@+id/temp_low"
+                android:paddingLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:shadowColor="@color/black"
                 android:shadowDx="3"
                 android:shadowDy="1"
                 android:shadowRadius="9"
-                android:text=": Lowest tempearture"
+                android:text="@string/about_icon_down"
                 android:textColor="@color/white"
                 android:textSize="26sp" />
         </LinearLayout>
@@ -79,7 +85,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/current">
+            app:layout_constraintTop_toBottomOf="@+id/current"
+            android:paddingLeft="10dp">
 
             <ImageView
                 android:id="@+id/coc"
@@ -92,13 +99,14 @@
 
             <TextView
                 android:id="@+id/rainingchance"
+                android:paddingLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:shadowColor="@color/black"
                 android:shadowDx="3"
                 android:shadowDy="1"
                 android:shadowRadius="9"
-                android:text=": RainingChnace %"
+                android:text="@string/about_icon_cor"
                 android:textColor="@color/white"
                 android:textSize="26sp" />
 
@@ -109,7 +117,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/chanceofrain_icon">
+            app:layout_constraintTop_toBottomOf="@+id/chanceofrain_icon"
+            android:paddingLeft="10dp">
 
             <ImageView
                 android:id="@+id/rainfall"
@@ -122,13 +131,14 @@
 
             <TextView
                 android:id="@+id/pastrainfall"
+                android:paddingLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:shadowColor="@color/black"
                 android:shadowDx="3"
                 android:shadowDy="1"
                 android:shadowRadius="9"
-                android:text=" :Rainfall (hourly) (mm)"
+                android:text="@string/about_icon_rainfall"
                 android:textColor="@color/white"
                 android:textSize="26sp"
                 app:layout_constraintTop_toBottomOf="@+id/current" />
@@ -140,7 +150,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/pastrainfall_icon">
+            app:layout_constraintTop_toBottomOf="@+id/pastrainfall_icon"
+            android:paddingLeft="10dp">
 
             <ImageView
                 android:id="@+id/waterdrop"
@@ -153,13 +164,14 @@
 
             <TextView
                 android:id="@+id/humidity"
+                android:paddingLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:shadowColor="@color/black"
                 android:shadowDx="3"
                 android:shadowDy="1"
                 android:shadowRadius="9"
-                android:text=" : Humidity %"
+                android:text="@string/about_icon_humidity"
                 android:textColor="@color/white"
                 android:textSize="26sp" />
 
@@ -170,7 +182,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/humidity_icon">
+            app:layout_constraintTop_toBottomOf="@+id/humidity_icon"
+            android:paddingLeft="10dp">
 
             <ImageView
                 android:id="@+id/windspeedicon"
@@ -183,13 +196,14 @@
 
             <TextView
                 android:id="@+id/windspeed"
+                android:paddingLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:shadowColor="@color/black"
                 android:shadowDx="3"
                 android:shadowDy="1"
                 android:shadowRadius="9"
-                android:text=" : Windspeed"
+                android:text="@string/about_icon_windspeed"
                 android:textColor="@color/white"
                 android:textSize="26sp" />
         </LinearLayout>

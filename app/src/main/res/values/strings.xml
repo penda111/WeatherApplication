@@ -41,7 +41,14 @@
     <string name="sun">Sunrise/Sunset</string>
     <string name="moon">Moonrise/Moonset</string>
 
+    <string name="about_icon_up">Highest Temperature</string>
+    <string name="about_icon_down">Lowest Temperature</string>
+    <string name="about_icon_cor">Chance of Rain</string>
+    <string name="about_icon_rainfall">Rainfall (hourly) </string>
+    <string name="about_icon_humidity">Humidity</string>
+    <string name="about_icon_windspeed">Windspeed</string>
 
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer close</string>
+
 </resources>
