@@ -24,14 +24,14 @@ public class WarningInfoAPIHandler {
     public static JSONObject jsonObject;
 
     public WarningInfoAPIHandler(){
-        url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+lang;
+        /*url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+lang;
         JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"WarningInfo");
         jsonHandlerThread.start();
         try {
             jsonHandlerThread.join();
             //getJsonData();
         }catch (InterruptedException e){
-        }
+        }*/
 
     }
 

@@ -20,10 +20,16 @@
 
     <!-- Weather Information String tags -->
     <string name="celsius">°C</string>
+    <string name="fahrenheit">°F</string>
     <string name="percentage">%</string>
     <string name="mph">mph</string>
+    <string name="mm">mm</string>
+    <string name="kmh">km/h</string>
+
+
     <string name="temp_high">High</string>
     <string name="temp_low">Low</string>
+    <string name="current">Current</string>
     <string name="rainingchance">Raining Chance</string>
     <string name="humidity">Humidity</string>
     <string name="windspeed">Windspeed</string>

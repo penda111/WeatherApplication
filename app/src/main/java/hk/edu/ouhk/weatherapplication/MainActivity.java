@@ -139,8 +139,8 @@ public class MainActivity extends AppCompatActivity {
 
         WarningInfoAPIHandler warningInfoAPIHandler = new WarningInfoAPIHandler();
         //Test warningInfoAPIHandler with json example (warningInfoTest.json)
-        /*warningInfoAPIHandler.loadJSONFromAsset(this);
-        warningInfoAPIHandler.getJsonData();*/
+        warningInfoAPIHandler.loadJSONFromAsset(this);
+        warningInfoAPIHandler.getJsonData();
 
         SwtAPIHandler swtAPIHandler = new SwtAPIHandler();
         //Test swtAPIHandler with json example (swtTest.json)
@@ -283,6 +283,7 @@ public class MainActivity extends AppCompatActivity {
             dialog.setTitle("Refresh Option");
             dialog.setMessage("Refresh weather information method invoked here");
             dialog.show();*/
+            //HomeFragment.updateWeatherInfo(R.id.current, "30", R.string.celsius);
 
         }
             else if (id == android.R.id.home) {

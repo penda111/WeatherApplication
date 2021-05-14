@@ -1,5 +1,7 @@
 package hk.edu.ouhk.weatherapplication.ui.home;
 
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,8 +32,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
-                HomeViewModel.updateAllWeatherInfo();
-                HomeViewModel.showDate();
+                HomeFragment.updateAllWeatherInfo();
+                HomeFragment.showDate();
             }
         });
 
@@ -48,6 +50,47 @@ public class HomeFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         //Code executes EVERY TIME user views the fragment
         ((MainActivity)getActivity()).animateSun();
+    }
+    public static void updateWeatherInfo(int viewId, int tagId, String str, int unitId){
+        View root = HomeFragment.root;
+        TextView info = root.findViewById(viewId);
+        String tag = MainActivity.getContext().getString(tagId);
+        String unit = MainActivity.getContext().getString(unitId);
+        info.setText(" " +str + " " +unit);
+    }
+    public static void updateWeatherInfo(int id, String str){
+        View root = HomeFragment.root;
+        TextView info = root.findViewById(id);
+        info.setText(str);
+    }
+    public static void updateWeatherInfo(int id, String str, int unitId){
+        View root = HomeFragment.root;
+        TextView info = root.findViewById(id);
+        String unit = MainActivity.getContext().getString(unitId);
+        info.setText(str + " " + unit);
+    }
+    public static void updateAllWeatherInfo(){
+        updateWeatherInfo(R.id.windspeed,"100", R.string.mph);
+        updateWeatherInfo(R.id.temp_high,  "33", R.string.celsius);
+        updateWeatherInfo(R.id.temp_low, "28", R.string.celsius);
+        updateWeatherInfo(R.id.current,"32", R.string.celsius);
+        updateWeatherInfo(R.id.humidity, "88", R.string.percentage);
+        updateWeatherInfo(R.id.rainingchance, "30", R.string.percentage);
+        updateWeatherInfo(R.id.updatetime, "2021-05-14 17:30");
+        updateWeatherInfo(R.id.pastrainfall, "10", R.string.mm);
+
+    }
+    public static void showDate(){
+        TextView displayDate;
+        Calendar calendar;
+        SimpleDateFormat dateFormat;
+        String date;
+        displayDate = HomeFragment.root.findViewById(R.id.display_date);
+        calendar = Calendar.getInstance();
+        dateFormat = new SimpleDateFormat("dd/MM/yyyy (EEE)");
+        //dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+        date = dateFormat.format(calendar.getTime());
+        displayDate.setText(date);
     }
 
 }
