@@ -60,6 +60,7 @@ public class SrsAPIHandler {
         try {
             //Log.d(TAG, "Check jsonObject: " + jsonObject);
             //Log.e(TAG, "Test1: " +jsonObject);
+            Log.d(TAG, "(calSunTimePass)Thread name=: " +Thread.currentThread().getName());
             JSONArray data = jsonObject.getJSONArray("data");
 
             JSONArray c = data.getJSONArray(0);

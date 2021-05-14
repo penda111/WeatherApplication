@@ -35,7 +35,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        setUserVisibleHint(false);
+        //setUserVisibleHint(false);
         setUserVisibleHint(true);
 
         //ConstraintLayout home = root.findViewById(R.id.fragment_home);
@@ -48,6 +48,7 @@ public class HomeFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         //Code executes EVERY TIME user views the fragment
         ((MainActivity)getActivity()).animateSun();
+        ((MainActivity)getActivity()).animateMoon();
     }
 
 }

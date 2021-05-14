@@ -61,7 +61,7 @@ public class MrsAPIHandler {
         float f = -1;
 
             try {
-
+                Log.d(TAG, "(calMoonTimePass)Thread name=: " +Thread.currentThread().getName());
                 //Log.d(TAG, "Check jsonObject: " + jsonObject);
                 Log.e(TAG, "Test1: " +jsonObject);
                 JSONArray data = jsonObject.getJSONArray("data");

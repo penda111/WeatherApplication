@@ -180,7 +180,11 @@ public class MainActivity extends AppCompatActivity {
 
     // method for animate the sun, will called by fragment
     public void animateSun(){
-        new updateUI().execute();
+        new updateSun().execute();
+    }
+
+    public void animateMoon(){
+        new updateMoon().execute();
     }
 
     //UI render, changing
@@ -334,54 +338,45 @@ public class MainActivity extends AppCompatActivity {
                 ImageView moonView = findViewById(R.id.moonView);
 
                 LinearLayout sunLayout = findViewById(R.id.sunLayout);
+                LinearLayout moonLayout = findViewById(R.id.moonLayout);
                 // set the layout size to double of sun image size
-                //sunLayout.setMinimumHeight(sunView.getMeasuredHeight()*2);
-                sunLayout.setMinimumHeight(moonView.getMeasuredHeight()*2);
+                sunLayout.setMinimumHeight(sunView.getMeasuredHeight()*2);
+                moonLayout.setMinimumHeight(moonView.getMeasuredHeight()*2);
 
-                float height = (float) sunLayout.getHeight();
-                float width = (float) sunLayout.getWidth();
+                float sunLayoutHeight = (float) sunLayout.getHeight();
+                float sunLayoutWidth = (float) sunLayout.getWidth();
 
-                Log.d("TAG2", "run: "+height);
-                Log.d("TAG2", "run: "+width);
+                float moonLayoutHeight = (float) moonLayout.getHeight();
+                float moonLayoutWidth = (float) moonLayout.getWidth();
 
-//                float radius;
-//
-//                if (width > height) {
-//                    radius = height / 2;
-//                } else {
-//                    radius = width / 2;
-//                }
-
-                float center_x, center_y;
+                float sunLayoutCenter_x, sunLayoutCenter_y, moonLayoutCenter_x, moonLayoutCenter_y;
                 final RectF oval = new RectF();
 
-                center_x = width/2;
-                center_y = height/2;
+                sunLayoutCenter_x = sunLayoutWidth/2;
+                sunLayoutCenter_y = sunLayoutHeight/2;
+
+                moonLayoutCenter_x = moonLayoutWidth/2;
+                moonLayoutCenter_y = moonLayoutHeight/2;
 
                 // draw half oval path
-                //sunView.setVisibility(View.VISIBLE);
-                moonView.setVisibility(View.VISIBLE);
-                /*oval.set(0,
-                        height,
-                        center_x +(sunView.getDrawable().getIntrinsicHeight()/2.0f),
-                        height + (sunView.getDrawable().getIntrinsicHeight()/2.0f)
-                        );
-                newPath.addArc(oval, 180, 180);*/
                 oval.set(0,
-                        height/2,
-                        center_x +(moonView.getDrawable().getIntrinsicHeight()/2.0f),
-                        height + (moonView.getDrawable().getIntrinsicHeight()/2.0f)
+                        0,
+                        sunLayoutCenter_x +(moonView.getDrawable().getIntrinsicHeight()/2.0f),
+                        sunLayoutHeight + (moonView.getDrawable().getIntrinsicHeight())
                 );
                 newPath.addArc(oval, 180, 180);
                 SrsAPIHandler srsAPIHandler = new SrsAPIHandler();
                 MrsAPIHandler mrsAPIHandler = new MrsAPIHandler();
 
-
-                //SunAPIHandler sunAPIHandler = new SunAPIHandler();
                 //float percentage = srsAPIHandler.calSunTimePass();
                 float percentage = mrsAPIHandler.calMoonTimePass();
 
-                //float percentage = 10.0f; // initialize to your desired percentage
+                //float percentage = -1.0f; // initialize to your desired percentage
+
+                if(percentage > 0){
+                    moonView.setVisibility(View.VISIBLE);
+                }
+
                 int duration = Math.round(3 * percentage/100) * 1000;
                 //Changing UI component attributes value
                 changeToolbarColor(percentage);
@@ -397,11 +392,39 @@ public class MainActivity extends AppCompatActivity {
                 ValueAnimator pathAnimator = ObjectAnimator.ofFloat(moonView,"x","y", partialPath);
                 pathAnimator.setDuration(duration);
                 pathAnimator.start();
+
+                oval.set(0,
+                        0,
+                        moonLayoutCenter_x +(sunView.getDrawable().getIntrinsicHeight()/2.0f),
+                        sunLayoutHeight + (sunView.getDrawable().getIntrinsicHeight())
+                );
+
+                percentage = srsAPIHandler.calSunTimePass();
+                //percentage = 50.0f;
+
+                if(percentage > 0){
+                    sunView.setVisibility(View.VISIBLE);
+                }
+
+                duration = Math.round(3 * percentage/100) * 1000;
+                //Changing UI component attributes value
+
+                measure = new PathMeasure(newPath, false);
+                length = measure.getLength();
+                partialPath = new Path();
+                measure.getSegment(0.0f, (length * percentage) / 100.0f, partialPath, true);
+                partialPath.rLineTo(0.0f, 0.0f); // workaround to display on hardware accelerated canvas as described in docs
+
+                //ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
+                pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
+                pathAnimator.setDuration(duration);
+                pathAnimator.start();
+
             }
         });
     }
 
-    private class updateUI extends AsyncTask<Void , Void , Void> {
+    private class updateSun extends AsyncTask<Void , Void , Float> {
 
         @Override
         protected void onPreExecute() {
@@ -409,15 +432,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Float doInBackground(Void... params) {
             //執行中 在背景做事情
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
+            SrsAPIHandler srsAPIHandler = new SrsAPIHandler();
 
-                }
-            });
-            return null;
+            //float percentage = srsAPIHandler.calSunTimePass();
+            float percentage = srsAPIHandler.calSunTimePass();
+            Log.d("AsyncTask", "doInBackground: "+percentage);
+
+            //float percentage = -1.0f; // initialize to your desired percentage
+
+            return percentage;
 
         }
 
@@ -428,9 +453,130 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(Float percentage) {
             //執行後 完成背景任務
-            displaySun();
+            super.onPostExecute(percentage);
+            ImageView sunView = findViewById(R.id.sunView);
+
+            LinearLayout sunLayout = findViewById(R.id.sunLayout);
+            // set the layout size to double of sun image size
+            sunLayout.setMinimumHeight(sunView.getMeasuredHeight()*2);
+
+            Path newPath = new Path();
+            final RectF oval = new RectF();
+
+            float sunLayoutHeight = (float) sunLayout.getHeight();
+            float sunLayoutWidth = (float) sunLayout.getWidth();
+
+            float sunLayoutCenter_x, sunLayoutCenter_y;
+
+
+            sunLayoutCenter_x = sunLayoutWidth/2;
+            sunLayoutCenter_y = sunLayoutHeight/2;
+
+            oval.set(0,
+                    0,
+                    sunLayoutCenter_x +(sunView.getDrawable().getIntrinsicHeight()/2.0f),
+                    sunLayoutHeight + (sunView.getDrawable().getIntrinsicHeight())
+            );
+            newPath.addArc(oval, 180, 180);
+
+            if(percentage > 0){
+                sunView.setVisibility(View.VISIBLE);
+            }
+
+            int duration = Math.round(3 * percentage/100) * 1000;
+            //Changing UI component attributes value
+
+            PathMeasure measure = new PathMeasure(newPath, false);
+            float length = measure.getLength();
+            Path partialPath = new Path();
+            measure.getSegment(0.0f, (length * percentage) / 100.0f, partialPath, true);
+            partialPath.rLineTo(0.0f, 0.0f); // workaround to display on hardware accelerated canvas as described in docs
+
+            //ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
+            ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
+            pathAnimator.setDuration(duration);
+            pathAnimator.start();
+
+        }
+    }
+
+    private class updateMoon extends AsyncTask<Void , Void , Float> {
+
+        @Override
+        protected void onPreExecute() {
+            //執行前 設定可以在這邊設定
+        }
+
+        @Override
+        protected Float doInBackground(Void... params) {
+            //執行中 在背景做事情
+            MrsAPIHandler mrsAPIHandler = new MrsAPIHandler();
+
+            //float percentage = srsAPIHandler.calSunTimePass();
+            float percentage = mrsAPIHandler.calMoonTimePass();
+            Log.d("AsyncTask", "doInBackground: "+percentage);
+
+            //float percentage = -1.0f; // initialize to your desired percentage
+
+            return percentage;
+
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            //執行中 可以在這邊告知使用者進度
+
+        }
+
+        @Override
+        protected void onPostExecute(Float percentage) {
+            //執行後 完成背景任務
+            super.onPostExecute(percentage);
+            ImageView moonView = findViewById(R.id.moonView);
+
+            LinearLayout moonLayout = findViewById(R.id.moonLayout);
+            // set the layout size to double of sun image size
+            moonLayout.setMinimumHeight(moonView.getMeasuredHeight()*2);
+
+            Path newPath = new Path();
+            final RectF oval = new RectF();
+
+            float moonLayoutHeight = (float) moonLayout.getHeight();
+            float moonLayoutWidth = (float) moonLayout.getWidth();
+
+            float moonLayoutCenter_x, moonLayoutCenter_y;
+
+            moonLayoutCenter_x = moonLayoutWidth/2;
+            moonLayoutCenter_y = moonLayoutHeight/2;
+
+            oval.set(0,
+                    0,
+                    moonLayoutCenter_x +(moonView.getDrawable().getIntrinsicHeight()/2.0f),
+                    moonLayoutCenter_y + (moonView.getDrawable().getIntrinsicHeight())
+            );
+            newPath.addArc(oval, 180, 180);
+
+            if(percentage > 0){
+                moonView.setVisibility(View.VISIBLE);
+            }
+
+            int duration = Math.round(3 * percentage/100) * 1000;
+            //Changing UI component attributes value
+            changeToolbarColor(percentage);
+            changeBackground(percentage);
+
+            PathMeasure measure = new PathMeasure(newPath, false);
+            float length = measure.getLength();
+            Path partialPath = new Path();
+            measure.getSegment(0.0f, (length * percentage) / 100.0f, partialPath, true);
+            partialPath.rLineTo(0.0f, 0.0f); // workaround to display on hardware accelerated canvas as described in docs
+
+            //ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
+            ValueAnimator pathAnimator = ObjectAnimator.ofFloat(moonView,"x","y", partialPath);
+            pathAnimator.setDuration(duration);
+            pathAnimator.start();
 
         }
     }
