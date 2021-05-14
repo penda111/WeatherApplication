@@ -6,7 +6,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
+import hk.edu.ouhk.weatherapplication.APIHandler.Database.DatabaseHandlerThread;
+import hk.edu.ouhk.weatherapplication.APIHandler.Database.DatabaseHelper;
 import hk.edu.ouhk.weatherapplication.APIHandler.JsonHandlerThread;
+import hk.edu.ouhk.weatherapplication.MainActivity;
 
 
 public class FndAPIHandler {
@@ -14,6 +19,9 @@ public class FndAPIHandler {
     private static final String TAG = "FndAPIHandler";
     private static final String DATATYPE = "fnd";
     private static String lang = "tc";
+
+    //static DatabaseHelper db = new DatabaseHelper(MainActivity.getContext());
+
 
     public static String generalSituation;
     public static String updateTime;
@@ -27,6 +35,8 @@ public class FndAPIHandler {
         jsonHandlerThread.start();
         try {
             jsonHandlerThread.join();
+            DatabaseHandlerThread databaseHandlerThread = new DatabaseHandlerThread("Fnd");
+            databaseHandlerThread.start();
             //getJsonData();
         }catch (InterruptedException e){
         }
@@ -120,6 +130,16 @@ public class FndAPIHandler {
             }
         }catch (final JSONException e ) {
             Log.e(TAG, "Json parsing error: " + e.getMessage());
+        }
+    }
+
+    public static void storeDB(){
+
+        MainActivity.db.rebuildTable_Day();
+        MainActivity.db.rebuildTable_Temperature();
+        for(HashMap<String, String> weatherForecast : WeatherForecast_9Days.weatherForecast_9Days){
+            MainActivity.db.createDay(weatherForecast);
+            MainActivity.db.createTemperature(weatherForecast);
         }
     }
 

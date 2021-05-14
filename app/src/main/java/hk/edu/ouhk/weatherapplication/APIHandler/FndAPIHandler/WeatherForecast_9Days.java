@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class WeatherForecast_9Days {
-    public static String FORECASTDATE = "forecastdate";
+    public static String FORECASTDATE = "forecastDate";
     public static String WEEK = "week";
     public static String FORECASTWIND = "forecastWind";
     public static String FORECASTWEATHER = "forecastWeather";

@@ -143,7 +143,7 @@ public class RhrreadAPIHandler {
     public static void getUvindexJson(){
         try {
             if(jsonObject.has("uvindex")) {
-                if(jsonObject.get("warningMessage") instanceof JSONArray) {
+                if(jsonObject.get("uvindex") instanceof JSONArray) {
                     String uvMessage = null;
                     JSONObject unindex = jsonObject.getJSONObject("uvindex");
                     JSONArray unindexData = unindex.getJSONArray("data");
