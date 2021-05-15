@@ -38,6 +38,8 @@
     <string name="windspeed">Windspeed</string>
     <string name="uv">UV index</string>
 
+    <string name="psr">Chance of Rain: </string>
+
     <string name="sun">Sunrise/Sunset</string>
     <string name="moon">Moonrise/Moonset</string>
 

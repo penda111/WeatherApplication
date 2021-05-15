@@ -43,12 +43,13 @@
         <ImageView
             android:id="@+id/icon_9day"
             android:layout_marginLeft="50dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:maxWidth="60dp"
             android:maxHeight="60dp"
-            android:scaleType="fitStart"/>
+            android:scaleType="fitEnd"
+            />
     </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,6 +57,7 @@
             android:orientation="vertical"
             android:background="@color/lightgrey3"
             android:alpha="0.9">
+
         <TextView
             android:id="@+id/text_wind"
             android:layout_width="match_parent"
@@ -164,6 +166,33 @@
             android:shadowRadius="7"
             android:textSize="20sp" />
     </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:paddingLeft="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/psr"
+                    android:textColor="@color/white"
+                    android:shadowColor="@color/black"
+                    android:shadowDx="2"
+                    android:shadowDy="1"
+                    android:shadowRadius="7"
+                    android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/psr"
+                    android:paddingLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:shadowColor="@color/black"
+                    android:shadowDx="2"
+                    android:shadowDy="1"
+                    android:shadowRadius="7"
+                    android:textSize="20sp" />
+            </LinearLayout>
             <TextView
                 android:id="@+id/text_info"
                 android:layout_width="match_parent"
@@ -177,6 +206,7 @@
                 android:shadowRadius="7"
                 android:textSize="20sp"
                 android:paddingBottom="10dp"/>
+
         </LinearLayout>
 
     </LinearLayout>

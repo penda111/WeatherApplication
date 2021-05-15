@@ -214,8 +214,8 @@ public class HomeFragment extends Fragment {
         }
     }
     public static void getffcdata(){
-        String min = ffcWeather.ffcList.get(0).get("temp_min");
-        String max = ffcWeather.ffcList.get(0).get("temp_max");
+        String min = ffcWeather.ffcList.get(0).get("temp_min").substring(0,4);
+        String max = ffcWeather.ffcList.get(0).get("temp_max").substring(0,4);
         String wp = ffcWeather.ffcList.get(0).get("speed");
         updateWeatherInfo(R.id.temp_high,  max, R.string.celsius);
         updateWeatherInfo(R.id.temp_low, min, R.string.celsius);

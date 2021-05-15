@@ -43,7 +43,8 @@ public class NineDaysFragment extends Fragment {
                         WeatherForecast_9Days.FORECASTMINRHVALUE,
                         WeatherForecast_9Days.FORECASTMAXRHVALUE,
                         WeatherForecast_9Days.FORECASTWEATHER,
-                        WeatherForecast_9Days.ICONID},
+                        WeatherForecast_9Days.ICONID,
+                        WeatherForecast_9Days.PSRString },
                 new int[] { R.id.text_date,
                         R.id.text_week,
                         R.id.text_wind,
@@ -52,7 +53,9 @@ public class NineDaysFragment extends Fragment {
                         R.id.text_humidity_min,
                         R.id.text_humidity_max,
                         R.id.text_info,
-                        R.id.icon_9day}
+                        R.id.icon_9day,
+                        R.id.psr
+                }
         );
         listview.setAdapter(adapter);
 
