@@ -1,19 +1,23 @@
 package hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler;
 
+import android.content.SharedPreferences;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.JsonHandlerThread;
+import hk.edu.ouhk.weatherapplication.MainActivity;
 
 
-public class FndAPIHandler {
+public class FndAPIHandler extends AppCompatActivity {
 
     private static final String TAG = "FndAPIHandler";
     private static final String DATATYPE = "fnd";
-    private static String lang = "tc";
+    public static String lang = "en";
 
     public static String generalSituation;
     public static String updateTime;
@@ -22,6 +26,11 @@ public class FndAPIHandler {
     public static JSONObject jsonObject;
 
     public FndAPIHandler(){
+        if(lang != MainActivity.datalang){
+            Log.d("System lang", MainActivity.datalang);
+            changeLang();
+        }
+
         url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+lang;
         JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Fnd");
         jsonHandlerThread.start();
@@ -31,6 +40,22 @@ public class FndAPIHandler {
         }catch (InterruptedException e){
         }
     }
+    public FndAPIHandler(String datalang){
+        if(lang != MainActivity.datalang){
+            Log.d("System lang", MainActivity.datalang);
+            changeLang();
+        }
+
+        url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+datalang;
+        JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Fnd");
+        jsonHandlerThread.start();
+        try {
+            jsonHandlerThread.join();
+            //getJsonData();
+        }catch (InterruptedException e){
+        }
+    }
+
     
     public static void getJsonData(){
         try {
@@ -123,7 +148,7 @@ public class FndAPIHandler {
         }
     }
 
-    public void changeLang(){
+    public static void changeLang(){
         if(lang.equals("tc")){
             lang = "en";
         }else{

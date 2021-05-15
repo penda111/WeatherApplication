@@ -5,12 +5,15 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import hk.edu.ouhk.weatherapplication.MainActivity;
+
 
 public class FlwAPIHandler {
 
     private static final String TAG = "FlwAPIHandler";
     private static final String DATATYPE = "flw";
-    private static String lang = "tc";
+    private static String lang = "en";
+
 
     public static String generalSituation;
     public static String tcInfo;
@@ -25,6 +28,20 @@ public class FlwAPIHandler {
 
     public FlwAPIHandler(){
         url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+lang;
+        JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Flw");
+        jsonHandlerThread.start();
+        try {
+            jsonHandlerThread.join();
+            //getJsonData();
+        }catch (InterruptedException e){
+        }
+    }
+    public FlwAPIHandler(String datalang){
+        if(lang != MainActivity.datalang){
+            Log.d("System lang", MainActivity.datalang);
+            changeLang();
+        }
+        url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+datalang;
         JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Flw");
         jsonHandlerThread.start();
         try {

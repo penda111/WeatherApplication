@@ -167,14 +167,16 @@
             android:textSize="20sp" />
     </LinearLayout>
             <LinearLayout
+                android:id="@+id/cor_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
+                    android:id="@+id/cor"
                     android:paddingLeft="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/psr"
+                    android:text="@string/chanceofrain"
                     android:textColor="@color/white"
                     android:shadowColor="@color/black"
                     android:shadowDx="2"

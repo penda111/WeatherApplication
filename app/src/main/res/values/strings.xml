@@ -8,8 +8,6 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
     <string name="menu_local">Local Forecast</string>
     <string name="menu_9_day">9-Day Forecast</string>
     <string name="menu_global">Global Forecast</string>
@@ -38,7 +36,7 @@
     <string name="windspeed">Windspeed</string>
     <string name="uv">UV index</string>
 
-    <string name="psr">Chance of Rain: </string>
+    <string name="chanceofrain">Chance of Rain:</string>
 
     <string name="sun">Sunrise/Sunset</string>
     <string name="moon">Moonrise/Moonset</string>

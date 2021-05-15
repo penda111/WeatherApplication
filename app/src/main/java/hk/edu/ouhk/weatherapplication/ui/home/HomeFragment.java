@@ -1,5 +1,6 @@
 package hk.edu.ouhk.weatherapplication.ui.home;
 
+import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.w3c.dom.Text;
@@ -35,12 +38,15 @@ import hk.edu.ouhk.weatherapplication.APIHandler.ffcWeatherAPIHandler.ffcWeather
 import hk.edu.ouhk.weatherapplication.APIHandler.ffcWeatherAPIHandler.ffcWeatherAPIHandler;
 import hk.edu.ouhk.weatherapplication.MainActivity;
 import hk.edu.ouhk.weatherapplication.R;
+import hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastFragment;
+import hk.edu.ouhk.weatherapplication.ui.NineDays.NineDaysFragment;
 
 public class HomeFragment extends Fragment {
     private static String today;
     private HomeViewModel homeViewModel;
     public static View root = null;
     public static LinearLayout ll;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -92,7 +98,6 @@ public class HomeFragment extends Fragment {
         setRiseSet();
         setUV();
 
-
     }
         catch(Exception e){
              e.printStackTrace();
@@ -122,7 +127,7 @@ public class HomeFragment extends Fragment {
         //updateWeatherInfo(R.id.temp_low, "28", R.string.celsius);
         //updateWeatherInfo(R.id.current,"32", R.string.celsius);
         //updateWeatherInfo(R.id.humidity, "88", R.string.percentage);
-        updateWeatherInfo(R.id.rainingchance, "30", R.string.percentage);
+        updateWeatherInfo(R.id.rainingchance, "", R.string.percentage);
         //updateWeatherInfo(R.id.updatetime, "2021-05-14 17:30");
         //updateWeatherInfo(R.id.pastrainfall, "10", R.string.mm);
         //updateWeatherInfo(R.id.uv, R.string.uv, "2");
@@ -229,6 +234,7 @@ public class HomeFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
 
 }
 // try to replace Function By UI

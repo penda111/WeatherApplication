@@ -22,6 +22,12 @@
         app:showAsAction="never"
         />
     <item
+        android:id="@+id/action_language_2"
+        android:orderInCategory="101"
+        android:title="Chinese"
+        app:showAsAction="never"
+        />
+    <item
         android:id="@+id/action_test"
         android:orderInCategory="102"
         android:title="Test"

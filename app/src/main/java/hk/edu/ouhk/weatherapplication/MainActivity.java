@@ -3,8 +3,14 @@ package hk.edu.ouhk.weatherapplication;
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Path;
@@ -19,6 +25,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -74,9 +81,11 @@ import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHan
 
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastViewModel;
+import hk.edu.ouhk.weatherapplication.ui.NineDays.NineDaysFragment;
 import hk.edu.ouhk.weatherapplication.ui.gallery.GalleryFragment;
 import hk.edu.ouhk.weatherapplication.ui.home.HomeFragment;
 import hk.edu.ouhk.weatherapplication.ui.home.HomeViewModel;
@@ -101,23 +110,36 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public Double latitudeGet;
     public Double longitudeGet;
 
+    public SharedPreferences sharedPreferences;
+    private static boolean isEnglish;
+    private static String lang;
+    public static String datalang ;
 
 
     private boolean mToolBarNavigationListenerIsRegistered = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPreferences = getSharedPreferences("Setting" , MODE_PRIVATE);
+        setLocale(this);
+        lang = sharedPreferences.getString("Language", "en");
+        isEnglish = sharedPreferences.getBoolean("isEnglish", true);
+        datalang = sharedPreferences.getString("DataLang", "en");
 
+        //updateLanguageVariable();
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
         setContentView(R.layout.activity_main);
+
+
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mActionBar = getSupportActionBar();
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-
+        sharedPreferences.edit().putString("Language", lang).apply();
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -131,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
         });
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_local, R.id.nav_9_day, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_abouticons)
+                R.id.nav_home, R.id.nav_local, R.id.nav_9_day, R.id.nav_abouticons)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -314,6 +336,44 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 || super.onSupportNavigateUp();
     }
 
+    public void updateAllWeather(){
+        NineDaysFragment.update9day();
+    }
+    public void setLanguage(String lang, Boolean isEnglish, String datalang){
+        sharedPreferences.edit().putString("Language", lang).apply();
+        sharedPreferences.edit().putBoolean("isEnglish", isEnglish).apply();
+        sharedPreferences.edit().putString("DataLang", datalang).apply();
+    }
+    public void updateLanguageVariable(){
+        lang = sharedPreferences.getString("Language", "en");
+        isEnglish = sharedPreferences.getBoolean("isEnglish", true);
+        datalang = sharedPreferences.getString("DataLang", "en");
+        Log.d("datalang", datalang);
+    }
+
+    public void setLocale(Context context) {
+        String newLang = sharedPreferences.getString("Language", lang);
+        Locale locale = new Locale(newLang);
+        Resources resources = getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        context.createConfigurationContext(config);
+        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+        Locale.setDefault(locale);
+    }
+    public void setLocale(Context context, String languageCode) {
+        Locale locale = new Locale(languageCode);
+        Resources resources = getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        context.createConfigurationContext(config);
+        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
+        Locale.setDefault(locale);
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         View root = HomeFragment.root;
@@ -331,9 +391,31 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             changeToolbarColor(ratio);
         }
         else if (id == R.id.action_language) {
-            ratio = 25.0f;
+            /*ratio = 25.0f;
             changeBackground(ratio);
-            changeToolbarColor(ratio);
+            changeToolbarColor(ratio);*/
+            if(!isEnglish){
+                isEnglish = !isEnglish;
+                lang = "en";
+                datalang = "en";
+                setLanguage(lang, isEnglish, datalang);
+                setLocale(this, sharedPreferences.getString("Language", lang));
+            }
+
+
+        }
+        else if (id == R.id.action_language_2) {
+            /*ratio = 25.0f;
+            changeBackground(ratio);
+            changeToolbarColor(ratio);*/
+            //setLocale(lang);
+            if(isEnglish) {
+                isEnglish = !isEnglish;
+                lang = "zh";
+                datalang = "tc";
+                setLanguage(lang, isEnglish, datalang);
+                setLocale(this, sharedPreferences.getString("Language", lang));
+            }
 
         }
         else if (id == R.id.action_test){
@@ -359,9 +441,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             dialog.show();*/
             //HomeFragment.updateWeatherInfo(R.id.current, "30", R.string.celsius);
             //HomeFragment.getWeatherData();
-            updateLocalForecast();
-            //HomeFragment.getWeatherData();
-            HomeFragment.removeWarningIcon();
+
+            //NineDaysFragment.update9day();
+            HomeFragment.getWeatherData();
+            //HomeFragment.removeWarningIcon();
         }
             else if (id == android.R.id.home) {
             onBackPressed();
@@ -369,13 +452,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         return super.onOptionsItemSelected(item);
     }
-
-
-    public void updateLocalForecast(){
-        LocalForecastViewModel lfvm =
-            new ViewModelProvider(this).get(LocalForecastViewModel.class);
-    }
-
 
     @Override
     public void onLocationChanged(@NonNull Location location) {

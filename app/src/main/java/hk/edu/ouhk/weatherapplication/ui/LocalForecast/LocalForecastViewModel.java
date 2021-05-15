@@ -19,7 +19,7 @@ public class LocalForecastViewModel extends ViewModel{
         String generalSituation = FlwAPIHandler.generalSituation;
         String forecastPeriod = FlwAPIHandler.forecastPeriod;
         String forecastDesc = FlwAPIHandler.forecastDesc;
-        String updateTime = FlwAPIHandler.updateTime;
+        String updateTime = FlwAPIHandler.updateTime.substring(0,10) + " " + FlwAPIHandler.updateTime.substring(11,16);
         sb.append("\n");
         sb.append(generalSituation);
         sb.append("\n" + "\n");

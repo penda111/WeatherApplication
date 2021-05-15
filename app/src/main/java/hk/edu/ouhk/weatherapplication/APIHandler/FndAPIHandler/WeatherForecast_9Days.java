@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import hk.edu.ouhk.weatherapplication.MainActivity;
 import hk.edu.ouhk.weatherapplication.R;
 
 public class WeatherForecast_9Days {
@@ -19,6 +20,7 @@ public class WeatherForecast_9Days {
     public static String FORECASTICON = "ForecastIcon";
     public static String PSRString = "PSR";
     public static String ICONID = "iconid";
+    public static String CORTAG = "cortag";
 
     public static ArrayList<HashMap<String, String>> weatherForecast_9Days = new ArrayList<>();
     private static HashMap<String, String> iconMap = new HashMap<>();
@@ -41,6 +43,9 @@ public class WeatherForecast_9Days {
         weatherForecast.put(PSRString, PSR);
         String iconid = iconMap.get(String.valueOf(ForecastIcon));
         weatherForecast.put(ICONID, iconid);
+        String tag = MainActivity.getContext().getString(R.string.chanceofrain);
+        //Log.d(CORTAG, tag);
+        weatherForecast.put(CORTAG, tag);
 
         // Add contact to contact list
         weatherForecast_9Days.add(weatherForecast);

@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">Little Plant Weather</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">設定</string>
+
+    <string name="menu_home">主頁</string>
+    <string name="menu_local">本地預報</string>
+    <string name="menu_9_day">九天預報</string>
+    <string name="menu_global">世界預報</string>
+    <string name="menu_abouticons">關於圖示</string>
+
+    <string name="menu_setting">Setting</string>
+    <string name="about">關於此程式</string>
+    <string name="about_content_name">程式名字: Little Plant Weather </string>
+    <string name="about_content_author">開發者: Keith Cheng, Sam Shum </string>
+
+    <!-- Weather Information String tags -->
+    <string name="celsius">°C</string>
+    <string name="fahrenheit">°F</string>
+    <string name="percentage">%</string>
+    <string name="mph">mph</string>
+    <string name="mm">毫米</string>
+    <string name="kmh">公里/小時</string>
+    <string name="slash">/</string>
+
+
+    <string name="temp_high">High</string>
+    <string name="temp_low">Low</string>
+    <string name="current">Current</string>
+    <string name="rainingchance">Raining Chance</string>
+    <string name="humidity">Humidity</string>
+    <string name="windspeed">Windspeed</string>
+    <string name="uv">紫外線指數</string>
+
+    <string name="chanceofrain">降雨機會:</string>
+
+    <string name="sun">日出/日落</string>
+    <string name="moon">月出/月落</string>
+
+    <string name="about_icon_up">最高溫度</string>
+    <string name="about_icon_down">最低溫度</string>
+    <string name="about_icon_cor">降雨機會</string>
+    <string name="about_icon_rainfall">降雨量 (過去一小時) </string>
+    <string name="about_icon_humidity">相對濕度</string>
+    <string name="about_icon_windspeed">風速</string>
+
+    <string name="drawer_open">drawer open</string>
+    <string name="drawer_close">drawer close</string>
+
+</resources>
