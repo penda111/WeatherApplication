@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.Database.DatabaseHandlerThread;
-import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.WeatherForecast_9Days;
 import hk.edu.ouhk.weatherapplication.APIHandler.JsonHandlerThread;
 import hk.edu.ouhk.weatherapplication.MainActivity;
 
@@ -115,7 +114,7 @@ public class HltAPIHandler {
     }
 
     public static void storeDB(){
-        MainActivity.db.rebuildTable_Hlt();
+        //MainActivity.db.rebuildTable_Hlt();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
 

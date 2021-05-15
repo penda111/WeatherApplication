@@ -12,7 +12,7 @@ public class WeatherForecast_9Days {
     public static String FORECASTMINTEMPVALUE = "forecastMintempValue";
     public static String FORECASTMAXRHVALUE = "forecastMaxrhValue";
     public static String FORECASTMINRHVALUE = "forecastMinrhValue";
-    public static String FORECASTICON = "ForecastIcon";
+    public static String FORECASTICON = "forecastIcon";
     public static String PSRString = "PSR";
 
     public static ArrayList<HashMap<String, String>> weatherForecast_9Days = new ArrayList<>();

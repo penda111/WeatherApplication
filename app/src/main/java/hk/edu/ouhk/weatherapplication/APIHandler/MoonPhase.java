@@ -23,13 +23,12 @@ public class MoonPhase {
             {{"new", 0, 1}, {"waxing crescent", 1, 6.38264692644}, {"first quarter",
                     6.38264692644, 8.38264692644}, {"waxing gibbous", 8.38264692644, 13.76529385288},{"full",
                     13.76529385288, 15.76529385288}, {"waning gibbous", 15.76529385288, 21.14794077932}, {"last " +
-                    "quarter", 21.14794077932, 23.14794077932},{"waning crescent", 23.14794077932, 28.53058770576},{
+                    "quarter" , 21.14794077932, 23.14794077932},{"waning crescent", 23.14794077932, 28.53058770576},{
                 "new", 28.53058770576, 29.53058770576}};
 
     String thephase;
 
-    public MoonPhase() {
-
+    public String calMoonPhase(){
         // Date time of first new moon in year 2000
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String date1 = "2000-01-06 18:14";
@@ -64,6 +63,8 @@ public class MoonPhase {
         }
         Log.d(TAG, "moonPhases: "+moonPhases);
         Log.d(TAG, "thephase: "+thephase+ currentdays);
+        return thephase;
     }
+
 
 }

@@ -19,8 +19,10 @@ import hk.edu.ouhk.weatherapplication.APIHandler.FeltearthquakeAPIHandler.Feltea
 import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.FndAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.HhotAPIHandler.HhotAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.HltAPIHandler.HltAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.MrsAPIHandler.MrsAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.QemAPIHandler.QemAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.SrsAPIHandler.SrsAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.SwtAPIHandler.SwtAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarningInfoAPIHandler.WarningInfoAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHandler;
@@ -95,9 +97,11 @@ public class JsonHandlerThread extends Thread {
                         /*MoonAPIHandler moon = (MoonAPIHandler) object;
                         moon.replaceJsonObj(jsonObj);*/
                         MrsAPIHandler.jsonObject = jsonObj;
+                        MrsAPIHandler.getMrsJson();
                         break;
                     case "Srs":
                         SrsAPIHandler.jsonObject = jsonObj;
+                        SrsAPIHandler.getSrsJson();
                         break;
                     case "Flw":
                         FlwAPIHandler.jsonObject = jsonObj;
@@ -134,6 +138,10 @@ public class JsonHandlerThread extends Thread {
                     case "Hhot":
                         HhotAPIHandler.jsonObject = jsonObj;
                         HhotAPIHandler.getJsonData();
+                        break;
+                    case "Hhot2":
+                        HhotAPIHandler.jsonObject = jsonObj;
+                        HhotAPIHandler.getJsonData2();
                         break;
                     case "Hlt":
                         HltAPIHandler.jsonObject = jsonObj;

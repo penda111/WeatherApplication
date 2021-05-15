@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.Database.DatabaseHandlerThread;
-import hk.edu.ouhk.weatherapplication.APIHandler.Database.DatabaseHelper;
 import hk.edu.ouhk.weatherapplication.APIHandler.JsonHandlerThread;
 import hk.edu.ouhk.weatherapplication.MainActivity;
 
@@ -86,11 +85,11 @@ public class FndAPIHandler {
                 JSONObject forecastMinrh = c.getJSONObject("forecastMinrh");
                 String forecastMinrhValue = Integer.toString(forecastMinrh.getInt("value"));
 
-                String ForecastIcon = Integer.toString(c.getInt("ForecastIcon"));
+                String forecastIcon = Integer.toString(c.getInt("ForecastIcon"));
 
                 String PSR = c.getString("PSR");
 
-                WeatherForecast_9Days.addWeatherForecast(forecastDate, week, forecastWind, forecastWeather, forecastMaxtempValue, forecastMintempValue, forecastMaxrhValue, forecastMinrhValue, ForecastIcon, PSR);
+                WeatherForecast_9Days.addWeatherForecast(forecastDate, week, forecastWind, forecastWeather, forecastMaxtempValue, forecastMintempValue, forecastMaxrhValue, forecastMinrhValue, forecastIcon, PSR);
             }
         }catch (final JSONException e ) {
             Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -135,13 +134,13 @@ public class FndAPIHandler {
 
     public static void storeDB(){
 
-        MainActivity.db.rebuildTable_Day();
-        MainActivity.db.rebuildTable_Temperature();
+       // MainActivity.db.rebuildTable_Day();
         for(HashMap<String, String> weatherForecast : WeatherForecast_9Days.weatherForecast_9Days){
             MainActivity.db.createDay(weatherForecast);
-            MainActivity.db.createTemperature(weatherForecast);
         }
     }
+
+
 
     public void changeLang(){
         if(lang.equals("tc")){
