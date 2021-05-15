@@ -10,7 +10,7 @@ public class FlwAPIHandler {
 
     private static final String TAG = "FlwAPIHandler";
     private static final String DATATYPE = "flw";
-    private static String lang = "tc";
+    private static String lang = "en";
 
     public static String generalSituation;
     public static String tcInfo;

@@ -4,14 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
-import android.view.View;
-import android.widget.TextView;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.FlwAPIHandler;
 import hk.edu.ouhk.weatherapplication.MainActivity;

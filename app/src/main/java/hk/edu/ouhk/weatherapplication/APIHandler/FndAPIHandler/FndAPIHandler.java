@@ -13,7 +13,7 @@ public class FndAPIHandler {
 
     private static final String TAG = "FndAPIHandler";
     private static final String DATATYPE = "fnd";
-    private static String lang = "tc";
+    private static String lang = "en";
 
     public static String generalSituation;
     public static String updateTime;

@@ -32,4 +32,9 @@
         android:name="hk.edu.ouhk.weatherapplication.ui.abouticons.AboutIconsFragment"
         android:label="@string/menu_abouticons"
         tools:layout="@layout/fragment_abouticons" />
+    <fragment
+        android:id="@+id/nav_9_day"
+        android:name="hk.edu.ouhk.weatherapplication.ui.NineDays.NineDaysFragment"
+        android:label="@string/menu_9_day"
+        tools:layout="@layout/fragment_9_day" />
 </navigation>

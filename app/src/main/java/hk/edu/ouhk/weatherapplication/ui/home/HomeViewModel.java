@@ -1,9 +1,6 @@
 package hk.edu.ouhk.weatherapplication.ui.home;
 
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
-import android.view.View;
-import android.widget.TextView;
+
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

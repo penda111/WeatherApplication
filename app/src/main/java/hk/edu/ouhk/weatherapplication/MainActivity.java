@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
         });
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_local, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_abouticons)
+                R.id.nav_home, R.id.nav_local, R.id.nav_9_day, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_abouticons)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
