@@ -23,6 +23,8 @@ import android.icu.util.Calendar;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -121,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     private static boolean isEnglish;
     private static String lang;
     public static String datalang ;
-
+    public static Boolean isConnected;
 
     private boolean mToolBarNavigationListenerIsRegistered = false;
 
@@ -133,6 +135,12 @@ public class MainActivity extends AppCompatActivity {
         isEnglish = sharedPreferences.getBoolean("isEnglish", true);
         datalang = sharedPreferences.getString("DataLang", "en");
 
+        ConnectivityManager cm =
+                (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
         //updateLanguageVariable();
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();

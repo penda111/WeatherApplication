@@ -10,7 +10,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_local">Local Forecast</string>
     <string name="menu_9_day">9-Day Forecast</string>
-    <string name="menu_global">Global Forecast</string>
+    <string name="menu_global">Global Weather</string>
     <string name="menu_abouticons">About Icons</string>
 
     <string name="menu_setting">Setting</string>

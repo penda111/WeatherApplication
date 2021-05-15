@@ -26,12 +26,14 @@ import java.util.HashMap;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.FndAPIHandler;
 
+import hk.edu.ouhk.weatherapplication.APIHandler.MrsAPIHandler.Mrs;
 import hk.edu.ouhk.weatherapplication.APIHandler.MrsAPIHandler.MrsAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.Humidity;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.Rainfall;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.Temperature;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.UVindex;
+import hk.edu.ouhk.weatherapplication.APIHandler.SrsAPIHandler.Srs;
 import hk.edu.ouhk.weatherapplication.APIHandler.SrsAPIHandler.SrsAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.Warnsum;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHandler;
@@ -155,7 +157,7 @@ public class HomeFragment extends Fragment {
         //dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
         date = dateFormat.format(calendar.getTime());
         displayDate.setText(date);
-        dateFormat = new SimpleDateFormat("yyyyMMdd");
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         today = dateFormat.format(calendar.getTime());
     }
     public static void removeWarningIcon(){
@@ -201,8 +203,16 @@ public class HomeFragment extends Fragment {
         String rainfallValue = "0";
         for (HashMap<String, String> rf : Rainfall.rainfallList) {
 
+
             if (rf.get("place").equals(place)) {
                 rainfallValue = rf.get("rainfallMaxValue");
+                if(!rainfallValue.equals("0")){
+                    View rain = HomeFragment.root.findViewById(R.id.rain_gif);
+                    rain.setVisibility(View.VISIBLE);
+                } else {
+                    View rain = HomeFragment.root.findViewById(R.id.rain_gif);
+                    rain.setVisibility(View.INVISIBLE);
+                }
                 //Log.d("RainfallValue", rainfallValue);
                 updateWeatherInfo(R.id.pastrainfall, rainfallValue, R.string.mm);
                 break;
@@ -224,12 +234,32 @@ public class HomeFragment extends Fragment {
     }
     public static void setRiseSet(){
         try {
-            String sunrise = SrsAPIHandler.jsonObject.getJSONArray("data").getJSONArray(0).getString(1);
-            String sunset = SrsAPIHandler.jsonObject.getJSONArray("data").getJSONArray(0).getString(3);
-            String moonrise = MrsAPIHandler.jsonObject.getJSONArray("data").getJSONArray(0).getString(1);
-            String moonset = MrsAPIHandler.jsonObject.getJSONArray("data").getJSONArray(0).getString(3);
-            updateRiseSetTime(R.id.sunTimeValue, sunrise, sunset);
-            updateRiseSetTime(R.id.moonTimeValue, moonrise, moonset);
+            ArrayList<HashMap<String, String>> sunList;
+            ArrayList<HashMap<String, String>> moonList;
+            Log.d("NETWORK", ""+MainActivity.isConnected);
+            if(!MainActivity.isConnected){
+                sunList = MainActivity.db.getSrs();
+                moonList = MainActivity.db.getMrs();
+            } else {
+                sunList = Srs.srsList;
+                moonList  = Mrs.mrsList;
+            }
+            for(HashMap<String, String> sun : sunList){
+                if(sun.get("date").equals(today)){
+                    String sunrise = sun.get("sunRise");
+                    String sunset = sun.get("sunSet");
+                    updateRiseSetTime(R.id.sunTimeValue, sunrise, sunset);
+                }
+
+            }
+            for(HashMap<String, String> moon : moonList){
+                if(moon.get("date").equals(today)){
+                    String moonrise = moon.get("moonRise");
+                    String moonset = moon.get("moonSet");
+                    updateRiseSetTime(R.id.moonTimeValue, moonrise, moonset);
+                }
+
+            }
         } catch(Exception e){
             e.printStackTrace();
         }

@@ -10,7 +10,7 @@
     <string name="menu_home">主頁</string>
     <string name="menu_local">本地預報</string>
     <string name="menu_9_day">九天預報</string>
-    <string name="menu_global">世界預報</string>
+    <string name="menu_global">世界天氣</string>
     <string name="menu_abouticons">關於圖示</string>
 
     <string name="menu_setting">Setting</string>

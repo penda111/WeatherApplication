@@ -171,18 +171,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <TextView
+                <ImageView
                     android:id="@+id/cor"
-                    android:paddingLeft="15dp"
+                    android:src="@drawable/coc"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/chanceofrain"
-                    android:textColor="@color/white"
-                    android:shadowColor="@color/black"
-                    android:shadowDx="2"
-                    android:shadowDy="1"
-                    android:shadowRadius="7"
-                    android:textSize="20sp" />
+                    android:layout_marginLeft="15dp"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="30dp"
+                    android:maxHeight="30dp"
+                    android:scaleType="fitEnd"/>
                 <TextView
                     android:id="@+id/psr"
                     android:paddingLeft="5dp"

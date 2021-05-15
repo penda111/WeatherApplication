@@ -412,4 +412,17 @@
         app:layout_constraintVertical_bias="0.934"
         android:visibility="invisible"/>
 
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/rain_gif"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:rotation="30"
+        android:src="@drawable/rain"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/grass"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="-199dp"
+        tools:ignore="MissingConstraints" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
