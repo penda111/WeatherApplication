@@ -15,7 +15,7 @@ public class RhrreadAPIHandler {
 
     private static final String TAG = "RhrreadAPIHandler";
     private static final String DATATYPE = "rhrread";
-    private static String lang = "en";
+    private static String lang = "tc";
 
     public static ArrayList<String> iconList = new ArrayList<>();
     public static ArrayList<String> warningMessageList = new ArrayList<>();

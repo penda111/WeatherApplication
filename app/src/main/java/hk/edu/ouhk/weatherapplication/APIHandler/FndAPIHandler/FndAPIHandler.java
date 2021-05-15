@@ -13,7 +13,7 @@ public class FndAPIHandler {
 
     private static final String TAG = "FndAPIHandler";
     private static final String DATATYPE = "fnd";
-    private static String lang = "en";
+    private static String lang = "tc";
 
     public static String generalSituation;
     public static String updateTime;
@@ -55,7 +55,7 @@ public class FndAPIHandler {
     public static void getWeatherForecastJson(){
         try {
             JSONArray weatherForecast = jsonObject.getJSONArray("weatherForecast");
-
+            WeatherForecast_9Days.weatherForecast_9Days.clear();
             for (int i = 0; i < weatherForecast.length(); i++) {
                 JSONObject c = weatherForecast.getJSONObject(i);
 

@@ -16,6 +16,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import hk.edu.ouhk.weatherapplication.MainActivity;
 import hk.edu.ouhk.weatherapplication.R;
 import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.WeatherForecast_9Days;
@@ -30,7 +33,7 @@ public class NineDaysFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_9_day, container, false);
         listview = root.findViewById(R.id.listView_9days);
         WeatherForecast_9Days wf9 = new WeatherForecast_9Days();
-
+        //ArrayList<HashMap<String, String>> wf9List = WeatherForecast_9Days.weatherForecast_9Days.get(WeatherForecast_9Days.weatherForecast_9Days.size()-1)
         SimpleAdapter adapter = new SimpleAdapter(
                 MainActivity.getContext(),
                 WeatherForecast_9Days.weatherForecast_9Days,

@@ -76,67 +76,23 @@ public class HomeFragment extends Fragment {
     public static void getWeatherData() {
         try {
 
-        TextView uvView = root.findViewById(R.id.uv);
         RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
         FndAPIHandler fndAPIHandler = new FndAPIHandler();
         WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
         ffcWeatherAPIHandler ffc = new ffcWeatherAPIHandler();
-        String humidityValue = Humidity.humidityList.get(Humidity.humidityList.size() - 1).get("humidityValue");
         SrsAPIHandler srs = new SrsAPIHandler();
         MrsAPIHandler mrs = new MrsAPIHandler();
-        String rainfallValue = "0";
-        String cTemp = "0";
-        String time = "";
-        String hTemp = "0";
-        String lTemp = "0";
 
-        /*for(HashMap<String, String> nine : WeatherForecast_9Days.weatherForecast_9Days){
-            //Log.d("9日預報日期", nine.get("forecastdate"));
-        }*/
 
         addWarningIcon();
-        getffcdata();
-        for (HashMap<String, String> rf : Rainfall.rainfallList) {
-
-            if (rf.get("place").equals("Yuen Long")) {
-                rainfallValue = rf.get("rainfallMaxValue");
-                //Log.d("RainfallValue", rainfallValue);
-                updateWeatherInfo(R.id.pastrainfall, rainfallValue, R.string.mm);
-                break;
-            }
-        }
-        for (HashMap<String, String> temp : Temperature.tempList) {
-            //Log.d("TempHashMap", temp.get("place"));
-            if (temp.get("place").equals("Yuen Long Park")) {
-                cTemp = temp.get("tempValue");
-                time = temp.get("recordTime").substring(0,10)+" "+temp.get("recordTime").substring(11,16);
-                updateWeatherInfo(R.id.current, cTemp, R.string.celsius);
-                updateWeatherInfo(R.id.updatetime, time);
-                break;
-            }
+        setffcdata();
+        setRainfall("元朗");
+        setCurrentTemp("元朗公園");
+        setHumidity();
+        setRiseSet();
+        setUV();
 
 
-        }
-        String sunrise = SrsAPIHandler.jsonObject.getJSONArray("data").getJSONArray(0).getString(1);
-        String sunset = SrsAPIHandler.jsonObject.getJSONArray("data").getJSONArray(0).getString(3);
-        String moonrise = MrsAPIHandler.jsonObject.getJSONArray("data").getJSONArray(0).getString(1);
-        String moonset = MrsAPIHandler.jsonObject.getJSONArray("data").getJSONArray(0).getString(3);
-
-
-        //updateWeatherInfo(R.id.current, cTemp, R.string.celsius);
-        updateWeatherInfo(R.id.humidity, humidityValue, R.string.percentage);
-        //updateWeatherInfo(R.id.pastrainfall, rainfallValue, R.string.mm);
-        updateRiseSetTime(R.id.sunTimeValue, sunrise, sunset);
-        updateRiseSetTime(R.id.moonTimeValue, moonrise, moonset);
-        //updateWeatherInfo(R.id.updatetime, time);
-        //Log.d("UVcheck", UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvValue"));
-        if (UVindex.uvList.isEmpty()) {
-            uvView.setVisibility(View.INVISIBLE);
-        } else {
-            String uv = UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvValue") + " " +UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvDesc");
-            updateWeatherInfo(R.id.uv, R.string.uv, uv);
-            uvView.setVisibility(View.VISIBLE);
-        }
     }
         catch(Exception e){
              e.printStackTrace();
@@ -213,13 +169,65 @@ public class HomeFragment extends Fragment {
             ll.addView(ii);
         }
     }
-    public static void getffcdata(){
+    public static void setffcdata(){
         String min = ffcWeather.ffcList.get(0).get("temp_min").substring(0,4);
         String max = ffcWeather.ffcList.get(0).get("temp_max").substring(0,4);
         String wp = ffcWeather.ffcList.get(0).get("speed");
         updateWeatherInfo(R.id.temp_high,  max, R.string.celsius);
         updateWeatherInfo(R.id.temp_low, min, R.string.celsius);
         updateWeatherInfo(R.id.windspeed, wp);
+    }
+    public static void setUV(){
+        TextView uvView = root.findViewById(R.id.uv);
+        if (UVindex.uvList.isEmpty()) {
+            uvView.setVisibility(View.INVISIBLE);
+        } else {
+            String uv = UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvValue") + " " +UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvDesc");
+            updateWeatherInfo(R.id.uv, R.string.uv, uv);
+            uvView.setVisibility(View.VISIBLE);
+        }
+
+    }
+    public static void setHumidity(){
+        String humidityValue = Humidity.humidityList.get(Humidity.humidityList.size() - 1).get("humidityValue");
+        updateWeatherInfo(R.id.humidity, humidityValue, R.string.percentage);
+    }
+    public static void setRainfall(String place){
+        String rainfallValue = "0";
+        for (HashMap<String, String> rf : Rainfall.rainfallList) {
+
+            if (rf.get("place").equals(place)) {
+                rainfallValue = rf.get("rainfallMaxValue");
+                //Log.d("RainfallValue", rainfallValue);
+                updateWeatherInfo(R.id.pastrainfall, rainfallValue, R.string.mm);
+                break;
+            }
+        }
+    }
+    public static void setCurrentTemp(String place){
+        String cTemp = "0";
+        String time = "";
+        for (HashMap<String, String> temp : Temperature.tempList) {
+            if (temp.get("place").equals(place)) {
+                cTemp = temp.get("tempValue");
+                time = temp.get("recordTime").substring(0,10)+" "+temp.get("recordTime").substring(11,16);
+                updateWeatherInfo(R.id.current, cTemp, R.string.celsius);
+                updateWeatherInfo(R.id.updatetime, time);
+                break;
+            }
+        }
+    }
+    public static void setRiseSet(){
+        try {
+            String sunrise = SrsAPIHandler.jsonObject.getJSONArray("data").getJSONArray(0).getString(1);
+            String sunset = SrsAPIHandler.jsonObject.getJSONArray("data").getJSONArray(0).getString(3);
+            String moonrise = MrsAPIHandler.jsonObject.getJSONArray("data").getJSONArray(0).getString(1);
+            String moonset = MrsAPIHandler.jsonObject.getJSONArray("data").getJSONArray(0).getString(3);
+            updateRiseSetTime(R.id.sunTimeValue, sunrise, sunset);
+            updateRiseSetTime(R.id.moonTimeValue, moonrise, moonset);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
 }
