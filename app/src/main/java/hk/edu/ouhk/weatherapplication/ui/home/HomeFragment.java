@@ -25,13 +25,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.FndAPIHandler;
-import hk.edu.ouhk.weatherapplication.APIHandler.MrsAPIHandler;
+
+import hk.edu.ouhk.weatherapplication.APIHandler.MrsAPIHandler.MrsAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.Humidity;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.Rainfall;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.Temperature;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.UVindex;
-import hk.edu.ouhk.weatherapplication.APIHandler.SrsAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.SrsAPIHandler.SrsAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.Warnsum;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.ffcWeatherAPIHandler.ffcWeather;
@@ -88,7 +89,6 @@ public class HomeFragment extends Fragment {
         ffcWeatherAPIHandler ffc = new ffcWeatherAPIHandler();
         SrsAPIHandler srs = new SrsAPIHandler();
         MrsAPIHandler mrs = new MrsAPIHandler();
-
 
         addWarningIcon();
         setffcdata();

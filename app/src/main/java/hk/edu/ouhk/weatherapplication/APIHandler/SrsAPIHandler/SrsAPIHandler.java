@@ -146,7 +146,7 @@ public class SrsAPIHandler {
         //MainActivity.db.rebuildTable_Hlt();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
-
+        Log.d("Check", formatter.format(date));
         for(HashMap<String, String> srs : Srs.srsList){
             try {
                 long days = TimeUnit.MILLISECONDS.toDays(formatter.parse(srs.get("date")).getTime() - date.getTime());

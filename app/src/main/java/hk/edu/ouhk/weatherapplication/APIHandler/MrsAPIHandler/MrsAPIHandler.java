@@ -138,7 +138,7 @@ public class MrsAPIHandler {
         //MainActivity.db.rebuildTable_Hlt();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
-
+        Log.d("Check", formatter.format(date));
         for(HashMap<String, String> mrs : Mrs.mrsList){
             try {
                 long days = TimeUnit.MILLISECONDS.toDays(formatter.parse(mrs.get("date")).getTime() - date.getTime());

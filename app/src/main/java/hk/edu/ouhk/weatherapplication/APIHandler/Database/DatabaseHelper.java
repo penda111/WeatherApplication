@@ -50,6 +50,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_FORECASTMINRHVALUE = "forecastMinrhValue";
     private static final String KEY_FORECASTICON = "ForecastIcon";
     private static final String KEY_PSR = "PSR";
+    private static final String KEY_ICONID = "iconid";
+    private static final String KEY_FORMATTED = "formatted";
+
 
     // Sun Table - column names
     private static final String KEY_SUNRISE = "sunRise";
@@ -78,7 +81,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + KEY_FORECASTMAXRHVALUE + " TEXT,"
             + KEY_FORECASTMINRHVALUE + " TEXT,"
             + KEY_FORECASTICON + " TEXT,"
-            + KEY_PSR + " TEXT"
+            + KEY_PSR + " TEXT,"
+            + KEY_ICONID + " TEXT,"
+            + KEY_FORMATTED + " TEXT"
+
             + ")";
 
     // Sun table create statement
@@ -268,6 +274,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_FORECASTMINRHVALUE, weatherForecast_9Days.get("forecastMinrhValue"));
             values.put(KEY_FORECASTICON, weatherForecast_9Days.get("forecastIcon"));
             values.put(KEY_PSR, weatherForecast_9Days.get("PSR"));
+            values.put(KEY_ICONID, weatherForecast_9Days.get("iconid"));
+            values.put(KEY_FORMATTED, weatherForecast_9Days.get("formatted"));
 
             // insert row
             long todo_id = db.insert(TABLE_DAY, null, values);
@@ -440,6 +448,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 weatherForecast.put(WeatherForecast_9Days.FORECASTMINRHVALUE, c.getString((c.getColumnIndex(KEY_FORECASTMINRHVALUE))));
                 weatherForecast.put(WeatherForecast_9Days.FORECASTICON, c.getString((c.getColumnIndex(KEY_FORECASTICON))));
                 weatherForecast.put(WeatherForecast_9Days.PSRString, c.getString((c.getColumnIndex(KEY_PSR))));
+                weatherForecast.put(WeatherForecast_9Days.ICONID, c.getString((c.getColumnIndex(KEY_ICONID))));
+                weatherForecast.put(WeatherForecast_9Days.FORMATTED, c.getString((c.getColumnIndex(KEY_FORMATTED))));
 
 
                 weatherForecast_9Days_Database.add(weatherForecast);

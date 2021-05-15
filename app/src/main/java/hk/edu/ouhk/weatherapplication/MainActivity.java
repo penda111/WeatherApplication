@@ -189,26 +189,26 @@ public class MainActivity extends AppCompatActivity {
         //FndAPIHandler fndAPIHandler = new FndAPIHandler();
         //RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
 
-        WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
+        //WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
         //Test warnsumAPIHandler with json example (warnsumTest.json)
         /*warnsumAPIHandler.loadJSONFromAsset(this);
         warnsumAPIHandler.getJsonData();*/
 
-        WarningInfoAPIHandler warningInfoAPIHandler = new WarningInfoAPIHandler();
+        //WarningInfoAPIHandler warningInfoAPIHandler = new WarningInfoAPIHandler();
         //Test warningInfoAPIHandler with json example (warningInfoTest.json)
-        warningInfoAPIHandler.loadJSONFromAsset(this);
-        warningInfoAPIHandler.getJsonData();
+        //warningInfoAPIHandler.loadJSONFromAsset(this);
+        //warningInfoAPIHandler.getJsonData();
 
-        SwtAPIHandler swtAPIHandler = new SwtAPIHandler();
+        //SwtAPIHandler swtAPIHandler = new SwtAPIHandler();
         //Test swtAPIHandler with json example (swtTest.json)
         /*swtAPIHandler.loadJSONFromAsset(this);
         swtAPIHandler.getJsonData();*/
 
-        QemAPIHandler qemAPIHandler = new QemAPIHandler();
-        FeltearthquakeAPIHandler feltearthquakeAPIHandler = new FeltearthquakeAPIHandler();
+        //QemAPIHandler qemAPIHandler = new QemAPIHandler();
+        //FeltearthquakeAPIHandler feltearthquakeAPIHandler = new FeltearthquakeAPIHandler();
 
-        HhotAPIHandler hhotAPIHandler = new HhotAPIHandler(2021,"CCH");
-        HltAPIHandler hltAPIHandler = new HltAPIHandler("CCH");
+        //HhotAPIHandler hhotAPIHandler = new HhotAPIHandler(2021,"CCH");
+        //HltAPIHandler hltAPIHandler = new HltAPIHandler("CCH");
 
 
 
@@ -313,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
         drawer.addDrawerListener(actionBarDrawerToggle);
         Drawable overflowicon = toolbar.getOverflowIcon();
 
-        if( ratio > 25.0f){
+        if( ratio == -1.0f || ratio > 25.0f){
             toolbar.setTitleTextColor(Color.WHITE);
             overflowicon.setTint(Color.WHITE);
             actionBarDrawerToggle.getDrawerArrowDrawable().setColor(Color.WHITE);

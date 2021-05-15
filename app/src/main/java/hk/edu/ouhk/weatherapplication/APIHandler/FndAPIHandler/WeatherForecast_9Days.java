@@ -20,7 +20,7 @@ public class WeatherForecast_9Days {
     public static String FORECASTICON = "forecastIcon";
     public static String PSRString = "PSR";
     public static String ICONID = "iconid";
-    public static String CORTAG = "cortag";
+    public static String FORMATTED = "formatted";
 
     public static ArrayList<HashMap<String, String>> weatherForecast_9Days = new ArrayList<>();
     private static HashMap<String, String> iconMap = new HashMap<>();
@@ -31,7 +31,7 @@ public class WeatherForecast_9Days {
         // Create contact
         HashMap<String, String> weatherForecast = new HashMap<>();
         String formatted = formatDate(forecastDate);
-        weatherForecast.put(FORECASTDATE, formatted);
+        weatherForecast.put(FORECASTDATE, forecastDate);
         weatherForecast.put(WEEK, week);
         weatherForecast.put(FORECASTWIND, forecastWind);
         weatherForecast.put(FORECASTWEATHER, forecastWeather);
@@ -43,9 +43,10 @@ public class WeatherForecast_9Days {
         weatherForecast.put(PSRString, PSR);
         String iconid = iconMap.get(String.valueOf(ForecastIcon));
         weatherForecast.put(ICONID, iconid);
-        String tag = MainActivity.getContext().getString(R.string.chanceofrain);
+        weatherForecast.put(FORMATTED, formatted);
+        //String tag = MainActivity.getContext().getString(R.string.chanceofrain);
         //Log.d(CORTAG, tag);
-        weatherForecast.put(CORTAG, tag);
+        //weatherForecast.put(CORTAG, tag);
 
         // Add contact to contact list
         weatherForecast_9Days.add(weatherForecast);

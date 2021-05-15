@@ -78,7 +78,7 @@ public static void update9day(){
             MainActivity.getContext(),
             WeatherForecast_9Days.weatherForecast_9Days,
             R.layout.item,
-            new String[] { WeatherForecast_9Days.FORECASTDATE,
+            new String[] { WeatherForecast_9Days.FORMATTED,
                     WeatherForecast_9Days.WEEK,
                     WeatherForecast_9Days.FORECASTWIND,
                     WeatherForecast_9Days.FORECASTMINTEMPVALUE,
@@ -87,8 +87,7 @@ public static void update9day(){
                     WeatherForecast_9Days.FORECASTMAXRHVALUE,
                     WeatherForecast_9Days.FORECASTWEATHER,
                     WeatherForecast_9Days.ICONID,
-                    WeatherForecast_9Days.PSRString,
-                    WeatherForecast_9Days.CORTAG
+                    WeatherForecast_9Days.PSRString
             },
             new int[] { R.id.text_date,
                     R.id.text_week,
@@ -99,8 +98,7 @@ public static void update9day(){
                     R.id.text_humidity_max,
                     R.id.text_info,
                     R.id.icon_9day,
-                    R.id.psr,
-                    R.id.cor
+                    R.id.psr
             }
     );
 

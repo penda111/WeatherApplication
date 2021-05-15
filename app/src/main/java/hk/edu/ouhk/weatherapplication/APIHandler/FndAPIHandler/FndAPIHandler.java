@@ -158,7 +158,7 @@ public class FndAPIHandler {
 
     public static void storeDB(){
 
-       // MainActivity.db.rebuildTable_Day();
+       //MainActivity.db.rebuildTable_Day();
         for(HashMap<String, String> weatherForecast : WeatherForecast_9Days.weatherForecast_9Days){
             MainActivity.db.createDay(weatherForecast);
         }
