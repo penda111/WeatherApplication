@@ -9,7 +9,7 @@ import hk.edu.ouhk.weatherapplication.MainActivity;
 import hk.edu.ouhk.weatherapplication.R;
 
 public class WeatherForecast_9Days {
-    public static String FORECASTDATE = "forecastdate";
+    public static String FORECASTDATE = "forecastDate";
     public static String WEEK = "week";
     public static String FORECASTWIND = "forecastWind";
     public static String FORECASTWEATHER = "forecastWeather";
@@ -17,7 +17,7 @@ public class WeatherForecast_9Days {
     public static String FORECASTMINTEMPVALUE = "forecastMintempValue";
     public static String FORECASTMAXRHVALUE = "forecastMaxrhValue";
     public static String FORECASTMINRHVALUE = "forecastMinrhValue";
-    public static String FORECASTICON = "ForecastIcon";
+    public static String FORECASTICON = "forecastIcon";
     public static String PSRString = "PSR";
     public static String ICONID = "iconid";
     public static String CORTAG = "cortag";

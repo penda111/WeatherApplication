@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
@@ -27,11 +28,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Menu;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,6 +46,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -56,24 +57,25 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.navigation.NavigationView;
+
+import hk.edu.ouhk.weatherapplication.APIHandler.Database.DatabaseHelper;
 import hk.edu.ouhk.weatherapplication.APIHandler.FeltearthquakeAPIHandler.FeltearthquakeAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.FlwAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.FndAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.HhotAPIHandler.HhotAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.HltAPIHandler.HltAPIHandler;
-import hk.edu.ouhk.weatherapplication.APIHandler.MrsAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.MoonPhase;
+import hk.edu.ouhk.weatherapplication.APIHandler.MrsAPIHandler.MrsAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.QemAPIHandler.QemAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHandler;
-import hk.edu.ouhk.weatherapplication.APIHandler.SrsAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.SrsAPIHandler.SrsAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.SwtAPIHandler.SwtAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarningInfoAPIHandler.WarningInfoAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.Warnsum;
@@ -88,10 +90,8 @@ import hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastViewModel;
 import hk.edu.ouhk.weatherapplication.ui.NineDays.NineDaysFragment;
 import hk.edu.ouhk.weatherapplication.ui.gallery.GalleryFragment;
 import hk.edu.ouhk.weatherapplication.ui.home.HomeFragment;
-import hk.edu.ouhk.weatherapplication.ui.home.HomeViewModel;
-import hk.edu.ouhk.weatherapplication.ui.slideshow.SlideshowFragment;
 
-public class MainActivity extends AppCompatActivity implements LocationListener {
+public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActionBar mActionBar;
@@ -100,6 +100,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
     public static Context mContext;
+    public static DatabaseHelper db;
+
+    MrsAPIHandler mrsAPIHandler;
+    SrsAPIHandler srsAPIHandler;
+
+    private static final Object mrslock = new Object();
+    private static final Object srslock = new Object();
 
     private static final String LOGTAG = "MainActivity";
     static final int MY_PERMISSIONS_REQUEST_LOCATION = 1;
@@ -135,6 +142,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        db = new DatabaseHelper(mContext);
+        mrsAPIHandler = new MrsAPIHandler();
+        srsAPIHandler = new SrsAPIHandler();
 
         mActionBar = getSupportActionBar();
         drawer = findViewById(R.id.drawer_layout);
@@ -197,9 +207,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         QemAPIHandler qemAPIHandler = new QemAPIHandler();
         FeltearthquakeAPIHandler feltearthquakeAPIHandler = new FeltearthquakeAPIHandler();
 
-        HhotAPIHandler hhotAPIHandler = new HhotAPIHandler("CCH");
+        HhotAPIHandler hhotAPIHandler = new HhotAPIHandler(2021,"CCH");
         HltAPIHandler hltAPIHandler = new HltAPIHandler("CCH");
-        MoonPhase moonPhase = new MoonPhase();
+
+
 
     }
 
@@ -282,7 +293,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         View root = HomeFragment.root;
         ConstraintLayout home = root.findViewById(R.id.fragment_home);
         ImageView grass = root.findViewById(R.id.grass);
-        if(ratio <= 25.0f ){
+        if(ratio == -1.0f){
+            home.setBackgroundResource(R.drawable.night_2);
+            grass.setImageResource(R.drawable.bg_11_2);
+        }else if(ratio <= 25.0f ){
             home.setBackgroundResource(R.drawable.cloud_3);
             grass.setImageResource(R.drawable.bg_11_1);
         } else if (ratio <= 75.0f){
@@ -290,9 +304,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             grass.setImageResource(R.drawable.bg_11_1);
         } else if (ratio <= 83.3f){
             home.setBackgroundResource(R.drawable.cloud_2);
-            grass.setImageResource(R.drawable.bg_11_2);
-        } else{
-            home.setBackgroundResource(R.drawable.night_2);
             grass.setImageResource(R.drawable.bg_11_2);
         }
     }
@@ -391,7 +402,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             changeToolbarColor(ratio);
         }
         else if (id == R.id.action_language) {
-            /*ratio = 25.0f;
+            ratio = 25.0f;
             changeBackground(ratio);
             changeToolbarColor(ratio);*/
             if(!isEnglish){
@@ -437,10 +448,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         else if (id == R.id.action_refresh){
             /*AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
             dialog.setTitle("Refresh Option");
-            dialog.setMessage(longitude);
+            dialog.setMessage("Refresh weather information method invoked here");
             dialog.show();*/
-            //HomeFragment.updateWeatherInfo(R.id.current, "30", R.string.celsius);
-            //HomeFragment.getWeatherData();
 
             //NineDaysFragment.update9day();
             HomeFragment.getWeatherData();
@@ -453,9 +462,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
 
+    public void onLocationChanged(@NonNull Location location) {}
+
+
+    public static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
+
+    public static int getScreenHeight() {
+        return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 
     private class updateSun extends AsyncTask<Void , Void , Float> {
@@ -468,16 +484,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         @Override
         protected Float doInBackground(Void... params) {
             //執行中 在背景做事情
-            SrsAPIHandler srsAPIHandler = new SrsAPIHandler();
+            //SrsAPIHandler srsAPIHandler = new SrsAPIHandler();
 
             //float percentage = srsAPIHandler.calSunTimePass();
             float percentage = srsAPIHandler.calSunTimePass();
             Log.d("AsyncTask", "doInBackground: "+percentage);
 
-            //float percentage = -1.0f; // initialize to your desired percentage
 
             return percentage;
-
         }
 
         @Override
@@ -488,50 +502,52 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         @Override
         protected void onPostExecute(Float percentage) {
+
             //執行後 完成背景任務
             super.onPostExecute(percentage);
             ImageView sunView = findViewById(R.id.sunView);
 
-            LinearLayout sunLayout = findViewById(R.id.sunLayout);
             // set the layout size to double of sun image size
-            sunLayout.setMinimumHeight(sunView.getMeasuredHeight()*2);
 
             Path newPath = new Path();
             final RectF oval = new RectF();
 
-            float sunLayoutHeight = (float) sunLayout.getHeight();
-            float sunLayoutWidth = (float) sunLayout.getWidth();
+            float screenHeight = (float) getScreenHeight();
+            float screenWidth = (float) getScreenWidth();
 
-            float sunLayoutCenter_x, sunLayoutCenter_y;
+            float screenWidthCenter_x, screenHeightCenter_y;
 
-
-            sunLayoutCenter_x = sunLayoutWidth/2;
-            sunLayoutCenter_y = sunLayoutHeight/2;
+            screenWidthCenter_x = screenWidth / 2;
+            screenHeightCenter_y = screenHeight / 2;
 
             oval.set(0,
-                    0,
-                    sunLayoutCenter_x +(sunView.getDrawable().getIntrinsicHeight()/2.0f),
-                    sunLayoutHeight + (sunView.getDrawable().getIntrinsicHeight())
+                    screenWidth,
+                    screenHeightCenter_y - (sunView.getDrawable().getIntrinsicWidth()/2.0f),
+                    screenWidth + (sunView.getDrawable().getIntrinsicHeight())
             );
             newPath.addArc(oval, 180, 180);
 
-            if(percentage > 0){
+            if (percentage > 0) {
                 sunView.setVisibility(View.VISIBLE);
             }
 
-            int duration = Math.round(3 * percentage/100) * 1000;
+            long duration = (long) (percentage / 100 * 1000 * 2.5);
             //Changing UI component attributes value
+            changeToolbarColor(percentage);
+            changeBackground(percentage);
+            if(duration>0) {
 
-            PathMeasure measure = new PathMeasure(newPath, false);
-            float length = measure.getLength();
-            Path partialPath = new Path();
-            measure.getSegment(0.0f, (length * percentage) / 100.0f, partialPath, true);
-            partialPath.rLineTo(0.0f, 0.0f); // workaround to display on hardware accelerated canvas as described in docs
+                PathMeasure measure = new PathMeasure(newPath, false);
+                float length = measure.getLength();
+                Path partialPath = new Path();
+                measure.getSegment(0.0f, (length * percentage) / 100.0f, partialPath, true);
+                partialPath.rLineTo(0.0f, 0.0f); // workaround to display on hardware accelerated canvas as described in docs
 
-            //ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
-            ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
-            pathAnimator.setDuration(duration);
-            pathAnimator.start();
+                //ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
+                ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView, "x", "y", partialPath);
+                pathAnimator.setDuration(duration);
+                pathAnimator.start();
+            }
 
         }
     }
@@ -546,7 +562,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         @Override
         protected Float doInBackground(Void... params) {
             //執行中 在背景做事情
-            MrsAPIHandler mrsAPIHandler = new MrsAPIHandler();
+            //MrsAPIHandler mrsAPIHandler = new MrsAPIHandler();
 
             //float percentage = srsAPIHandler.calSunTimePass();
             float percentage = mrsAPIHandler.calMoonTimePass();
@@ -555,7 +571,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             //float percentage = -1.0f; // initialize to your desired percentage
 
             return percentage;
-
         }
 
         @Override
@@ -570,25 +585,43 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             super.onPostExecute(percentage);
             ImageView moonView = findViewById(R.id.moonView);
 
-            LinearLayout moonLayout = findViewById(R.id.moonLayout);
-            // set the layout size to double of sun image size
-            moonLayout.setMinimumHeight(moonView.getMeasuredHeight()*2);
+
+            MoonPhase moonPhase = new MoonPhase();
+            String phase = moonPhase.calMoonPhase();
+
+            if(phase.equals("new")){
+                moonView.setImageResource(R.drawable.newmoon);
+            }else if(phase.equals("waxing crescent")){
+                moonView.setImageResource(R.drawable.waningcrescent);
+            }else if(phase.equals("first quarter")){
+                moonView.setImageResource(R.drawable.firstquarter);
+            }else if(phase.equals("waxing gibbous")){
+                moonView.setImageResource(R.drawable.waxinggibbous);
+            }else if(phase.equals("full")){
+                moonView.setImageResource(R.drawable.fullmoon);
+            }else if(phase.equals("waning gibbous")){
+                moonView.setImageResource(R.drawable.waninggibbous);
+            }else if(phase.equals("last quarter")){
+                moonView.setImageResource(R.drawable.thirdquarter);
+            }else if(phase.equals("waning crescent")){
+                moonView.setImageResource(R.drawable.waningcrescent);
+            }
 
             Path newPath = new Path();
             final RectF oval = new RectF();
 
-            float moonLayoutHeight = (float) moonLayout.getHeight();
-            float moonLayoutWidth = (float) moonLayout.getWidth();
+            float screenHeight = (float) getScreenHeight();
+            float screenWidth = (float) getScreenWidth();
 
-            float moonLayoutCenter_x, moonLayoutCenter_y;
+            float screenWidthCenter_x, screenHeightCenter_y;
 
-            moonLayoutCenter_x = moonLayoutWidth/2;
-            moonLayoutCenter_y = moonLayoutHeight/2;
+            screenWidthCenter_x = screenWidth / 2;
+            screenHeightCenter_y = screenHeight / 2;
 
             oval.set(0,
-                    0,
-                    moonLayoutCenter_x +(moonView.getDrawable().getIntrinsicHeight()/2.0f),
-                    moonLayoutCenter_y + (moonView.getDrawable().getIntrinsicHeight())
+                    screenWidth,
+                    screenHeightCenter_y - (moonView.getDrawable().getIntrinsicWidth()/2.0f),
+                    screenWidth + (moonView.getDrawable().getIntrinsicHeight())
             );
             newPath.addArc(oval, 180, 180);
 
@@ -596,21 +629,21 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 moonView.setVisibility(View.VISIBLE);
             }
 
-            int duration = Math.round(3 * percentage/100) * 1000;
+            long duration = (long) (percentage / 100 * 1000 * 2.5);
             //Changing UI component attributes value
-            changeToolbarColor(percentage);
-            changeBackground(percentage);
 
-            PathMeasure measure = new PathMeasure(newPath, false);
-            float length = measure.getLength();
-            Path partialPath = new Path();
-            measure.getSegment(0.0f, (length * percentage) / 100.0f, partialPath, true);
-            partialPath.rLineTo(0.0f, 0.0f); // workaround to display on hardware accelerated canvas as described in docs
+            if(duration>0) {
+                PathMeasure measure = new PathMeasure(newPath, false);
+                float length = measure.getLength();
+                Path partialPath = new Path();
+                measure.getSegment(0.0f, (length * percentage) / 100.0f, partialPath, true);
+                partialPath.rLineTo(0.0f, 0.0f); // workaround to display on hardware accelerated canvas as described in docs
 
-            //ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
-            ValueAnimator pathAnimator = ObjectAnimator.ofFloat(moonView,"x","y", partialPath);
-            pathAnimator.setDuration(duration);
-            pathAnimator.start();
+                //ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
+                ValueAnimator pathAnimator = ObjectAnimator.ofFloat(moonView, "x", "y", partialPath);
+                pathAnimator.setDuration(duration);
+                pathAnimator.start();
+            }
 
         }
     }

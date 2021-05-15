@@ -9,15 +9,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
+import hk.edu.ouhk.weatherapplication.APIHandler.Database.DatabaseHandlerThread;
 import hk.edu.ouhk.weatherapplication.APIHandler.JsonHandlerThread;
 import hk.edu.ouhk.weatherapplication.MainActivity;
 
 
-public class FndAPIHandler extends AppCompatActivity {
+public class FndAPIHandler {
 
     private static final String TAG = "FndAPIHandler";
     private static final String DATATYPE = "fnd";
     public static String lang = "en";
+
+    //static DatabaseHelper db = new DatabaseHelper(MainActivity.getContext());
+
 
     public static String generalSituation;
     public static String updateTime;
@@ -36,6 +42,8 @@ public class FndAPIHandler extends AppCompatActivity {
         jsonHandlerThread.start();
         try {
             jsonHandlerThread.join();
+            DatabaseHandlerThread databaseHandlerThread = new DatabaseHandlerThread("Fnd");
+            databaseHandlerThread.start();
             //getJsonData();
         }catch (InterruptedException e){
         }
@@ -56,7 +64,7 @@ public class FndAPIHandler extends AppCompatActivity {
         }
     }
 
-    
+
     public static void getJsonData(){
         try {
             generalSituation = jsonObject.getString("generalSituation");
@@ -101,11 +109,11 @@ public class FndAPIHandler extends AppCompatActivity {
                 JSONObject forecastMinrh = c.getJSONObject("forecastMinrh");
                 String forecastMinrhValue = Integer.toString(forecastMinrh.getInt("value"));
 
-                String ForecastIcon = Integer.toString(c.getInt("ForecastIcon"));
+                String forecastIcon = Integer.toString(c.getInt("ForecastIcon"));
 
                 String PSR = c.getString("PSR");
 
-                WeatherForecast_9Days.addWeatherForecast(forecastDate, week, forecastWind, forecastWeather, forecastMaxtempValue, forecastMintempValue, forecastMaxrhValue, forecastMinrhValue, ForecastIcon, PSR);
+                WeatherForecast_9Days.addWeatherForecast(forecastDate, week, forecastWind, forecastWeather, forecastMaxtempValue, forecastMintempValue, forecastMaxrhValue, forecastMinrhValue, forecastIcon, PSR);
             }
         }catch (final JSONException e ) {
             Log.e(TAG, "Json parsing error: " + e.getMessage());
@@ -148,7 +156,17 @@ public class FndAPIHandler extends AppCompatActivity {
         }
     }
 
-    public static void changeLang(){
+    public static void storeDB(){
+
+       // MainActivity.db.rebuildTable_Day();
+        for(HashMap<String, String> weatherForecast : WeatherForecast_9Days.weatherForecast_9Days){
+            MainActivity.db.createDay(weatherForecast);
+        }
+    }
+
+
+
+    public void changeLang(){
         if(lang.equals("tc")){
             lang = "en";
         }else{

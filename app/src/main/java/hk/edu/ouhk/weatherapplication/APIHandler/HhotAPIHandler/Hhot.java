@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Hhot {
-    private static final String DATE = "date";
-    private static final String STATION = "station";
+    public static final String DATE = "date";
+    public static final String STATION = "station";
 
     public static ArrayList<HashMap<String, String>> hhotList = new ArrayList<>();
 

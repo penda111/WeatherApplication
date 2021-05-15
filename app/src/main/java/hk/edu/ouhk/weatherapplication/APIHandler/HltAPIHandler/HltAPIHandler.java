@@ -6,13 +6,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import hk.edu.ouhk.weatherapplication.APIHandler.Database.DatabaseHandlerThread;
 import hk.edu.ouhk.weatherapplication.APIHandler.JsonHandlerThread;
+import hk.edu.ouhk.weatherapplication.MainActivity;
 
 public class HltAPIHandler {
 
@@ -60,6 +65,8 @@ public class HltAPIHandler {
         jsonHandlerThread.start();
         try {
             jsonHandlerThread.join();
+            DatabaseHandlerThread databaseHandlerThread = new DatabaseHandlerThread("Hlt");
+            databaseHandlerThread.start();
         }catch (InterruptedException e){
         }
     }
@@ -101,12 +108,26 @@ public class HltAPIHandler {
                 Hlt.addHltData(date, station, hltDataList);
             }
 
-
-
-
-
         }catch (final JSONException e ) {
             Log.e(TAG, "Json parsing error: " + e.getMessage());
+        }
+    }
+
+    public static void storeDB(){
+        //MainActivity.db.rebuildTable_Hlt();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+
+        for(HashMap<String, String> hlt : Hlt.hltList){
+            try {
+                long days = TimeUnit.MILLISECONDS.toDays(formatter.parse(hlt.get("date")).getTime() - date.getTime());
+                if(days < 9 & days >=0 ) {
+                    MainActivity.db.createHlt(hlt);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
