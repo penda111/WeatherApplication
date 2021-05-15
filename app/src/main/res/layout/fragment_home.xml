@@ -287,15 +287,15 @@
             android:shadowDx="3"
             android:shadowDy="1"
             android:shadowRadius="9"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:visibility="invisible"
+            android:paddingLeft="5dp"
             />
         <TextView
-            android:paddingLeft="10dp"
+            android:paddingLeft="5dp"
             android:id="@+id/updatetime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Retrieved Date Time"
             android:textColor="@color/white"
             android:shadowColor="@color/black"
             android:shadowDx="3"
@@ -346,7 +346,7 @@
             android:adjustViewBounds="true"
             android:maxWidth="100dp"
             android:scaleType="fitStart"
-            android:src="@drawable/sun2"
+            android:src="@drawable/sun4"
             android:visibility="invisible" />
     </LinearLayout>
 

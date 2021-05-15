@@ -1,5 +1,7 @@
 package hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -21,7 +23,6 @@ public class UVindex {
         uvData.put(UVVALUE, uvValue);
         uvData.put(UVDESC, uvDesc);
         uvData.put(UVMESAAGE, uvMesaage);
-
         // Add contact to contact list
         uvList.add(uvData);
     }

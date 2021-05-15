@@ -113,14 +113,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
         mActionBar = getSupportActionBar();
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -366,6 +358,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             dialog.show();*/
             //HomeFragment.updateWeatherInfo(R.id.current, "30", R.string.celsius);
             //HomeFragment.getWeatherData();
+            updateLocalForecast();
+            HomeFragment.getWeatherData();
         }
             else if (id == android.R.id.home) {
             onBackPressed();
@@ -380,7 +374,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             new ViewModelProvider(this).get(LocalForecastViewModel.class);
     }
 
-    public void displaySun(){
+    /*public void displaySun(){
         //Sun display
         View sunView = findViewById(R.id.sunView);
         LinearLayout sunLayout = findViewById(R.id.sunLayout);
@@ -477,7 +471,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
             }
         });
-    }
+    }*/
     @Override
     public void onLocationChanged(@NonNull Location location) {
 

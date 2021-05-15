@@ -95,7 +95,7 @@ public class HomeFragment extends Fragment {
             //Log.d("TempHashMap", temp.get("place"));
             if (temp.get("place").equals("Yuen Long Park")) {
                 cTemp = temp.get("tempValue");
-                time = temp.get("recordTime");
+                time = temp.get("recordTime").substring(0,10)+" "+temp.get("recordTime").substring(11,16);
                 updateWeatherInfo(R.id.current, cTemp, R.string.celsius);
                 updateWeatherInfo(R.id.updatetime, time);
                 break;
@@ -115,12 +115,12 @@ public class HomeFragment extends Fragment {
         updateRiseSetTime(R.id.sunTimeValue, sunrise, sunset);
         updateRiseSetTime(R.id.moonTimeValue, moonrise, moonset);
         //updateWeatherInfo(R.id.updatetime, time);
-
+        //Log.d("UVcheck", UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvValue"));
         if (UVindex.uvList.isEmpty()) {
             uvView.setVisibility(View.INVISIBLE);
         } else {
-            String uv = UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvValue");
-            updateWeatherInfo(R.id.uv, uv);
+            String uv = UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvValue") + " " +UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvDesc");
+            updateWeatherInfo(R.id.uv, R.string.uv, uv);
             uvView.setVisibility(View.VISIBLE);
         }
     }
