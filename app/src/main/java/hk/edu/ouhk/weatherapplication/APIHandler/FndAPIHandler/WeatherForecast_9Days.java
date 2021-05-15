@@ -28,7 +28,8 @@ public class WeatherForecast_9Days {
         checkIconMap();
         // Create contact
         HashMap<String, String> weatherForecast = new HashMap<>();
-        weatherForecast.put(FORECASTDATE, forecastDate);
+        String formatted = formatDate(forecastDate);
+        weatherForecast.put(FORECASTDATE, formatted);
         weatherForecast.put(WEEK, week);
         weatherForecast.put(FORECASTWIND, forecastWind);
         weatherForecast.put(FORECASTWEATHER, forecastWeather);
@@ -80,5 +81,15 @@ public class WeatherForecast_9Days {
             iconMap.put("92", Integer.toString(R.drawable.pic92));
             iconMap.put("93", Integer.toString(R.drawable.pic93));
         }
+    }
+    public static String formatDate(String date){
+        String formatted;
+        String y, m, d;
+        y = date.substring(0,4);
+        m = date.substring(4,6);
+        d = date.substring(6);
+        formatted = m+"-"+d;
+        return formatted;
+
     }
 }
