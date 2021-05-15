@@ -483,6 +483,8 @@ public class MainActivity extends AppCompatActivity {
 
             long duration = (long) (percentage / 100 * 1000 * 2.5);
             //Changing UI component attributes value
+            changeToolbarColor(percentage);
+            changeBackground(percentage);
 
             PathMeasure measure = new PathMeasure(newPath, false);
             float length = measure.getLength();
@@ -577,8 +579,7 @@ public class MainActivity extends AppCompatActivity {
 
             long duration = (long) (percentage / 100 * 1000 * 2.5);
             //Changing UI component attributes value
-            changeToolbarColor(percentage);
-            changeBackground(percentage);
+
 
             PathMeasure measure = new PathMeasure(newPath, false);
             float length = measure.getLength();
