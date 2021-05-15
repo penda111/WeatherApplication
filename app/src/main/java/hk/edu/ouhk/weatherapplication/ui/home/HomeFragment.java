@@ -44,22 +44,28 @@ import hk.edu.ouhk.weatherapplication.R;
 import hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastFragment;
 import hk.edu.ouhk.weatherapplication.ui.NineDays.NineDaysFragment;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment{
     private static String today;
     private HomeViewModel homeViewModel;
     public static View root = null;
     public static LinearLayout ll;
-
+    static String place_1, place_2;
+    public static final Object homelock = new Object();
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.temp_high);
         ll = root.findViewById(R.id.warning);
+
+
         showDate();
         updateAllWeatherInfo();
+        //setRiseSet();
         getWeatherData();
+
         /*homeViewModel.getHumidity().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -84,21 +90,39 @@ public class HomeFragment extends Fragment {
     }
     public static void getWeatherData() {
         try {
+            if(MainActivity.lang == "en"){
+                place_1 = "Yuen Long";
+                place_2 = "Yuen Long Park";
+            } else {
+                place_1 = "元朗";
+                place_2 = "元朗公園";
+            }
+            Thread th = new Thread(){
+                public void run(){
+                    RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
+                    FndAPIHandler fndAPIHandler = new FndAPIHandler();
+                    WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
+                    ffcWeatherAPIHandler ffc = new ffcWeatherAPIHandler();
 
-        RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
-        FndAPIHandler fndAPIHandler = new FndAPIHandler();
-        WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
-        ffcWeatherAPIHandler ffc = new ffcWeatherAPIHandler();
-        SrsAPIHandler srs = new SrsAPIHandler();
-        MrsAPIHandler mrs = new MrsAPIHandler();
+                }
+            };
+            th.start();
+            th.join();
+                /*RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
+                FndAPIHandler fndAPIHandler = new FndAPIHandler();
+                WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
+                ffcWeatherAPIHandler ffc = new ffcWeatherAPIHandler();
+                SrsAPIHandler srs = new SrsAPIHandler();
+                MrsAPIHandler mrs = new MrsAPIHandler();*/
 
-        addWarningIcon();
-        setffcdata();
-        setRainfall("元朗");
-        setCurrentTemp("元朗公園");
-        setHumidity();
-        setRiseSet();
-        setUV();
+
+                setRainfall(place_1);
+                setCurrentTemp(place_2);
+                addWarningIcon();
+                setffcdata();
+                setHumidity();
+                setRiseSet();
+                setUV();
 
     }
         catch(Exception e){
@@ -237,6 +261,7 @@ public class HomeFragment extends Fragment {
             ArrayList<HashMap<String, String>> sunList;
             ArrayList<HashMap<String, String>> moonList;
             Log.d("NETWORK", ""+MainActivity.isConnected);
+            Log.d("NETWORK", today);
             if(!MainActivity.isConnected){
                 sunList = MainActivity.db.getSrs();
                 moonList = MainActivity.db.getMrs();
@@ -244,10 +269,12 @@ public class HomeFragment extends Fragment {
                 sunList = Srs.srsList;
                 moonList  = Mrs.mrsList;
             }
+            Log.d("NETWORK", ""+sunList);
             for(HashMap<String, String> sun : sunList){
                 if(sun.get("date").equals(today)){
                     String sunrise = sun.get("sunRise");
                     String sunset = sun.get("sunSet");
+                    Log.d("DBSUN", sunrise + "/" +sunset);
                     updateRiseSetTime(R.id.sunTimeValue, sunrise, sunset);
                 }
 

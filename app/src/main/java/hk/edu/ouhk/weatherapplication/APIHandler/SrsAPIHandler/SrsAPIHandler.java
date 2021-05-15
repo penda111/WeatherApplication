@@ -45,8 +45,10 @@ public class SrsAPIHandler {
         jsonHandlerThread.start();
         try {
             jsonHandlerThread.join();
-            DatabaseHandlerThread databaseHandlerThread = new DatabaseHandlerThread("Srs");
-            databaseHandlerThread.start();
+            if(MainActivity.isConnected) {
+                DatabaseHandlerThread databaseHandlerThread = new DatabaseHandlerThread("Srs");
+                databaseHandlerThread.start();
+            }
         }catch (InterruptedException e){
         }
     }

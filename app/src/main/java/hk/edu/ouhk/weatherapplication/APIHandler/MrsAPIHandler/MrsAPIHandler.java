@@ -42,8 +42,10 @@ public class MrsAPIHandler {
         jsonHandlerThread.start();
         try {
             jsonHandlerThread.join();
-            DatabaseHandlerThread databaseHandlerThread = new DatabaseHandlerThread("Mrs");
-            databaseHandlerThread.start();
+            if(MainActivity.isConnected) {
+                DatabaseHandlerThread databaseHandlerThread = new DatabaseHandlerThread("Mrs");
+                databaseHandlerThread.start();
+            }
         }catch (InterruptedException e){
         }
     }

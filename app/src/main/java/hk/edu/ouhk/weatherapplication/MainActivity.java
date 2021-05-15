@@ -88,6 +88,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import hk.edu.ouhk.weatherapplication.APIHandler.ffcWeatherAPIHandler.ffcWeatherAPIHandler;
 import hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastViewModel;
 import hk.edu.ouhk.weatherapplication.ui.NineDays.NineDaysFragment;
 import hk.edu.ouhk.weatherapplication.ui.gallery.GalleryFragment;
@@ -121,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
     public SharedPreferences sharedPreferences;
     private static boolean isEnglish;
-    private static String lang;
+    public static String lang;
     public static String datalang ;
     public static Boolean isConnected;
 
@@ -145,8 +146,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
         setContentView(R.layout.activity_main);
-
-
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -189,7 +188,16 @@ public class MainActivity extends AppCompatActivity {
             setUpLocationClient();
         }
 
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
+                FndAPIHandler fndAPIHandler = new FndAPIHandler();
+                WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
+                ffcWeatherAPIHandler ffc = new ffcWeatherAPIHandler();
 
+            }
+        });
         // animate the sun
         //new updateUI().execute();
         //FlwAPIHandler flwAPIHandler = new FlwAPIHandler();

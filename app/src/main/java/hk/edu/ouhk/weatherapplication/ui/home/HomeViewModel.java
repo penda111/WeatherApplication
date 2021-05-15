@@ -18,10 +18,10 @@ public class HomeViewModel extends ViewModel {
     public MutableLiveData<String> humidity;
 
     public HomeViewModel() {
-        RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
+        /*RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
         String humidityValue = Humidity.humidityList.get(0).get("humidityValue");
         humidity = new MutableLiveData<>();
-        humidity.setValue(humidityValue);
+        humidity.setValue(humidityValue);*/
     }
     public LiveData<String> getHumidity() {
         return humidity;

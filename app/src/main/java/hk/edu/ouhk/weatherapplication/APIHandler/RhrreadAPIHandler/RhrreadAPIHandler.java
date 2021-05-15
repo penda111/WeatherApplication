@@ -9,6 +9,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.JsonHandlerThread;
+import hk.edu.ouhk.weatherapplication.MainActivity;
+import hk.edu.ouhk.weatherapplication.ui.home.HomeFragment;
 
 
 public class RhrreadAPIHandler {
@@ -28,6 +30,10 @@ public class RhrreadAPIHandler {
     public static JSONObject jsonObject;
 
     public RhrreadAPIHandler(){
+        if(lang != MainActivity.datalang){
+            Log.d("System lang", MainActivity.datalang);
+            changeLang();
+        }
         url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+lang;
         JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Rhrread");
         jsonHandlerThread.start();
@@ -39,38 +45,40 @@ public class RhrreadAPIHandler {
     }
     
     public static void getJsonData(){
-        try {
+        synchronized (HomeFragment.homelock) {
+            try {
 
-            updateTime = jsonObject.getString("updateTime");
+                updateTime = jsonObject.getString("updateTime");
 
-            getLightningJson();
-            getRainfallJson();
-            getIconJson();
-            getUvindexJson();
-            getWarningMessageJson();
-            getRainstormReminderJson();
-            getSpecialWxTipsJson();
-            getTcmessageJson();
-            getTemperatureJson();
-            getHumidityJson();
+                getLightningJson();
+                getRainfallJson();
+                getIconJson();
+                getUvindexJson();
+                getWarningMessageJson();
+                getRainstormReminderJson();
+                getSpecialWxTipsJson();
+                getTcmessageJson();
+                getTemperatureJson();
+                getHumidityJson();
 
-            Log.d(TAG, "Thread name=: " +Thread.currentThread().getName());
-            Log.d(TAG, "iconList: " + iconList);
-            Log.d(TAG, "warningMessageList: " + warningMessageList);
-            Log.d(TAG, "specialWxTipsList: " + specialWxTipsList);
-            Log.d(TAG, "tcmessageList: " + tcmessageList);
-            Log.d(TAG, "updateTime: " + updateTime);
-            Log.d(TAG, "rainstormReminder: " + rainstormReminder);
+                Log.d(TAG, "Thread name=: " + Thread.currentThread().getName());
+                Log.d(TAG, "iconList: " + iconList);
+                Log.d(TAG, "warningMessageList: " + warningMessageList);
+                Log.d(TAG, "specialWxTipsList: " + specialWxTipsList);
+                Log.d(TAG, "tcmessageList: " + tcmessageList);
+                Log.d(TAG, "updateTime: " + updateTime);
+                Log.d(TAG, "rainstormReminder: " + rainstormReminder);
 
-            Log.d(TAG, "Rainfall: " + Rainfall.rainfallList);
-            Log.d(TAG, "Temperature: " + Temperature.tempList);
+                Log.d(TAG, "Rainfall: " + Rainfall.rainfallList);
+                Log.d(TAG, "Temperature: " + Temperature.tempList);
 
-            Log.d(TAG, "Humidity: " + Humidity.humidityList);
-            Log.d(TAG, "UVindex: " + UVindex.uvList);
-            Log.d(TAG, "Lighting: " + Lighting.lightingList);
+                Log.d(TAG, "Humidity: " + Humidity.humidityList);
+                Log.d(TAG, "UVindex: " + UVindex.uvList);
+                Log.d(TAG, "Lighting: " + Lighting.lightingList);
 
-        }catch (final JSONException e ) {
-            Log.e(TAG, "Json parsing error: " + e.getMessage());
+            } catch (final JSONException e) {
+                Log.e(TAG, "Json parsing error: " + e.getMessage());
+            }
         }
     }
 
