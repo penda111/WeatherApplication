@@ -24,6 +24,7 @@ import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHan
 import hk.edu.ouhk.weatherapplication.APIHandler.SwtAPIHandler.SwtAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarningInfoAPIHandler.WarningInfoAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.ffcWeatherAPIHandler.ffcWeatherAPIHandler;
 
 public class JsonHandlerThread extends Thread {
     private static final String TAG = "JsonHandlerThread";
@@ -139,6 +140,9 @@ public class JsonHandlerThread extends Thread {
                         HltAPIHandler.jsonObject = jsonObj;
                         HltAPIHandler.getJsonData();
                         break;
+                    case "ffc":
+                        ffcWeatherAPIHandler.jsonObject = jsonObj;
+                        ffcWeatherAPIHandler.getJsonData();
 
 
                 }

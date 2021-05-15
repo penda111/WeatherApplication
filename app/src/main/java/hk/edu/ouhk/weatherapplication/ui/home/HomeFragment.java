@@ -31,6 +31,8 @@ import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.UVindex;
 import hk.edu.ouhk.weatherapplication.APIHandler.SrsAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.Warnsum;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.ffcWeatherAPIHandler.ffcWeather;
+import hk.edu.ouhk.weatherapplication.APIHandler.ffcWeatherAPIHandler.ffcWeatherAPIHandler;
 import hk.edu.ouhk.weatherapplication.MainActivity;
 import hk.edu.ouhk.weatherapplication.R;
 
@@ -78,6 +80,7 @@ public class HomeFragment extends Fragment {
         RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
         FndAPIHandler fndAPIHandler = new FndAPIHandler();
         WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
+        ffcWeatherAPIHandler ffc = new ffcWeatherAPIHandler();
         String humidityValue = Humidity.humidityList.get(Humidity.humidityList.size() - 1).get("humidityValue");
         SrsAPIHandler srs = new SrsAPIHandler();
         MrsAPIHandler mrs = new MrsAPIHandler();
@@ -92,6 +95,7 @@ public class HomeFragment extends Fragment {
         }*/
 
         addWarningIcon();
+        getffcdata();
         for (HashMap<String, String> rf : Rainfall.rainfallList) {
 
             if (rf.get("place").equals("Yuen Long")) {
@@ -157,9 +161,9 @@ public class HomeFragment extends Fragment {
         info.setText(str + " " + unit);
     }
     public static void updateAllWeatherInfo(){
-        updateWeatherInfo(R.id.windspeed,"100", R.string.mph);
-        updateWeatherInfo(R.id.temp_high,  "33", R.string.celsius);
-        updateWeatherInfo(R.id.temp_low, "28", R.string.celsius);
+        //updateWeatherInfo(R.id.windspeed,"100", R.string.mph);
+        //updateWeatherInfo(R.id.temp_high,  "33", R.string.celsius);
+        //updateWeatherInfo(R.id.temp_low, "28", R.string.celsius);
         //updateWeatherInfo(R.id.current,"32", R.string.celsius);
         //updateWeatherInfo(R.id.humidity, "88", R.string.percentage);
         updateWeatherInfo(R.id.rainingchance, "30", R.string.percentage);
@@ -208,6 +212,14 @@ public class HomeFragment extends Fragment {
             ii.setPadding(5,0,0,0);
             ll.addView(ii);
         }
+    }
+    public static void getffcdata(){
+        String min = ffcWeather.ffcList.get(0).get("temp_min");
+        String max = ffcWeather.ffcList.get(0).get("temp_max");
+        String wp = ffcWeather.ffcList.get(0).get("speed");
+        updateWeatherInfo(R.id.temp_high,  max, R.string.celsius);
+        updateWeatherInfo(R.id.temp_low, min, R.string.celsius);
+        updateWeatherInfo(R.id.windspeed, wp);
     }
 
 }
