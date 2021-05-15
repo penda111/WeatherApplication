@@ -55,7 +55,7 @@ public class WarnsumAPIHandler {
     }
 
     public static void getJsonData(){
-
+        Warnsum.clearList();
         getWfireJson();
         getWfrostJson();
         getWhotJson();

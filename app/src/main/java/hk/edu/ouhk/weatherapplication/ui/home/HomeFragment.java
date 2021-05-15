@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,6 +29,8 @@ import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHan
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.Temperature;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.UVindex;
 import hk.edu.ouhk.weatherapplication.APIHandler.SrsAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.Warnsum;
+import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHandler;
 import hk.edu.ouhk.weatherapplication.MainActivity;
 import hk.edu.ouhk.weatherapplication.R;
 
@@ -34,12 +38,14 @@ public class HomeFragment extends Fragment {
     private static String today;
     private HomeViewModel homeViewModel;
     public static View root = null;
+    public static LinearLayout ll;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.temp_high);
+        ll = root.findViewById(R.id.warning);
         showDate();
         updateAllWeatherInfo();
         getWeatherData();
@@ -67,9 +73,11 @@ public class HomeFragment extends Fragment {
     }
     public static void getWeatherData() {
         try {
+
         TextView uvView = root.findViewById(R.id.uv);
         RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
         FndAPIHandler fndAPIHandler = new FndAPIHandler();
+        WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
         String humidityValue = Humidity.humidityList.get(Humidity.humidityList.size() - 1).get("humidityValue");
         SrsAPIHandler srs = new SrsAPIHandler();
         MrsAPIHandler mrs = new MrsAPIHandler();
@@ -82,6 +90,8 @@ public class HomeFragment extends Fragment {
         /*for(HashMap<String, String> nine : WeatherForecast_9Days.weatherForecast_9Days){
             //Log.d("9日預報日期", nine.get("forecastdate"));
         }*/
+
+        addWarningIcon();
         for (HashMap<String, String> rf : Rainfall.rainfallList) {
 
             if (rf.get("place").equals("Yuen Long")) {
@@ -182,6 +192,22 @@ public class HomeFragment extends Fragment {
         displayDate.setText(date);
         dateFormat = new SimpleDateFormat("yyyyMMdd");
         today = dateFormat.format(calendar.getTime());
+    }
+    public static void removeWarningIcon(){
+        LinearLayout ll = HomeFragment.ll;
+        ll.removeAllViewsInLayout();
+    }
+    public static void addWarningIcon(){
+        removeWarningIcon();
+        LinearLayout ll = HomeFragment.ll;
+        for(HashMap<String, String> warn : Warnsum.warnsumList){
+            int iconId = Integer.parseInt(warn.get(Warnsum.ICONID));
+            Log.d("Warn", ""+iconId);
+            ImageView ii = new ImageView(MainActivity.getContext());
+            ii.setImageResource(iconId);
+            ii.setPadding(5,0,0,0);
+            ll.addView(ii);
+        }
     }
 
 }

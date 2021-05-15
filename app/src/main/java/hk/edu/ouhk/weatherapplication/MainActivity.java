@@ -69,6 +69,7 @@ import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHan
 import hk.edu.ouhk.weatherapplication.APIHandler.SrsAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.SwtAPIHandler.SwtAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarningInfoAPIHandler.WarningInfoAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.Warnsum;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHandler;
 
 import java.util.Enumeration;
@@ -359,7 +360,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             //HomeFragment.updateWeatherInfo(R.id.current, "30", R.string.celsius);
             //HomeFragment.getWeatherData();
             updateLocalForecast();
-            HomeFragment.getWeatherData();
+            //HomeFragment.getWeatherData();
+            HomeFragment.removeWarningIcon();
         }
             else if (id == android.R.id.home) {
             onBackPressed();
@@ -374,104 +376,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             new ViewModelProvider(this).get(LocalForecastViewModel.class);
     }
 
-    /*public void displaySun(){
-        //Sun display
-        View sunView = findViewById(R.id.sunView);
-        LinearLayout sunLayout = findViewById(R.id.sunLayout);
-        // change sun display after all ui done their works
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                Path newPath = new Path();
-                ImageView sunView = findViewById(R.id.sunView);
-                ImageView moonView = findViewById(R.id.moonView);
 
-                LinearLayout sunLayout = findViewById(R.id.sunLayout);
-                LinearLayout moonLayout = findViewById(R.id.moonLayout);
-                // set the layout size to double of sun image size
-                sunLayout.setMinimumHeight(sunView.getMeasuredHeight()*2);
-                moonLayout.setMinimumHeight(moonView.getMeasuredHeight()*2);
-
-                float sunLayoutHeight = (float) sunLayout.getHeight();
-                float sunLayoutWidth = (float) sunLayout.getWidth();
-
-                float moonLayoutHeight = (float) moonLayout.getHeight();
-                float moonLayoutWidth = (float) moonLayout.getWidth();
-
-                float sunLayoutCenter_x, sunLayoutCenter_y, moonLayoutCenter_x, moonLayoutCenter_y;
-                final RectF oval = new RectF();
-
-                sunLayoutCenter_x = sunLayoutWidth/2;
-                sunLayoutCenter_y = sunLayoutHeight/2;
-
-                moonLayoutCenter_x = moonLayoutWidth/2;
-                moonLayoutCenter_y = moonLayoutHeight/2;
-
-                // draw half oval path
-                oval.set(0,
-                        0,
-                        sunLayoutCenter_x +(moonView.getDrawable().getIntrinsicHeight()/2.0f),
-                        sunLayoutHeight + (moonView.getDrawable().getIntrinsicHeight())
-                );
-                newPath.addArc(oval, 180, 180);
-                SrsAPIHandler srsAPIHandler = new SrsAPIHandler();
-                MrsAPIHandler mrsAPIHandler = new MrsAPIHandler();
-
-                //float percentage = srsAPIHandler.calSunTimePass();
-                float percentage = mrsAPIHandler.calMoonTimePass();
-
-                //float percentage = -1.0f; // initialize to your desired percentage
-
-                if(percentage > 0){
-                    moonView.setVisibility(View.VISIBLE);
-                }
-
-                int duration = Math.round(3 * percentage/100) * 1000;
-                //Changing UI component attributes value
-                changeToolbarColor(percentage);
-                changeBackground(percentage);
-
-                PathMeasure measure = new PathMeasure(newPath, false);
-                float length = measure.getLength();
-                Path partialPath = new Path();
-                measure.getSegment(0.0f, (length * percentage) / 100.0f, partialPath, true);
-                partialPath.rLineTo(0.0f, 0.0f); // workaround to display on hardware accelerated canvas as described in docs
-
-                //ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
-                ValueAnimator pathAnimator = ObjectAnimator.ofFloat(moonView,"x","y", partialPath);
-                pathAnimator.setDuration(duration);
-                pathAnimator.start();
-
-                oval.set(0,
-                        0,
-                        moonLayoutCenter_x +(sunView.getDrawable().getIntrinsicHeight()/2.0f),
-                        sunLayoutHeight + (sunView.getDrawable().getIntrinsicHeight())
-                );
-
-                percentage = srsAPIHandler.calSunTimePass();
-                //percentage = 50.0f;
-
-                if(percentage > 0){
-                    sunView.setVisibility(View.VISIBLE);
-                }
-
-                duration = Math.round(3 * percentage/100) * 1000;
-                //Changing UI component attributes value
-
-                measure = new PathMeasure(newPath, false);
-                length = measure.getLength();
-                partialPath = new Path();
-                measure.getSegment(0.0f, (length * percentage) / 100.0f, partialPath, true);
-                partialPath.rLineTo(0.0f, 0.0f); // workaround to display on hardware accelerated canvas as described in docs
-
-                //ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
-                pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
-                pathAnimator.setDuration(duration);
-                pathAnimator.start();
-
-            }
-        });
-    }*/
     @Override
     public void onLocationChanged(@NonNull Location location) {
 
