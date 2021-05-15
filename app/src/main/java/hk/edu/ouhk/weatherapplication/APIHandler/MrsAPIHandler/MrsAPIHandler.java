@@ -125,6 +125,7 @@ public class MrsAPIHandler {
 
                     Mrs.addMrsData(date, rise, set);
                 }
+                Log.d(TAG, "getMrsJson: "+ todayDate+", "+ todayMoonRise+", "+ todayMoonSet);
                 Log.d(TAG, "getMrsJson: "+ Mrs.mrsList);
 
             } catch (final JSONException e) {

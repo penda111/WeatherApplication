@@ -132,6 +132,8 @@ public class SrsAPIHandler {
 
                     Srs.addSrsData(date, rise, set);
                 }
+
+                Log.d(TAG, "getSrsJson: "+ todayDate+", "+ todaySunRise+", "+ todaySunSet);
                 Log.d(TAG, "getSrsJson: "+ Srs.srsList);
 
             } catch (final JSONException e) {

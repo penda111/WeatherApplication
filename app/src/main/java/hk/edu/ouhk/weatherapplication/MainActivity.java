@@ -184,7 +184,10 @@ public class MainActivity extends AppCompatActivity {
         View root = HomeFragment.root;
         ConstraintLayout home = root.findViewById(R.id.fragment_home);
         ImageView grass = root.findViewById(R.id.grass);
-        if(ratio <= 25.0f ){
+        if(ratio == -1.0f){
+            home.setBackgroundResource(R.drawable.night_2);
+            grass.setImageResource(R.drawable.bg_11_2);
+        }else if(ratio <= 25.0f ){
             home.setBackgroundResource(R.drawable.cloud_3);
             grass.setImageResource(R.drawable.bg_11_1);
         } else if (ratio <= 75.0f){
@@ -192,9 +195,6 @@ public class MainActivity extends AppCompatActivity {
             grass.setImageResource(R.drawable.bg_11_1);
         } else if (ratio <= 83.3f){
             home.setBackgroundResource(R.drawable.cloud_2);
-            grass.setImageResource(R.drawable.bg_11_2);
-        } else{
-            home.setBackgroundResource(R.drawable.night_2);
             grass.setImageResource(R.drawable.bg_11_2);
         }
     }
@@ -485,17 +485,19 @@ public class MainActivity extends AppCompatActivity {
             //Changing UI component attributes value
             changeToolbarColor(percentage);
             changeBackground(percentage);
+            if(duration>0) {
 
-            PathMeasure measure = new PathMeasure(newPath, false);
-            float length = measure.getLength();
-            Path partialPath = new Path();
-            measure.getSegment(0.0f, (length * percentage) / 100.0f, partialPath, true);
-            partialPath.rLineTo(0.0f, 0.0f); // workaround to display on hardware accelerated canvas as described in docs
+                PathMeasure measure = new PathMeasure(newPath, false);
+                float length = measure.getLength();
+                Path partialPath = new Path();
+                measure.getSegment(0.0f, (length * percentage) / 100.0f, partialPath, true);
+                partialPath.rLineTo(0.0f, 0.0f); // workaround to display on hardware accelerated canvas as described in docs
 
-            //ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
-            ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView, "x", "y", partialPath);
-            pathAnimator.setDuration(duration);
-            pathAnimator.start();
+                //ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
+                ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView, "x", "y", partialPath);
+                pathAnimator.setDuration(duration);
+                pathAnimator.start();
+            }
 
         }
     }
@@ -580,17 +582,18 @@ public class MainActivity extends AppCompatActivity {
             long duration = (long) (percentage / 100 * 1000 * 2.5);
             //Changing UI component attributes value
 
+            if(duration>0) {
+                PathMeasure measure = new PathMeasure(newPath, false);
+                float length = measure.getLength();
+                Path partialPath = new Path();
+                measure.getSegment(0.0f, (length * percentage) / 100.0f, partialPath, true);
+                partialPath.rLineTo(0.0f, 0.0f); // workaround to display on hardware accelerated canvas as described in docs
 
-            PathMeasure measure = new PathMeasure(newPath, false);
-            float length = measure.getLength();
-            Path partialPath = new Path();
-            measure.getSegment(0.0f, (length * percentage) / 100.0f, partialPath, true);
-            partialPath.rLineTo(0.0f, 0.0f); // workaround to display on hardware accelerated canvas as described in docs
-
-            //ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
-            ValueAnimator pathAnimator = ObjectAnimator.ofFloat(moonView,"x","y", partialPath);
-            pathAnimator.setDuration(duration);
-            pathAnimator.start();
+                //ValueAnimator pathAnimator = ObjectAnimator.ofFloat(sunView,"x","y", partialPath);
+                ValueAnimator pathAnimator = ObjectAnimator.ofFloat(moonView, "x", "y", partialPath);
+                pathAnimator.setDuration(duration);
+                pathAnimator.start();
+            }
 
         }
     }
