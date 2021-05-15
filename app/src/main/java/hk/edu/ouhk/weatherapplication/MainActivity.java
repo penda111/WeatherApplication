@@ -402,7 +402,7 @@ public class MainActivity extends AppCompatActivity {
             changeToolbarColor(ratio);
         }
         else if (id == R.id.action_language) {
-            ratio = 25.0f;
+            /*ratio = 25.0f;
             changeBackground(ratio);
             changeToolbarColor(ratio);*/
             if(!isEnglish){
