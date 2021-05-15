@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
         });*/
 
 
-        setUserVisibleHint(false);
+        //setUserVisibleHint(false);
         setUserVisibleHint(true);
 
 
@@ -63,6 +63,7 @@ public class HomeFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         //Code executes EVERY TIME user views the fragment
         ((MainActivity)getActivity()).animateSun();
+        ((MainActivity)getActivity()).animateMoon();
     }
     public static void getWeatherData() {
         try {
