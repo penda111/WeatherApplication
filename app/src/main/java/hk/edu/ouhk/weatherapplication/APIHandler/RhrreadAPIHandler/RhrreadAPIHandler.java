@@ -17,7 +17,7 @@ public class RhrreadAPIHandler {
 
     private static final String TAG = "RhrreadAPIHandler";
     private static final String DATATYPE = "rhrread";
-    private static String lang = "tc";
+    public static String lang = "tc";
 
     public static ArrayList<String> iconList = new ArrayList<>();
     public static ArrayList<String> warningMessageList = new ArrayList<>();
@@ -30,11 +30,7 @@ public class RhrreadAPIHandler {
     public static JSONObject jsonObject;
 
     public RhrreadAPIHandler(){
-        if(lang != MainActivity.datalang){
-            Log.d("System lang", MainActivity.datalang);
-            changeLang();
-        }
-        url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+lang;
+        url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+MainActivity.datalang;
         JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Rhrread");
         jsonHandlerThread.start();
         try {
@@ -282,7 +278,7 @@ public class RhrreadAPIHandler {
         }
     }
 
-    public void changeLang(){
+    public static void changeLang(){
         if(lang.equals("tc")){
             lang = "en";
         }else{

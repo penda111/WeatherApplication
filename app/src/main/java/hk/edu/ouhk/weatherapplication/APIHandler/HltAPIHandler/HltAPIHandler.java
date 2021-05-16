@@ -40,7 +40,7 @@ public class HltAPIHandler {
         this.day = Integer.toString(day);
         this.station = station;
 
-        url = "https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType="+DATATYPE+"&lang="+lang+"&rformat="+FORMAT+"&station="+station+"&year="+year+"&month="+month+"&day="+day;
+        url = "https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType="+DATATYPE+"&lang="+MainActivity.datalang+"&rformat="+FORMAT+"&station="+station+"&year="+year+"&month="+month+"&day="+day;
         JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Hlt");
         jsonHandlerThread.start();
         try {

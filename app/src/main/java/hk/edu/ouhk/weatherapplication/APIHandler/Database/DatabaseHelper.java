@@ -185,7 +185,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Date today = new Date();
         //Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24)*3);
 
-        db.execSQL("DELETE FROM "+ TABLE_DAY + " where " +KEY_DATE+" < Datetime(\""+dateFormat.format(today)+"\")");
+        Log.d(TAG, "deleteOldDay: "+"DELETE FROM "+ TABLE_DAY + " where " +KEY_DATE+" < Datetime(\""+dateFormat.format(today)+"\")");
+        db.execSQL("DELETE FROM "+ TABLE_DAY + " where " +KEY_DATE+" != Date(\""+dateFormat.format(today)+"\")");
         //Cursor c = db.rawQuery("select * from "+ TABLE_DAY ,null);
 
     }
@@ -198,7 +199,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Date today = new Date();
         //Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24)*3);
 
-        db.execSQL("DELETE FROM "+ TABLE_HLT + " where " +KEY_DATE+" < Datetime(\""+dateFormat.format(today)+"\")");
+        db.execSQL("DELETE FROM "+ TABLE_HLT + " where " +KEY_DATE+" < Date(\""+dateFormat.format(today)+"\")");
         //Cursor c = db.rawQuery("select * from "+ TABLE_DAY ,null);
 
     }
@@ -211,7 +212,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Date today = new Date();
         //Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24)*3);
 
-        db.execSQL("DELETE FROM "+ TABLE_HHOT + " where " +KEY_DATE+" < Datetime(\""+dateFormat.format(today)+"\")");
+        db.execSQL("DELETE FROM "+ TABLE_HHOT + " where " +KEY_DATE+" < Date(\""+dateFormat.format(today)+"\")");
         //Cursor c = db.rawQuery("select * from "+ TABLE_DAY ,null);
 
     }
@@ -224,7 +225,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Date today = new Date();
         //Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24)*3);
 
-        db.execSQL("DELETE FROM "+ TABLE_SUN + " where " +KEY_DATE+" < Datetime(\""+dateFormat.format(today)+"\")");
+        db.execSQL("DELETE FROM "+ TABLE_SUN + " where " +KEY_DATE+" < Date(\""+dateFormat.format(today)+"\")");
         //Cursor c = db.rawQuery("select * from "+ TABLE_DAY ,null);
 
     }
@@ -237,9 +238,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Date today = new Date();
         //Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24)*3);
 
-        db.execSQL("DELETE FROM "+ TABLE_MOON + " where " +KEY_DATE+" < Datetime(\""+dateFormat.format(today)+"\")");
+        db.execSQL("DELETE FROM "+ TABLE_MOON + " where " +KEY_DATE+" < Date(\""+dateFormat.format(today)+"\")");
         //Cursor c = db.rawQuery("select * from "+ TABLE_DAY ,null);
 
+    }
+
+    public synchronized void checkDay() {
+        Log.d(TAG, "(checkDay)Thread name=: " +Thread.currentThread().getName());
+        SQLiteDatabase db = this.getReadableDatabase();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date today = new Date();
+        //Date tomorrow = new Date(today.getTime() + (1000 * 60 * 60 * 24)*3);
+
+        String sql =
+                ("Select * FROM "+ TABLE_DAY + " where " +KEY_DATE+" = Date(\""+dateFormat.format(today)+
+                "\")");
+
+        //Log.d(TAG, "sql: " + sql);
+
+        Cursor c = db.rawQuery(sql,null);
+        //Log.d(TAG, "date_from_db: " + c);
+
+        String date_from_db = "";
+
+        if (c != null & c.getCount() >= 1){
+            c.moveToFirst();
+            date_from_db = c.getString(c.getColumnIndex(KEY_DATE));
+            Log.d(TAG, "checkDay: " + date_from_db);
+        }
+
+
+        //return todo_id;
     }
 
     public synchronized void createDay(HashMap<String, String> weatherForecast_9Days) {
@@ -432,7 +461,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         /*Cursor c =
                 db.rawQuery("select * from "+ TABLE_DAY + " where " +KEY_DATE+" > Datetime(\""+dateFormat.format(tomorrow)+"\")",null);*/
-        Cursor c = db.rawQuery("select * from "+ TABLE_DAY ,null);
+        Cursor c = db.rawQuery("select * from "+ TABLE_DAY + " order by date",null);
 
         if (c.moveToFirst()) {
             do {
@@ -473,7 +502,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 /*
         Cursor c = db.rawQuery("select * from "+ TABLE_DAY + " where " +KEY_DATE+" > Datetime(\""+dateFormat.format(tomorrow)+"\")",null);
 */
-        Cursor c = db.rawQuery("select * from "+ TABLE_HLT ,null);
+        Cursor c = db.rawQuery("select * from "+ TABLE_HLT + " order by date",null);
 
         if (c.moveToFirst()) {
             do {
@@ -510,7 +539,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 /*
         Cursor c = db.rawQuery("select * from "+ TABLE_DAY + " where " +KEY_DATE+" > Datetime(\""+dateFormat.format(tomorrow)+"\")",null);
 */
-        Cursor c = db.rawQuery("select * from "+ TABLE_HHOT ,null);
+        Cursor c = db.rawQuery("select * from "+ TABLE_HHOT + " order by date",null);
 
         if (c.moveToFirst()) {
             do {
@@ -543,7 +572,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 /*
         Cursor c = db.rawQuery("select * from "+ TABLE_DAY + " where " +KEY_DATE+" > Datetime(\""+dateFormat.format(tomorrow)+"\")",null);
 */
-        Cursor c = db.rawQuery("select * from "+ TABLE_SUN ,null);
+        Cursor c = db.rawQuery("select * from "+ TABLE_SUN + " order by date",null);
 
         if (c.moveToFirst()) {
             do {
@@ -573,7 +602,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 /*
         Cursor c = db.rawQuery("select * from "+ TABLE_DAY + " where " +KEY_DATE+" > Datetime(\""+dateFormat.format(tomorrow)+"\")",null);
 */
-        Cursor c = db.rawQuery("select * from "+ TABLE_MOON ,null);
+        Cursor c = db.rawQuery("select * from "+ TABLE_MOON + " order by date",null);
 
         if (c.moveToFirst()) {
             do {

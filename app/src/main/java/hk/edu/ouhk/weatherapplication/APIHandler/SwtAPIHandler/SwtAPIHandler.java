@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.JsonHandlerThread;
+import hk.edu.ouhk.weatherapplication.MainActivity;
 
 
 public class SwtAPIHandler {
@@ -23,7 +24,7 @@ public class SwtAPIHandler {
     public static JSONObject jsonObject;
 
     public SwtAPIHandler(){
-        url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+lang;
+        url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+ MainActivity.datalang;
         JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Swt");
         jsonHandlerThread.start();
         try {

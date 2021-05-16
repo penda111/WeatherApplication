@@ -37,7 +37,7 @@ public class FndAPIHandler {
             changeLang();
         }
 
-        url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+lang;
+        url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+MainActivity.datalang;
         JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Fnd");
         jsonHandlerThread.start();
         try {
@@ -158,7 +158,7 @@ public class FndAPIHandler {
 
     public static void storeDB(){
 
-       //MainActivity.db.rebuildTable_Day();
+        //MainActivity.db.rebuildTable_Day();
         for(HashMap<String, String> weatherForecast : WeatherForecast_9Days.weatherForecast_9Days){
             MainActivity.db.createDay(weatherForecast);
         }

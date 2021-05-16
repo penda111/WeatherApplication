@@ -28,6 +28,7 @@ public class DatabaseHandlerThread extends Thread {
                 MainActivity.db.getMrs();
                 break;
             case "Srs":
+                MainActivity.db.checkDay();
                 MainActivity.db.deleteOldSun();
                 //MainActivity.db.getSrs();
                 SrsAPIHandler.storeDB();

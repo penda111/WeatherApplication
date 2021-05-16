@@ -121,9 +121,9 @@ public class MainActivity extends AppCompatActivity {
     public Double longitudeGet;
 
     public SharedPreferences sharedPreferences;
-    private static boolean isEnglish;
-    public static String lang;
-    public static String datalang ;
+    private static boolean isEnglish = true;
+    public static String lang = "en";
+    public static String datalang = "en";
     public static Boolean isConnected;
 
     private boolean mToolBarNavigationListenerIsRegistered = false;
@@ -188,16 +188,6 @@ public class MainActivity extends AppCompatActivity {
             setUpLocationClient();
         }
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
-                FndAPIHandler fndAPIHandler = new FndAPIHandler();
-                WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
-                ffcWeatherAPIHandler ffc = new ffcWeatherAPIHandler();
-
-            }
-        });
         // animate the sun
         //new updateUI().execute();
         //FlwAPIHandler flwAPIHandler = new FlwAPIHandler();
@@ -223,9 +213,12 @@ public class MainActivity extends AppCompatActivity {
         //QemAPIHandler qemAPIHandler = new QemAPIHandler();
         //FeltearthquakeAPIHandler feltearthquakeAPIHandler = new FeltearthquakeAPIHandler();
 
-        //HhotAPIHandler hhotAPIHandler = new HhotAPIHandler(2021,"CCH");
-        //HltAPIHandler hltAPIHandler = new HltAPIHandler("CCH");
+        HhotAPIHandler hhotAPIHandler = new HhotAPIHandler(2021,"CCH");
+        HltAPIHandler hltAPIHandler = new HltAPIHandler("CCH");
 
+        if(! HomeFragment.isFirstTime) {
+            HomeFragment.callAPIData();
+        }
 
 
     }
@@ -315,10 +308,10 @@ public class MainActivity extends AppCompatActivity {
         }else if(ratio <= 25.0f ){
             home.setBackgroundResource(R.drawable.cloud_3);
             grass.setImageResource(R.drawable.bg_11_1);
-        } else if (ratio <= 75.0f){
+        } else if (ratio <= 85.0f){
             home.setBackgroundResource(R.drawable.cloud_5);
             grass.setImageResource(R.drawable.bg_11_1);
-        } else if (ratio <= 83.3f){
+        } else {
             home.setBackgroundResource(R.drawable.cloud_2);
             grass.setImageResource(R.drawable.bg_11_2);
         }
@@ -387,6 +380,7 @@ public class MainActivity extends AppCompatActivity {
         context.createConfigurationContext(config);
         context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
         Locale.setDefault(locale);
+        //HomeFragment.callAPIData();
     }
     public void setLocale(Context context, String languageCode) {
         Locale locale = new Locale(languageCode);
@@ -399,6 +393,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         finish();
         startActivity(intent);
+        //HomeFragment.callAPIData();
     }
 
     @Override
@@ -468,6 +463,9 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();*/
 
             //NineDaysFragment.update9day();
+            //RhrreadAPIHandler.changeLang();
+            RhrreadAPIHandler.lang = sharedPreferences.getString("DataLang",datalang);
+            HomeFragment.callAPIData();
             HomeFragment.getWeatherData();
             //HomeFragment.removeWarningIcon();
         }

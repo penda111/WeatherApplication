@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.JsonHandlerThread;
+import hk.edu.ouhk.weatherapplication.MainActivity;
 
 
 public class WarningInfoAPIHandler {
@@ -24,14 +25,14 @@ public class WarningInfoAPIHandler {
     public static JSONObject jsonObject;
 
     public WarningInfoAPIHandler(){
-        /*url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+lang;
+        url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+ MainActivity.datalang;
         JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"WarningInfo");
         jsonHandlerThread.start();
         try {
             jsonHandlerThread.join();
             //getJsonData();
         }catch (InterruptedException e){
-        }*/
+        }
 
     }
 

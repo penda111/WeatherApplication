@@ -51,6 +51,9 @@ public class HomeFragment extends Fragment{
     public static LinearLayout ll;
     static String place_1, place_2;
     public static final Object homelock = new Object();
+
+    public static boolean isFirstTime = true;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -64,7 +67,13 @@ public class HomeFragment extends Fragment{
         showDate();
         updateAllWeatherInfo();
         //setRiseSet();
+        if(isFirstTime) {
+            isFirstTime = !isFirstTime;
+            callAPIData();
+            //callData();
+        }
         getWeatherData();
+
 
         /*homeViewModel.getHumidity().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -88,17 +97,12 @@ public class HomeFragment extends Fragment{
         ((MainActivity)getActivity()).animateSun();
         ((MainActivity)getActivity()).animateMoon();
     }
-    public static void getWeatherData() {
+
+    public static void callAPIData(){
         try {
-            if(MainActivity.lang == "en"){
-                place_1 = "Yuen Long";
-                place_2 = "Yuen Long Park";
-            } else {
-                place_1 = "元朗";
-                place_2 = "元朗公園";
-            }
             Thread th = new Thread(){
                 public void run(){
+                    Log.d("HomeF", "(callAPIData)Thread name=: " +Thread.currentThread().getName());
                     RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
                     FndAPIHandler fndAPIHandler = new FndAPIHandler();
                     WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
@@ -108,13 +112,27 @@ public class HomeFragment extends Fragment{
             };
             th.start();
             th.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void getWeatherData() {
+        try {
+            if(MainActivity.lang.equals("en")){
+                place_1 = "Yuen Long";
+                place_2 = "Yuen Long Park";
+            } else {
+                place_1 = "元朗";
+                place_2 = "元朗公園";
+            }
+
                 /*RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
                 FndAPIHandler fndAPIHandler = new FndAPIHandler();
                 WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
                 ffcWeatherAPIHandler ffc = new ffcWeatherAPIHandler();
                 SrsAPIHandler srs = new SrsAPIHandler();
                 MrsAPIHandler mrs = new MrsAPIHandler();*/
-
 
                 setRainfall(place_1);
                 setCurrentTemp(place_2);
@@ -209,13 +227,16 @@ public class HomeFragment extends Fragment{
         updateWeatherInfo(R.id.windspeed, wp);
     }
     public static void setUV(){
-        TextView uvView = root.findViewById(R.id.uv);
+        TextView uvView = root.findViewById(R.id.uv_index);
+        TextView uvMsgView = root.findViewById(R.id.uv);
         if (UVindex.uvList.isEmpty()) {
+            uvView.setVisibility(View.INVISIBLE);
             uvView.setVisibility(View.INVISIBLE);
         } else {
             String uv = UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvValue") + " " +UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvDesc");
-            updateWeatherInfo(R.id.uv, R.string.uv, uv);
+            uvView.setText(uv);
             uvView.setVisibility(View.VISIBLE);
+            uvMsgView.setVisibility(View.VISIBLE);
         }
 
     }
