@@ -18,6 +18,8 @@ import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -29,6 +31,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -64,6 +67,7 @@ import hk.edu.ouhk.weatherapplication.APIHandler.WarningInfoAPIHandler.WarningIn
 import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.Warnsum;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHandler;
 
+import java.util.Date;
 import java.util.Locale;
 
 import hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastFragment;
@@ -71,7 +75,6 @@ import hk.edu.ouhk.weatherapplication.APIHandler.ffcWeatherAPIHandler.ffcWeather
 import hk.edu.ouhk.weatherapplication.ServiceHandler.Restarter;
 import hk.edu.ouhk.weatherapplication.ServiceHandler.WarningInfo_Service;
 import hk.edu.ouhk.weatherapplication.ServiceHandler.WeatherNoticeService;
-import hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastViewModel;
 import hk.edu.ouhk.weatherapplication.ui.NineDays.NineDaysFragment;
 import hk.edu.ouhk.weatherapplication.ui.home.HomeFragment;
 
@@ -110,18 +113,19 @@ public class MainActivity extends AppCompatActivity {
     private static MenuItem refresh_option;
 
     private boolean mToolBarNavigationListenerIsRegistered = false;
-
+    private int firstLaunch = 0;
     Intent mServiceIntent;
     private WeatherNoticeService weatherNoticeService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPreferences = getSharedPreferences("Setting" , MODE_PRIVATE);
+
         setLocale(this);
         lang = sharedPreferences.getString("Language", "en");
         isEnglish = sharedPreferences.getBoolean("isEnglish", true);
         datalang = sharedPreferences.getString("DataLang", "en");
-
+        firstRun();
         ConnectivityManager cm =
                 (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
@@ -225,6 +229,18 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void firstRun(){
+        SharedPreferences.Editor firstRun = getSharedPreferences("data",Context.MODE_PRIVATE).edit();
+        SharedPreferences firstBool = getSharedPreferences("data",Context.MODE_PRIVATE);
+        if((firstBool.getBoolean("firstRun",true))){
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date today = new Date();
+            firstRun.putString("firstLaunchDate", dateFormat.format(today));
+            firstRun.putBoolean("firstRun",false);
+            firstRun.apply();
+        }
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
@@ -472,12 +488,8 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (id == R.id.action_refresh){
             refresh_option.setEnabled(false);
-            ConnectivityManager cm =
-                    (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-            isConnected = activeNetwork != null &&
-                    activeNetwork.isConnectedOrConnecting();
-                    refreshUI();
+
+            refreshUI();
 
 
 
@@ -510,6 +522,12 @@ public class MainActivity extends AppCompatActivity {
 
         int currentId = nc.getCurrentDestination().getId();
         if(currentId == R.id.nav_home){
+            if(MainActivity.isNetworkAvailable(MainActivity.getContext())){
+                mrsAPIHandler = new MrsAPIHandler();
+                srsAPIHandler = new SrsAPIHandler();
+                animateSun();
+                animateMoon();
+            }
             HomeFragment.refreshHome();
             refresh_option.setEnabled(true);
         } else if (currentId == R.id.nav_local){
