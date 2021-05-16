@@ -4,6 +4,9 @@ import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -79,6 +82,7 @@ import hk.edu.ouhk.weatherapplication.APIHandler.QemAPIHandler.QemAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.SrsAPIHandler.SrsAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.SwtAPIHandler.SwtAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.WarningInfoAPIHandler.WarningInfo;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarningInfoAPIHandler.WarningInfoAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.Warnsum;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHandler;
@@ -89,6 +93,9 @@ import java.util.Locale;
 import java.util.Map;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.ffcWeatherAPIHandler.ffcWeatherAPIHandler;
+import hk.edu.ouhk.weatherapplication.ServiceHandler.Restarter;
+import hk.edu.ouhk.weatherapplication.ServiceHandler.WarningInfo_Service;
+import hk.edu.ouhk.weatherapplication.ServiceHandler.WeatherNoticeService;
 import hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastViewModel;
 import hk.edu.ouhk.weatherapplication.ui.NineDays.NineDaysFragment;
 import hk.edu.ouhk.weatherapplication.ui.gallery.GalleryFragment;
@@ -127,6 +134,9 @@ public class MainActivity extends AppCompatActivity {
     public static Boolean isConnected;
 
     private boolean mToolBarNavigationListenerIsRegistered = false;
+
+    Intent mServiceIntent;
+    private WeatherNoticeService weatherNoticeService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,7 +230,38 @@ public class MainActivity extends AppCompatActivity {
             HomeFragment.callAPIData();
         }
 
+        //startService(new Intent(this, WeatherNoticeService.class));
 
+        weatherNoticeService = new WeatherNoticeService();
+        mServiceIntent = new Intent(this, weatherNoticeService.getClass());
+        if (!isMyServiceRunning(weatherNoticeService.getClass())) {
+            startService(mServiceIntent);
+        }
+
+
+
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                Log.i ("Service status", "Running");
+                return true;
+            }
+        }
+        Log.i ("Service status", "Not running");
+        return false;
+    }
+
+    @Override
+    protected void onDestroy() {
+        //stopService(mServiceIntent);
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction("restartservice");
+        broadcastIntent.setClass(this, Restarter.class);
+        this.sendBroadcast(broadcastIntent);
+        super.onDestroy();
     }
 
     public boolean checkPermission() {

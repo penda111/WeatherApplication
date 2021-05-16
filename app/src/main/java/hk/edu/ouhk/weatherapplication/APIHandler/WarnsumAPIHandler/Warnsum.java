@@ -16,7 +16,7 @@ public class Warnsum {
     public static String ICONID = "iconid";
 
     public static ArrayList<HashMap<String, String>> warnsumList = new ArrayList<>();
-    private static HashMap<String, String> iconMap = new HashMap<>();
+    public static HashMap<String, String> iconMap = new HashMap<>();
 
     // Creates and add contact to contact list
     public static void addWarnsumData(String name, String code,String type, String actionCode, String issueTime, String expireTime, String updateTime) {
