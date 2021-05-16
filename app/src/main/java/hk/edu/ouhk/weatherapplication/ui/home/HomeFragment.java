@@ -24,6 +24,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import hk.edu.ouhk.weatherapplication.APIHandler.Database.DatabaseHelper;
 import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.FndAPIHandler;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.MrsAPIHandler.Mrs;
@@ -143,6 +144,7 @@ public class HomeFragment extends Fragment{
                 setCurrentTemp(place_2);
                 addWarningIcon();
                 setffcdata();
+                getTodayTemp();
                 setHumidity();
                 setRiseSet();
                 setUV();
@@ -234,8 +236,8 @@ public class HomeFragment extends Fragment{
             max = ffcWeather.ffcList.get(0).get("temp_max").substring(0, 4);
             wp = ffcWeather.ffcList.get(0).get("speed");
         }
-        updateWeatherInfo(R.id.temp_high,  max, R.string.celsius);
-        updateWeatherInfo(R.id.temp_low, min, R.string.celsius);
+        //updateWeatherInfo(R.id.temp_high,  max, R.string.celsius);
+        //updateWeatherInfo(R.id.temp_low, min, R.string.celsius);
         updateWeatherInfo(R.id.windspeed, wp);
     }
     public static void setUV(){
@@ -329,6 +331,23 @@ public class HomeFragment extends Fragment{
         } catch(Exception e){
             e.printStackTrace();
         }
+    }
+    public static void getTodayTemp(){
+        String max = "";
+        String min = "";
+        String psr = "";
+        DatabaseHelper dbh = new DatabaseHelper(MainActivity.getContext());
+        HashMap<String, String> ttmap = dbh.getDay().get(0);
+/*        Log.d("QQQQ", ""+today + "/"+ttmap.get("forecastDate"));
+        Log.d("QQQQ", ""+ttmap);*/
+        if(today.equals(ttmap.get("forecastDate"))){
+            max = ttmap.get("forecastMaxtempValue");
+            min = ttmap.get("forecastMintempValue");
+            psr = ttmap.get("PSR");
+        }
+        updateWeatherInfo(R.id.temp_high,  max, R.string.celsius);
+        updateWeatherInfo(R.id.temp_low, min, R.string.celsius);
+        updateWeatherInfo(R.id.rainingchance, psr);
     }
 
 
