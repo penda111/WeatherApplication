@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
         HhotAPIHandler hhotAPIHandler = new HhotAPIHandler(2021,"CCH");
         HltAPIHandler hltAPIHandler = new HltAPIHandler("CCH");
 
-        if(! HomeFragment.isFirstTime) {
+        if(! HomeFragment.isFirstime) {
             HomeFragment.callAPIData();
         }
 
@@ -407,16 +407,7 @@ public class MainActivity extends AppCompatActivity {
         dialog.setMessage("Selected Item: " + String.valueOf(id));
         AlertDialog ad = dialog.create();
         ad.show();*/
-        float ratio;
-        if(id == R.id.action_settings){
-            ratio = 78.0f;
-            changeBackground(ratio);
-            changeToolbarColor(ratio);
-        }
-        else if (id == R.id.action_language) {
-            /*ratio = 25.0f;
-            changeBackground(ratio);
-            changeToolbarColor(ratio);*/
+        if (id == R.id.action_language) {
             if(!isEnglish){
                 isEnglish = !isEnglish;
                 lang = "en";
@@ -428,10 +419,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
         else if (id == R.id.action_language_2) {
-            /*ratio = 25.0f;
-            changeBackground(ratio);
-            changeToolbarColor(ratio);*/
-            //setLocale(lang);
             if(isEnglish) {
                 isEnglish = !isEnglish;
                 lang = "zh";
@@ -440,11 +427,6 @@ public class MainActivity extends AppCompatActivity {
                 setLocale(this, sharedPreferences.getString("Language", lang));
             }
 
-        }
-        else if (id == R.id.action_test){
-            ratio = 85.0f;
-            changeBackground(ratio);
-            changeToolbarColor(ratio);
         }
         else if (id == R.id.action_about){
             StringBuilder sb = new StringBuilder();
@@ -458,18 +440,10 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
         }
         else if (id == R.id.action_refresh){
-            /*AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.this);
-            dialog.setTitle("Refresh Option");
-            dialog.setMessage("Refresh weather information method invoked here");
-            dialog.show();*/
-
-            //NineDaysFragment.update9day();
-
            NavHostFragment navHostFragment =
                     (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
            NavController nc = navHostFragment.getNavController();
            int currentId = nc.getCurrentDestination().getId();
-
         if(currentId == R.id.nav_home){
             HomeFragment.refreshHome();
         } else if (currentId == R.id.nav_local){

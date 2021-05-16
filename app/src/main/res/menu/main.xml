@@ -9,29 +9,29 @@
         android:title="Refresh"
         app:showAsAction="always"
         />
-    <item
+<!--    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never"
-        />
+        />-->
     <item
         android:id="@+id/action_language"
         android:orderInCategory="101"
-        android:title="English"
+        android:title="Switch to English"
         app:showAsAction="never"
         />
     <item
         android:id="@+id/action_language_2"
         android:orderInCategory="101"
-        android:title="中文"
+        android:title="切換中文"
         app:showAsAction="never"
         />
-    <item
+<!--    <item
         android:id="@+id/action_test"
         android:orderInCategory="102"
         android:title="Test"
-        app:showAsAction="never"/>
+        app:showAsAction="never"/>-->
     <item
         android:id="@+id/action_about"
         android:orderInCategory="103"
