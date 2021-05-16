@@ -36,6 +36,7 @@ import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.Temperature;
 import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.UVindex;
 import hk.edu.ouhk.weatherapplication.APIHandler.SrsAPIHandler.Srs;
 import hk.edu.ouhk.weatherapplication.APIHandler.SrsAPIHandler.SrsAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.WarningInfoAPIHandler.WarningInfoAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.Warnsum;
 import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.ffcWeatherAPIHandler.ffcWeather;
@@ -100,19 +101,21 @@ public class HomeFragment extends Fragment{
         callAPIData();
         getWeatherData();
     }
-    public static void callAPIData(){
-        if(MainActivity.isNetworkAvailable(MainActivity.getContext())) {
-            Thread th = new Thread() {
-                public void run() {
-                    RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
-                    FndAPIHandler fndAPIHandler = new FndAPIHandler();
-                    WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
-                    ffcWeatherAPIHandler ffc = new ffcWeatherAPIHandler();
-
-                }
-            };
-            th.start();
+    public static void callAPIData() {
+        if (MainActivity.isNetworkAvailable(MainActivity.getContext())) {
             try {
+                Thread th = new Thread() {
+                    public void run() {
+                        Log.d("HomeF", "(callAPIData)Thread name=: " + Thread.currentThread().getName());
+                        WarningInfoAPIHandler warningInfoAPIHandler = new WarningInfoAPIHandler();
+                        RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
+                        FndAPIHandler fndAPIHandler = new FndAPIHandler();
+                        WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
+                        ffcWeatherAPIHandler ffc = new ffcWeatherAPIHandler();
+
+                    }
+                };
+                th.start();
                 th.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();

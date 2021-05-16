@@ -1,4 +1,4 @@
-package hk.edu.ouhk.weatherapplication.APIHandler.WarningInfoAPIHandler;
+package hk.edu.ouhk.weatherapplication.ServiceHandler;
 
 import android.content.Context;
 import android.util.Log;
@@ -12,21 +12,26 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.JsonHandlerThread;
+import hk.edu.ouhk.weatherapplication.APIHandler.WarningInfoAPIHandler.WarningInfo;
 import hk.edu.ouhk.weatherapplication.MainActivity;
 
 
-public class WarningInfoAPIHandler {
+public class WarningInfoAPIHandler_Service {
 
-    private static final String TAG = "WarningInfoAPIHandler";
+    private static final String TAG = "WarningInfoAPIHandler_Service";
     private static final String DATATYPE = "warningInfo";
     private static String lang = "tc";
 
     private String url;
     public static JSONObject jsonObject;
 
-    public WarningInfoAPIHandler(){
+    public WarningInfoAPIHandler_Service(){
+
+    }
+
+    public void sendURL(){
         url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+ MainActivity.datalang;
-        JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"WarningInfo");
+        JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"WarningInfo_Service");
         jsonHandlerThread.start();
         try {
             jsonHandlerThread.join();
@@ -34,7 +39,6 @@ public class WarningInfoAPIHandler {
         }catch (InterruptedException e){
         }
     }
-
 
     public void loadJSONFromAsset(Context context) {
         String json = null;
@@ -64,17 +68,17 @@ public class WarningInfoAPIHandler {
             getWarningInfoJson();
         }
 
-        Log.d(TAG, "getJsonData(): "+ WarningInfo.warningInfoList);
+        Log.d(TAG, "getJsonData(): "+ WarningInfo_Service.warningInfoList_Service);
 
     }
 
     public static void getWarningInfoJson(){
         try {
             //Log.d(TAG, "(getRainfallJson)Thread name=: " +Thread.currentThread().getName());
-            WarningInfo.warningInfoList.clear();
-
             String subtype = null;
             JSONArray details = jsonObject.getJSONArray("details");
+
+            WarningInfo_Service.warningInfoList_Service.clear();
 
             for (int i = 0; i < details.length(); i++) {
                 JSONObject c = details.getJSONObject(i);
@@ -93,8 +97,7 @@ public class WarningInfoAPIHandler {
                 }
                 String updateTime = c.getString("updateTime");
 
-                WarningInfo.addWarningInfoData(contentsArrayList, warningStatementCode, subtype, updateTime);
-
+                WarningInfo_Service.addWarningInfoData_Service(contentsArrayList, warningStatementCode, subtype, updateTime);
             }
         }catch (final JSONException e ) {
             Log.e(TAG, "Json parsing error: " + e.getMessage());
