@@ -73,6 +73,7 @@ public class HomeFragment extends Fragment{
         }
         getWeatherData();
 
+
         /*homeViewModel.getHumidity().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -131,7 +132,6 @@ public class HomeFragment extends Fragment{
                 ffcWeatherAPIHandler ffc = new ffcWeatherAPIHandler();
                 SrsAPIHandler srs = new SrsAPIHandler();
                 MrsAPIHandler mrs = new MrsAPIHandler();*/
-
 
                 setRainfall(place_1);
                 setCurrentTemp(place_2);

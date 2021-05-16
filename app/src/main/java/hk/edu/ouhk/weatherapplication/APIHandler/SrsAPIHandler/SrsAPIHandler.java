@@ -39,7 +39,7 @@ public class SrsAPIHandler {
         List<String> todayDate = getTodayDate();
         String year = todayDate.get(2);
 
-        url = "https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType="+DATATYPE+"&lang="+lang+"&rformat="+FORMAT+"&year="+year;
+        url = "https://data.weather.gov.hk/weatherAPI/opendata/opendata.php?dataType="+DATATYPE+"&lang="+MainActivity.datalang+"&rformat="+FORMAT+"&year="+year;
 
         JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Srs");
         jsonHandlerThread.start();

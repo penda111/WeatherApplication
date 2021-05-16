@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.JsonHandlerThread;
+import hk.edu.ouhk.weatherapplication.MainActivity;
 
 
 public class QemAPIHandler {
@@ -22,7 +23,7 @@ public class QemAPIHandler {
     public static JSONObject jsonObject;
 
     public QemAPIHandler(){
-        url = "https://data.weather.gov.hk/weatherAPI/opendata/earthquake.php?dataType="+DATATYPE+"&lang="+lang;
+        url = "https://data.weather.gov.hk/weatherAPI/opendata/earthquake.php?dataType="+DATATYPE+"&lang="+ MainActivity.datalang;
         JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Qem");
         jsonHandlerThread.start();
         try {

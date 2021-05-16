@@ -17,7 +17,7 @@ public class RhrreadAPIHandler {
 
     private static final String TAG = "RhrreadAPIHandler";
     private static final String DATATYPE = "rhrread";
-    private static String lang = "tc";
+    public static String lang = "tc";
 
     public static ArrayList<String> iconList = new ArrayList<>();
     public static ArrayList<String> warningMessageList = new ArrayList<>();
@@ -279,7 +279,7 @@ public class RhrreadAPIHandler {
         }
     }
 
-    public void changeLang(){
+    public static void changeLang(){
         if(lang.equals("tc")){
             lang = "en";
         }else{

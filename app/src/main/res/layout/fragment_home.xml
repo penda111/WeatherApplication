@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_home"
-    android:tag="home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -38,6 +37,38 @@
         app:layout_constraintBottom_toTopOf="@+id/weather_info">
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/moonView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxWidth="100dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/fullmoon"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/grass"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.716"/>
+
+    <ImageView
+        android:id="@+id/sunView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:maxWidth="100dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/sun4"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/grass"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.716"/>
 
     <LinearLayout
         android:id="@+id/weather_info"
@@ -363,37 +394,7 @@
 
     </LinearLayout>-->
 
-    <ImageView
-        android:id="@+id/moonView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:maxWidth="100dp"
-        android:scaleType="fitStart"
-        android:src="@drawable/fullmoon"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/grass"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.716"/>
 
-    <ImageView
-        android:id="@+id/sunView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:maxWidth="100dp"
-        android:scaleType="fitStart"
-        android:src="@drawable/sun4"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/grass"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.716"/>
 
     <ImageView
         android:id="@+id/grass"
