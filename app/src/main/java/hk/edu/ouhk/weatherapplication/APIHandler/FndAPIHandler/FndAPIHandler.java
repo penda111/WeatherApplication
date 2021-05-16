@@ -32,12 +32,8 @@ public class FndAPIHandler {
     public static JSONObject jsonObject;
 
     public FndAPIHandler(){
-        if(lang != MainActivity.datalang){
-            Log.d("System lang", MainActivity.datalang);
-            changeLang();
-        }
 
-        url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+lang;
+        url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+MainActivity.datalang;
         JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Fnd");
         jsonHandlerThread.start();
         try {

@@ -51,6 +51,9 @@ public class HomeFragment extends Fragment{
     public static LinearLayout ll;
     static String place_1, place_2;
     public static final Object homelock = new Object();
+
+    public static boolean isFirstime = true;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -64,6 +67,10 @@ public class HomeFragment extends Fragment{
         showDate();
         updateAllWeatherInfo();
         //setRiseSet();
+        if(isFirstime){
+            isFirstime = !isFirstime;
+            callAPIData();
+        }
         getWeatherData();
 
         /*homeViewModel.getHumidity().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -81,6 +88,27 @@ public class HomeFragment extends Fragment{
 
         return root;
     }
+    public static void refreshHome(){
+        callAPIData();
+        getWeatherData();
+    }
+    public static void callAPIData(){
+        Thread th = new Thread(){
+            public void run(){
+                RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
+                FndAPIHandler fndAPIHandler = new FndAPIHandler();
+                WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
+                ffcWeatherAPIHandler ffc = new ffcWeatherAPIHandler();
+
+            }
+        };
+        th.start();
+        try {
+            th.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -90,24 +118,13 @@ public class HomeFragment extends Fragment{
     }
     public static void getWeatherData() {
         try {
-            if(MainActivity.lang == "en"){
+            if(MainActivity.lang.equals("en")){
                 place_1 = "Yuen Long";
                 place_2 = "Yuen Long Park";
             } else {
                 place_1 = "元朗";
                 place_2 = "元朗公園";
             }
-            Thread th = new Thread(){
-                public void run(){
-                    RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
-                    FndAPIHandler fndAPIHandler = new FndAPIHandler();
-                    WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
-                    ffcWeatherAPIHandler ffc = new ffcWeatherAPIHandler();
-
-                }
-            };
-            th.start();
-            th.join();
                 /*RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
                 FndAPIHandler fndAPIHandler = new FndAPIHandler();
                 WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
@@ -209,12 +226,15 @@ public class HomeFragment extends Fragment{
         updateWeatherInfo(R.id.windspeed, wp);
     }
     public static void setUV(){
-        TextView uvView = root.findViewById(R.id.uv);
+        TextView uvView = root.findViewById(R.id.uv_index);
+        TextView uvMsgView = root.findViewById(R.id.uv);
         if (UVindex.uvList.isEmpty()) {
             uvView.setVisibility(View.INVISIBLE);
+            uvMsgView.setVisibility(View.INVISIBLE);
         } else {
             String uv = UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvValue") + " " +UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvDesc");
-            updateWeatherInfo(R.id.uv, R.string.uv, uv);
+            uvView.setText(uv);
+            uvMsgView.setVisibility(View.VISIBLE);
             uvView.setVisibility(View.VISIBLE);
         }
 

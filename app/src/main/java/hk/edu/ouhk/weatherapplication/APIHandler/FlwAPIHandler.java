@@ -27,7 +27,7 @@ public class FlwAPIHandler {
     public static JSONObject jsonObject;
 
     public FlwAPIHandler(){
-        url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+lang;
+        url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+MainActivity.datalang;
         JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Flw");
         jsonHandlerThread.start();
         try {

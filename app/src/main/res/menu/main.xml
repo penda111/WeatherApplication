@@ -18,13 +18,13 @@
     <item
         android:id="@+id/action_language"
         android:orderInCategory="101"
-        android:title="Language"
+        android:title="English"
         app:showAsAction="never"
         />
     <item
         android:id="@+id/action_language_2"
         android:orderInCategory="101"
-        android:title="Chinese"
+        android:title="中文"
         app:showAsAction="never"
         />
     <item

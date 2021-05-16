@@ -62,6 +62,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -89,6 +90,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.ffcWeatherAPIHandler.ffcWeatherAPIHandler;
+import hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastFragment;
 import hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastViewModel;
 import hk.edu.ouhk.weatherapplication.ui.NineDays.NineDaysFragment;
 import hk.edu.ouhk.weatherapplication.ui.gallery.GalleryFragment;
@@ -188,16 +190,7 @@ public class MainActivity extends AppCompatActivity {
             setUpLocationClient();
         }
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
-                FndAPIHandler fndAPIHandler = new FndAPIHandler();
-                WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
-                ffcWeatherAPIHandler ffc = new ffcWeatherAPIHandler();
-
-            }
-        });
+        HomeFragment.callAPIData();
         // animate the sun
         //new updateUI().execute();
         //FlwAPIHandler flwAPIHandler = new FlwAPIHandler();
@@ -315,10 +308,10 @@ public class MainActivity extends AppCompatActivity {
         }else if(ratio <= 25.0f ){
             home.setBackgroundResource(R.drawable.cloud_3);
             grass.setImageResource(R.drawable.bg_11_1);
-        } else if (ratio <= 75.0f){
+        } else if (ratio <= 85.0f){
             home.setBackgroundResource(R.drawable.cloud_5);
             grass.setImageResource(R.drawable.bg_11_1);
-        } else if (ratio <= 83.3f){
+        } else {
             home.setBackgroundResource(R.drawable.cloud_2);
             grass.setImageResource(R.drawable.bg_11_2);
         }
@@ -466,10 +459,21 @@ public class MainActivity extends AppCompatActivity {
             dialog.setTitle("Refresh Option");
             dialog.setMessage("Refresh weather information method invoked here");
             dialog.show();*/
-
             //NineDaysFragment.update9day();
-            HomeFragment.getWeatherData();
-            //HomeFragment.removeWarningIcon();
+
+           NavHostFragment navHostFragment =
+                    (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+           NavController nc = navHostFragment.getNavController();
+           int currentId = nc.getCurrentDestination().getId();
+
+        if(currentId == R.id.nav_home){
+            HomeFragment.refreshHome();
+        } else if (currentId == R.id.nav_local){
+            LocalForecastFragment.updateLocalForecast();
+        } else if (currentId == R.id.nav_9_day){
+            NineDaysFragment.update9day();
+        }
+
         }
             else if (id == android.R.id.home) {
             onBackPressed();
