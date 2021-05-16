@@ -1,36 +1,23 @@
 package hk.edu.ouhk.weatherapplication.ui.NineDays;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import hk.edu.ouhk.weatherapplication.APIHandler.Database.DatabaseHelper;
 import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.FndAPIHandler;
-import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHandler;
-import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHandler;
-import hk.edu.ouhk.weatherapplication.APIHandler.ffcWeatherAPIHandler.ffcWeatherAPIHandler;
 import hk.edu.ouhk.weatherapplication.MainActivity;
 import hk.edu.ouhk.weatherapplication.R;
 import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.WeatherForecast_9Days;
-import hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastViewModel;
 
 public class NineDaysFragment extends Fragment {
     private static ListView listview;
@@ -78,17 +65,17 @@ public class NineDaysFragment extends Fragment {
     }
 public static void update9day(){
     ListView listview = NineDaysFragment.root.findViewById(R.id.listView_9days);
-    callAPIData();
-/*   if(MainActivity.isConnected) {
+    //callAPIData();
+    if(MainActivity.isNetworkAvailable(MainActivity.getContext())) {
         callAPIData();
-    }*/ /* else {
+    }  else {
         DatabaseHelper dbh = new DatabaseHelper(MainActivity.getContext());
         wf9List = dbh.getDay();
         wf9List.remove(0);
-    }*/
-    DatabaseHelper dbh = new DatabaseHelper(MainActivity.getContext());
+    }
+/*    DatabaseHelper dbh = new DatabaseHelper(MainActivity.getContext());
     wf9List = dbh.getDay();
-    wf9List.remove(0);
+    wf9List.remove(0);*/
 //    WeatherForecast_9Days wf9 = new WeatherForecast_9Days();
 //    ArrayList<HashMap<String, String>> wf9List = WeatherForecast_9Days.weatherForecast_9Days;
     SimpleAdapter adapter = new SimpleAdapter(
@@ -122,13 +109,13 @@ public static void update9day(){
     listview.setAdapter(adapter);
 }
     public static void callAPIData() {
-        if (MainActivity.isConnected) {
+        if (MainActivity.isNetworkAvailable(MainActivity.getContext())) {
             Thread th = new Thread() {
                 public void run() {
                     FndAPIHandler fnd = new FndAPIHandler();
 
-                    //WeatherForecast_9Days wf9 = new WeatherForecast_9Days();
-                    //wf9List = WeatherForecast_9Days.weatherForecast_9Days;
+                    WeatherForecast_9Days wf9 = new WeatherForecast_9Days();
+                    wf9List = WeatherForecast_9Days.weatherForecast_9Days;
                 }
             };
             th.start();

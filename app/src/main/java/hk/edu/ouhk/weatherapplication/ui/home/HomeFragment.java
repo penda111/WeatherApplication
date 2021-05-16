@@ -52,6 +52,10 @@ public class HomeFragment extends Fragment{
     public static LinearLayout ll;
     static String place_1, place_2;
     public static final Object homelock = new Object();
+    public static String todayMax;
+    public static String todayMin;
+    public static String todayPSR;
+
 
     public static boolean isFirstime = true;
 
@@ -68,7 +72,7 @@ public class HomeFragment extends Fragment{
 
         //updateAllWeatherInfo();
         //setRiseSet();
-        if(MainActivity.isConnected) {
+        if(MainActivity.isNetworkAvailable(MainActivity.getContext())) {
             if (isFirstime) {
                 isFirstime = !isFirstime;
                 callAPIData();
@@ -97,7 +101,7 @@ public class HomeFragment extends Fragment{
         getWeatherData();
     }
     public static void callAPIData(){
-        if(MainActivity.isConnected) {
+        if(MainActivity.isNetworkAvailable(MainActivity.getContext())) {
             Thread th = new Thread() {
                 public void run() {
                     RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
@@ -119,7 +123,7 @@ public class HomeFragment extends Fragment{
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         //Code executes EVERY TIME user views the fragment
-        if(MainActivity.isConnected) {
+        if(MainActivity.isNetworkAvailable(MainActivity.getContext())) {
             ((MainActivity) getActivity()).animateSun();
             ((MainActivity) getActivity()).animateMoon();
         }
@@ -216,7 +220,7 @@ public class HomeFragment extends Fragment{
     public static void addWarningIcon(){
         removeWarningIcon();
         LinearLayout ll = HomeFragment.ll;
-        if(MainActivity.isConnected) {
+        if(MainActivity.isNetworkAvailable(MainActivity.getContext())) {
             for (HashMap<String, String> warn : Warnsum.warnsumList) {
                 int iconId = Integer.parseInt(warn.get(Warnsum.ICONID));
                 Log.d("Warn", "" + iconId);
@@ -231,7 +235,7 @@ public class HomeFragment extends Fragment{
         String min = "";
         String max = "";
         String wp = "";
-        if(MainActivity.isConnected) {
+        if(MainActivity.isNetworkAvailable(MainActivity.getContext())) {
             min = ffcWeather.ffcList.get(0).get("temp_min").substring(0, 4);
             max = ffcWeather.ffcList.get(0).get("temp_max").substring(0, 4);
             wp = ffcWeather.ffcList.get(0).get("speed");
@@ -248,7 +252,7 @@ public class HomeFragment extends Fragment{
             uvView.setVisibility(View.INVISIBLE);
             uvMsgView.setVisibility(View.INVISIBLE);
         } else {
-            if (MainActivity.isConnected) {
+            if (MainActivity.isNetworkAvailable(MainActivity.getContext())) {
                 uv = UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvValue") + " " + UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvDesc");
             }
             uvView.setText(uv);
@@ -259,7 +263,7 @@ public class HomeFragment extends Fragment{
     }
     public static void setHumidity(){
         String humidityValue = "";
-        if(MainActivity.isConnected) {
+        if(MainActivity.isNetworkAvailable(MainActivity.getContext())) {
             humidityValue = Humidity.humidityList.get(Humidity.humidityList.size() - 1).get("humidityValue");
         }
         updateWeatherInfo(R.id.humidity, humidityValue, R.string.percentage);
@@ -267,7 +271,7 @@ public class HomeFragment extends Fragment{
     public static void setRainfall(String place){
         String rainfallValue = "0";
         View rain = HomeFragment.root.findViewById(R.id.rain_gif);
-        if(MainActivity.isConnected) {
+        if(MainActivity.isNetworkAvailable(MainActivity.getContext())) {
             for (HashMap<String, String> rf : Rainfall.rainfallList) {
 
                 if (rf.get("place").equals(place)) {
@@ -301,9 +305,9 @@ public class HomeFragment extends Fragment{
         try {
             ArrayList<HashMap<String, String>> sunList;
             ArrayList<HashMap<String, String>> moonList;
-            Log.d("NETWORK", ""+MainActivity.isConnected);
+            Log.d("NETWORK", ""+MainActivity.isNetworkAvailable(MainActivity.getContext()));
             Log.d("NETWORK", today);
-            if(!MainActivity.isConnected){
+            if(!MainActivity.isNetworkAvailable(MainActivity.getContext())){
                 sunList = MainActivity.db.getSrs();
                 moonList = MainActivity.db.getMrs();
             } else {
@@ -345,9 +349,32 @@ public class HomeFragment extends Fragment{
             min = ttmap.get("forecastMintempValue");
             psr = ttmap.get("PSR");
         }
-        updateWeatherInfo(R.id.temp_high,  max, R.string.celsius);
-        updateWeatherInfo(R.id.temp_low, min, R.string.celsius);
-        updateWeatherInfo(R.id.rainingchance, psr);
+        if(MainActivity.lang.equals("en")){
+            switch (psr) {
+                case "低":
+                    psr = "Low";
+                    break;
+                case "中低":
+                    psr = "Medium Low";
+                    break;
+                case "中":
+                    psr = "Medium";
+                    break;
+                case "中高":
+                    psr = "Medium High";
+                    break;
+                case "高":
+                    psr = "High";
+                    break;
+
+            }
+        }
+        todayMax = max;
+        todayMin = min;
+        todayPSR = psr;
+        updateWeatherInfo(R.id.temp_high,  todayMax, R.string.celsius);
+        updateWeatherInfo(R.id.temp_low, todayMin, R.string.celsius);
+        updateWeatherInfo(R.id.rainingchance, todayPSR);
     }
 
 

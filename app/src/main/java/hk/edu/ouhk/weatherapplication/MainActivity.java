@@ -3,46 +3,32 @@ package hk.edu.ouhk.weatherapplication;
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -55,11 +41,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -67,32 +48,16 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.navigation.NavigationView;
-
 import hk.edu.ouhk.weatherapplication.APIHandler.Database.DatabaseHelper;
-import hk.edu.ouhk.weatherapplication.APIHandler.FeltearthquakeAPIHandler.FeltearthquakeAPIHandler;
-import hk.edu.ouhk.weatherapplication.APIHandler.FlwAPIHandler;
-import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.FndAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.HhotAPIHandler.HhotAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.HltAPIHandler.HltAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.MoonPhase;
 import hk.edu.ouhk.weatherapplication.APIHandler.MrsAPIHandler.MrsAPIHandler;
-import hk.edu.ouhk.weatherapplication.APIHandler.QemAPIHandler.QemAPIHandler;
-import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHandler;
 import hk.edu.ouhk.weatherapplication.APIHandler.SrsAPIHandler.SrsAPIHandler;
-import hk.edu.ouhk.weatherapplication.APIHandler.SwtAPIHandler.SwtAPIHandler;
-import hk.edu.ouhk.weatherapplication.APIHandler.WarningInfoAPIHandler.WarningInfoAPIHandler;
-import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.Warnsum;
-import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHandler;
 
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
-import hk.edu.ouhk.weatherapplication.APIHandler.ffcWeatherAPIHandler.ffcWeatherAPIHandler;
 import hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastFragment;
-import hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastViewModel;
 import hk.edu.ouhk.weatherapplication.ui.NineDays.NineDaysFragment;
 import hk.edu.ouhk.weatherapplication.ui.home.HomeFragment;
 
@@ -156,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
 /*
         db = new DatabaseHelper(mContext);
-        if(MainActivity.isConnected) {
+        if(MainActivity.isNetworkAvailable(MainActivity.getContext())) {
             mrsAPIHandler = new MrsAPIHandler();
             srsAPIHandler = new SrsAPIHandler();
         }*/
@@ -185,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
         db = new DatabaseHelper(mContext);
-        if(MainActivity.isConnected) {
+        if(MainActivity.isNetworkAvailable(MainActivity.getContext())) {
             mrsAPIHandler = new MrsAPIHandler();
             srsAPIHandler = new SrsAPIHandler();
         }
@@ -225,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
         //QemAPIHandler qemAPIHandler = new QemAPIHandler();
         //FeltearthquakeAPIHandler feltearthquakeAPIHandler = new FeltearthquakeAPIHandler();
-        if(MainActivity.isConnected) {
+        if(MainActivity.isNetworkAvailable(MainActivity.getContext())) {
             HhotAPIHandler hhotAPIHandler = new HhotAPIHandler(2021, "CCH");
             HltAPIHandler hltAPIHandler = new HltAPIHandler("CCH");
         }
@@ -237,8 +202,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Return isConnected
-    public static boolean checkIsConnected(){
-        return isConnected;
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = ((ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }
 
     public boolean checkPermission() {
@@ -534,7 +500,10 @@ public class MainActivity extends AppCompatActivity {
             //SrsAPIHandler srsAPIHandler = new SrsAPIHandler();
 
             //float percentage = srsAPIHandler.calSunTimePass();
-            float percentage = srsAPIHandler.calSunTimePass();
+            float percentage = 0.0f;
+            if(MainActivity.isNetworkAvailable(MainActivity.getContext())) {
+                percentage = srsAPIHandler.calSunTimePass();
+            }
             Log.d("AsyncTask", "doInBackground: "+percentage);
 
 
@@ -612,7 +581,10 @@ public class MainActivity extends AppCompatActivity {
             //MrsAPIHandler mrsAPIHandler = new MrsAPIHandler();
 
             //float percentage = srsAPIHandler.calSunTimePass();
-            float percentage = mrsAPIHandler.calMoonTimePass();
+            float percentage = 0.0f;
+            if(MainActivity.isNetworkAvailable(MainActivity.getContext())) {
+                percentage = mrsAPIHandler.calMoonTimePass();
+            }
             Log.d("AsyncTask", "doInBackground: "+percentage);
 
             //float percentage = -1.0f; // initialize to your desired percentage

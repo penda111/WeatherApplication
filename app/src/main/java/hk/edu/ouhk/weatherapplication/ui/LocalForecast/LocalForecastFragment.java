@@ -23,7 +23,7 @@ import hk.edu.ouhk.weatherapplication.R;
 
 
 public class LocalForecastFragment extends Fragment{
-    private LocalForecastViewModel lfvm;
+
     public static String generalSituation = "";
     public static String forecastPeriod = "";
     public static String forecastDesc= "";
@@ -49,7 +49,7 @@ public class LocalForecastFragment extends Fragment{
 public static void updateLocalForecast(){
     TextView textView = LocalForecastFragment.root.findViewById(R.id.text_localforecast);
     String msg = "";
-    if(MainActivity.isConnected) {
+    if(MainActivity.isNetworkAvailable(MainActivity.getContext())) {
         FlwAPIHandler flwAPIHandler = new FlwAPIHandler();
         generalSituation = FlwAPIHandler.generalSituation;
         forecastPeriod = FlwAPIHandler.forecastPeriod;
