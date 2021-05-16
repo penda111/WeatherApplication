@@ -44,21 +44,7 @@ public class FndAPIHandler {
         }catch (InterruptedException e){
         }
     }
-    public FndAPIHandler(String datalang){
-        if(lang != MainActivity.datalang){
-            Log.d("System lang", MainActivity.datalang);
-            changeLang();
-        }
 
-        url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+datalang;
-        JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Fnd");
-        jsonHandlerThread.start();
-        try {
-            jsonHandlerThread.join();
-            //getJsonData();
-        }catch (InterruptedException e){
-        }
-    }
 
 
     public static void getJsonData(){
@@ -154,10 +140,11 @@ public class FndAPIHandler {
 
     public static void storeDB(){
 
-        //MainActivity.db.rebuildTable_Day();
-        for(HashMap<String, String> weatherForecast : WeatherForecast_9Days.weatherForecast_9Days){
-            MainActivity.db.createDay(weatherForecast);
-        }
+            //MainActivity.db.rebuildTable_Day();
+            for (HashMap<String, String> weatherForecast : WeatherForecast_9Days.weatherForecast_9Days) {
+                MainActivity.db.createDay(weatherForecast);
+            }
+
     }
 
 

@@ -12,7 +12,7 @@ import hk.edu.ouhk.weatherapplication.R;
 public class LocalForecastViewModel extends ViewModel{
     private MutableLiveData<String> mText;
 
-    public LocalForecastViewModel(){
+/*    public LocalForecastViewModel(){
         mText = new MutableLiveData<>();
         FlwAPIHandler flwAPIHandler = new FlwAPIHandler();
         StringBuilder sb = new StringBuilder();
@@ -35,7 +35,7 @@ public class LocalForecastViewModel extends ViewModel{
             mText = new MutableLiveData<>();
         }
         return mText;
-    }
+    }*/
 }
 
 

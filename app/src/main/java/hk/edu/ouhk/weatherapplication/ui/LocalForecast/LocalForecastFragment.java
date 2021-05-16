@@ -24,6 +24,10 @@ import hk.edu.ouhk.weatherapplication.R;
 
 public class LocalForecastFragment extends Fragment{
     private LocalForecastViewModel lfvm;
+    public static String generalSituation = "";
+    public static String forecastPeriod = "";
+    public static String forecastDesc= "";
+    public static String updateTime = "";
 
     public static View root;
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -44,21 +48,44 @@ public class LocalForecastFragment extends Fragment{
     }
 public static void updateLocalForecast(){
     TextView textView = LocalForecastFragment.root.findViewById(R.id.text_localforecast);
-    FlwAPIHandler flwAPIHandler = new FlwAPIHandler(MainActivity.datalang);
-    StringBuilder sb = new StringBuilder();
-    String generalSituation = FlwAPIHandler.generalSituation;
-    String forecastPeriod = FlwAPIHandler.forecastPeriod;
-    String forecastDesc = FlwAPIHandler.forecastDesc;
-    String updateTime = FlwAPIHandler.updateTime.substring(0,10) + " " + FlwAPIHandler.updateTime.substring(11,16);
-    sb.append("\n");
-    sb.append(generalSituation);
-    sb.append("\n" + "\n");
-    sb.append(forecastPeriod);
-    sb.append("\n" + "\n");
-    sb.append(forecastDesc);
-    sb.append("\n\n" );
-    sb.append(updateTime);
-    textView.setText(sb.toString());
+    String msg = "";
+    if(MainActivity.isConnected) {
+        FlwAPIHandler flwAPIHandler = new FlwAPIHandler();
+        generalSituation = FlwAPIHandler.generalSituation;
+        forecastPeriod = FlwAPIHandler.forecastPeriod;
+        forecastDesc = FlwAPIHandler.forecastDesc;
+        updateTime = FlwAPIHandler.updateTime.substring(0, 10) + " " + FlwAPIHandler.updateTime.substring(11, 16);
+/*        sb.append("\n");
+        sb.append(generalSituation);
+        sb.append("\n" + "\n");
+        sb.append(forecastPeriod);
+        sb.append("\n" + "\n");
+        sb.append(forecastDesc);
+        sb.append("\n\n");
+        sb.append(updateTime);*/
+    } else {
+        if(MainActivity.lang.equals("en")){
+            msg = "\n" + "Require network connection to update" + "\n" + "Please switch on Wifi or Mobile network" + "\n";
+        } else {
+            msg = "\n" + "需求網絡以作更新" + "\n" + "請打開無線或流動網絡" + "\n";
+        }
+
+    }
+
+    textView.setText(msg + getString());
+    }
+
+    public static String getString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n");
+        sb.append(generalSituation);
+        sb.append("\n" + "\n");
+        sb.append(forecastPeriod);
+        sb.append("\n" + "\n");
+        sb.append(forecastDesc);
+        sb.append("\n\n");
+        sb.append(updateTime);
+        return sb.toString();
     }
 }
 

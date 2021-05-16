@@ -57,19 +57,21 @@ public class HomeFragment extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
+/*        homeViewModel =
+                new ViewModelProvider(this).get(HomeViewModel.class);*/
         root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.temp_high);
+//        final TextView textView = root.findViewById(R.id.temp_high);
         ll = root.findViewById(R.id.warning);
 
-
         showDate();
-        updateAllWeatherInfo();
+
+        //updateAllWeatherInfo();
         //setRiseSet();
-        if(isFirstime){
-            isFirstime = !isFirstime;
-            callAPIData();
+        if(MainActivity.isConnected) {
+            if (isFirstime) {
+                isFirstime = !isFirstime;
+                callAPIData();
+            }
         }
         getWeatherData();
 
@@ -94,28 +96,32 @@ public class HomeFragment extends Fragment{
         getWeatherData();
     }
     public static void callAPIData(){
-        Thread th = new Thread(){
-            public void run(){
-                RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
-                FndAPIHandler fndAPIHandler = new FndAPIHandler();
-                WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
-                ffcWeatherAPIHandler ffc = new ffcWeatherAPIHandler();
+        if(MainActivity.isConnected) {
+            Thread th = new Thread() {
+                public void run() {
+                    RhrreadAPIHandler rhrreadAPIHandler = new RhrreadAPIHandler();
+                    FndAPIHandler fndAPIHandler = new FndAPIHandler();
+                    WarnsumAPIHandler warnsumAPIHandler = new WarnsumAPIHandler();
+                    ffcWeatherAPIHandler ffc = new ffcWeatherAPIHandler();
 
+                }
+            };
+            th.start();
+            try {
+                th.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        };
-        th.start();
-        try {
-            th.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         //Code executes EVERY TIME user views the fragment
-        ((MainActivity)getActivity()).animateSun();
-        ((MainActivity)getActivity()).animateMoon();
+        if(MainActivity.isConnected) {
+            ((MainActivity) getActivity()).animateSun();
+            ((MainActivity) getActivity()).animateMoon();
+        }
     }
     public static void getWeatherData() {
         try {
@@ -170,7 +176,7 @@ public class HomeFragment extends Fragment{
         //updateWeatherInfo(R.id.temp_low, "28", R.string.celsius);
         //updateWeatherInfo(R.id.current,"32", R.string.celsius);
         //updateWeatherInfo(R.id.humidity, "88", R.string.percentage);
-        updateWeatherInfo(R.id.rainingchance, "", R.string.percentage);
+        //updateWeatherInfo(R.id.rainingchance, "", R.string.percentage);
         //updateWeatherInfo(R.id.updatetime, "2021-05-14 17:30");
         //updateWeatherInfo(R.id.pastrainfall, "10", R.string.mm);
         //updateWeatherInfo(R.id.uv, R.string.uv, "2");
@@ -208,19 +214,26 @@ public class HomeFragment extends Fragment{
     public static void addWarningIcon(){
         removeWarningIcon();
         LinearLayout ll = HomeFragment.ll;
-        for(HashMap<String, String> warn : Warnsum.warnsumList){
-            int iconId = Integer.parseInt(warn.get(Warnsum.ICONID));
-            Log.d("Warn", ""+iconId);
-            ImageView ii = new ImageView(MainActivity.getContext());
-            ii.setImageResource(iconId);
-            ii.setPadding(5,0,0,0);
-            ll.addView(ii);
+        if(MainActivity.isConnected) {
+            for (HashMap<String, String> warn : Warnsum.warnsumList) {
+                int iconId = Integer.parseInt(warn.get(Warnsum.ICONID));
+                Log.d("Warn", "" + iconId);
+                ImageView ii = new ImageView(MainActivity.getContext());
+                ii.setImageResource(iconId);
+                ii.setPadding(5, 0, 0, 0);
+                ll.addView(ii);
+            }
         }
     }
     public static void setffcdata(){
-        String min = ffcWeather.ffcList.get(0).get("temp_min").substring(0,4);
-        String max = ffcWeather.ffcList.get(0).get("temp_max").substring(0,4);
-        String wp = ffcWeather.ffcList.get(0).get("speed");
+        String min = "";
+        String max = "";
+        String wp = "";
+        if(MainActivity.isConnected) {
+            min = ffcWeather.ffcList.get(0).get("temp_min").substring(0, 4);
+            max = ffcWeather.ffcList.get(0).get("temp_max").substring(0, 4);
+            wp = ffcWeather.ffcList.get(0).get("speed");
+        }
         updateWeatherInfo(R.id.temp_high,  max, R.string.celsius);
         updateWeatherInfo(R.id.temp_low, min, R.string.celsius);
         updateWeatherInfo(R.id.windspeed, wp);
@@ -228,11 +241,14 @@ public class HomeFragment extends Fragment{
     public static void setUV(){
         TextView uvView = root.findViewById(R.id.uv_index);
         TextView uvMsgView = root.findViewById(R.id.uv);
+        String uv = "";
         if (UVindex.uvList.isEmpty()) {
             uvView.setVisibility(View.INVISIBLE);
             uvMsgView.setVisibility(View.INVISIBLE);
         } else {
-            String uv = UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvValue") + " " +UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvDesc");
+            if (MainActivity.isConnected) {
+                uv = UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvValue") + " " + UVindex.uvList.get(UVindex.uvList.size() - 1).get("uvDesc");
+            }
             uvView.setText(uv);
             uvMsgView.setVisibility(View.VISIBLE);
             uvView.setVisibility(View.VISIBLE);
@@ -240,27 +256,30 @@ public class HomeFragment extends Fragment{
 
     }
     public static void setHumidity(){
-        String humidityValue = Humidity.humidityList.get(Humidity.humidityList.size() - 1).get("humidityValue");
+        String humidityValue = "";
+        if(MainActivity.isConnected) {
+            humidityValue = Humidity.humidityList.get(Humidity.humidityList.size() - 1).get("humidityValue");
+        }
         updateWeatherInfo(R.id.humidity, humidityValue, R.string.percentage);
     }
     public static void setRainfall(String place){
         String rainfallValue = "0";
-        for (HashMap<String, String> rf : Rainfall.rainfallList) {
+        View rain = HomeFragment.root.findViewById(R.id.rain_gif);
+        if(MainActivity.isConnected) {
+            for (HashMap<String, String> rf : Rainfall.rainfallList) {
 
-
-            if (rf.get("place").equals(place)) {
-                rainfallValue = rf.get("rainfallMaxValue");
-                if(!rainfallValue.equals("0")){
-                    View rain = HomeFragment.root.findViewById(R.id.rain_gif);
-                    rain.setVisibility(View.VISIBLE);
-                } else {
-                    View rain = HomeFragment.root.findViewById(R.id.rain_gif);
-                    rain.setVisibility(View.INVISIBLE);
+                if (rf.get("place").equals(place)) {
+                    rainfallValue = rf.get("rainfallMaxValue");
+                    if (!rainfallValue.equals("0")) {
+                        rain.setVisibility(View.VISIBLE);
+                    } else {
+                        rain.setVisibility(View.INVISIBLE);
+                    }
+                    //Log.d("RainfallValue", rainfallValue);
+                    break;
                 }
-                //Log.d("RainfallValue", rainfallValue);
-                updateWeatherInfo(R.id.pastrainfall, rainfallValue, R.string.mm);
-                break;
             }
+            updateWeatherInfo(R.id.pastrainfall, rainfallValue, R.string.mm);
         }
     }
     public static void setCurrentTemp(String place){

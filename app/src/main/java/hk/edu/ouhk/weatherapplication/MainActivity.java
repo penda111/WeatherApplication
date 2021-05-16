@@ -31,6 +31,7 @@ import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -93,7 +94,6 @@ import hk.edu.ouhk.weatherapplication.APIHandler.ffcWeatherAPIHandler.ffcWeather
 import hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastFragment;
 import hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastViewModel;
 import hk.edu.ouhk.weatherapplication.ui.NineDays.NineDaysFragment;
-import hk.edu.ouhk.weatherapplication.ui.gallery.GalleryFragment;
 import hk.edu.ouhk.weatherapplication.ui.home.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -128,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
     public static String datalang = "en";
     public static Boolean isConnected;
 
+    private static MenuItem refresh_option;
+
     private boolean mToolBarNavigationListenerIsRegistered = false;
 
     @Override
@@ -140,25 +142,28 @@ public class MainActivity extends AppCompatActivity {
 
         ConnectivityManager cm =
                 (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
-
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
+
         //updateLanguageVariable();
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
         setContentView(R.layout.activity_main);
-
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+/*
         db = new DatabaseHelper(mContext);
-        mrsAPIHandler = new MrsAPIHandler();
-        srsAPIHandler = new SrsAPIHandler();
+        if(MainActivity.isConnected) {
+            mrsAPIHandler = new MrsAPIHandler();
+            srsAPIHandler = new SrsAPIHandler();
+        }*/
 
         mActionBar = getSupportActionBar();
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        sharedPreferences.edit().putString("Language", lang).apply();
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -179,9 +184,15 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        /*actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer , toolbar, R.string.drawer_open, R.string.drawer_close);
+        db = new DatabaseHelper(mContext);
+        if(MainActivity.isConnected) {
+            mrsAPIHandler = new MrsAPIHandler();
+            srsAPIHandler = new SrsAPIHandler();
+        }
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer , toolbar, R.string.drawer_open, R.string.drawer_close);
         actionBarDrawerToggle.syncState();
-        drawer.addDrawerListener(actionBarDrawerToggle);*/
+        drawer.addDrawerListener(actionBarDrawerToggle);
+
         if (!checkPermission()) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -189,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             setUpLocationClient();
         }
-
 
         // animate the sun
         //new updateUI().execute();
@@ -215,15 +225,20 @@ public class MainActivity extends AppCompatActivity {
 
         //QemAPIHandler qemAPIHandler = new QemAPIHandler();
         //FeltearthquakeAPIHandler feltearthquakeAPIHandler = new FeltearthquakeAPIHandler();
-
-        HhotAPIHandler hhotAPIHandler = new HhotAPIHandler(2021,"CCH");
-        HltAPIHandler hltAPIHandler = new HltAPIHandler("CCH");
-
-        if(! HomeFragment.isFirstime) {
+        if(MainActivity.isConnected) {
+            HhotAPIHandler hhotAPIHandler = new HhotAPIHandler(2021, "CCH");
+            HltAPIHandler hltAPIHandler = new HltAPIHandler("CCH");
+        }
+       if(! HomeFragment.isFirstime) {
             HomeFragment.callAPIData();
         }
 
 
+    }
+
+    //Return isConnected
+    public static boolean checkIsConnected(){
+        return isConnected;
     }
 
     public boolean checkPermission() {
@@ -286,7 +301,9 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        refresh_option = menu.getItem(0);
 
         return true;
     }
@@ -440,7 +457,18 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
         }
         else if (id == R.id.action_refresh){
-           NavHostFragment navHostFragment =
+            refresh_option.setEnabled(false);
+            ConnectivityManager cm =
+                    (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            isConnected = activeNetwork != null &&
+                    activeNetwork.isConnectedOrConnecting();
+                    refreshUI();
+
+
+
+
+/*           NavHostFragment navHostFragment =
                     (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
            NavController nc = navHostFragment.getNavController();
            int currentId = nc.getCurrentDestination().getId();
@@ -450,7 +478,7 @@ public class MainActivity extends AppCompatActivity {
             LocalForecastFragment.updateLocalForecast();
         } else if (currentId == R.id.nav_9_day){
             NineDaysFragment.update9day();
-        }
+        }*/
 
         }
             else if (id == android.R.id.home) {
@@ -461,6 +489,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void refreshUI(){
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        NavController nc = navHostFragment.getNavController();
+
+        int currentId = nc.getCurrentDestination().getId();
+        if(currentId == R.id.nav_home){
+            HomeFragment.refreshHome();
+            refresh_option.setEnabled(true);
+        } else if (currentId == R.id.nav_local){
+            LocalForecastFragment.updateLocalForecast();
+            refresh_option.setEnabled(true);
+        } else if (currentId == R.id.nav_9_day){
+            NineDaysFragment.update9day();
+            refresh_option.setEnabled(true);
+        } else if (currentId == R.id.nav_abouticons){
+            refresh_option.setEnabled(true);
+        }
+        //refresh_option.setEnabled(true);
+
+    }
     public void onLocationChanged(@NonNull Location location) {}
 
 

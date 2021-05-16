@@ -22,7 +22,11 @@ import androidx.lifecycle.ViewModelProvider;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import hk.edu.ouhk.weatherapplication.APIHandler.Database.DatabaseHelper;
 import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.FndAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.RhrreadAPIHandler.RhrreadAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.WarnsumAPIHandler.WarnsumAPIHandler;
+import hk.edu.ouhk.weatherapplication.APIHandler.ffcWeatherAPIHandler.ffcWeatherAPIHandler;
 import hk.edu.ouhk.weatherapplication.MainActivity;
 import hk.edu.ouhk.weatherapplication.R;
 import hk.edu.ouhk.weatherapplication.APIHandler.FndAPIHandler.WeatherForecast_9Days;
@@ -31,6 +35,9 @@ import hk.edu.ouhk.weatherapplication.ui.LocalForecast.LocalForecastViewModel;
 public class NineDaysFragment extends Fragment {
     private static ListView listview;
     public static View root;
+
+    public static ArrayList<HashMap<String, String>> wf9List = null;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -71,12 +78,22 @@ public class NineDaysFragment extends Fragment {
     }
 public static void update9day(){
     ListView listview = NineDaysFragment.root.findViewById(R.id.listView_9days);
-    FndAPIHandler fnd = new FndAPIHandler(MainActivity.datalang);
-    WeatherForecast_9Days wf9 = new WeatherForecast_9Days();
-    //ArrayList<HashMap<String, String>> wf9List = WeatherForecast_9Days.weatherForecast_9Days.get(WeatherForecast_9Days.weatherForecast_9Days.size()-1)
+    callAPIData();
+/*   if(MainActivity.isConnected) {
+        callAPIData();
+    }*/ /* else {
+        DatabaseHelper dbh = new DatabaseHelper(MainActivity.getContext());
+        wf9List = dbh.getDay();
+        wf9List.remove(0);
+    }*/
+    DatabaseHelper dbh = new DatabaseHelper(MainActivity.getContext());
+    wf9List = dbh.getDay();
+    wf9List.remove(0);
+//    WeatherForecast_9Days wf9 = new WeatherForecast_9Days();
+//    ArrayList<HashMap<String, String>> wf9List = WeatherForecast_9Days.weatherForecast_9Days;
     SimpleAdapter adapter = new SimpleAdapter(
             MainActivity.getContext(),
-            WeatherForecast_9Days.weatherForecast_9Days,
+            wf9List,
             R.layout.item,
             new String[] { WeatherForecast_9Days.FORMATTED,
                     WeatherForecast_9Days.WEEK,
@@ -104,5 +121,23 @@ public static void update9day(){
 
     listview.setAdapter(adapter);
 }
+    public static void callAPIData() {
+        if (MainActivity.isConnected) {
+            Thread th = new Thread() {
+                public void run() {
+                    FndAPIHandler fnd = new FndAPIHandler();
+
+                    //WeatherForecast_9Days wf9 = new WeatherForecast_9Days();
+                    //wf9List = WeatherForecast_9Days.weatherForecast_9Days;
+                }
+            };
+            th.start();
+            try {
+                th.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

@@ -36,20 +36,7 @@ public class FlwAPIHandler {
         }catch (InterruptedException e){
         }
     }
-    public FlwAPIHandler(String datalang){
-        if(lang != MainActivity.datalang){
-            Log.d("System lang", MainActivity.datalang);
-            changeLang();
-        }
-        url = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType="+DATATYPE+"&lang="+datalang;
-        JsonHandlerThread jsonHandlerThread = new JsonHandlerThread(url,"Flw");
-        jsonHandlerThread.start();
-        try {
-            jsonHandlerThread.join();
-            //getJsonData();
-        }catch (InterruptedException e){
-        }
-    }
+
 
     public static void getJsonData(){
         try {

@@ -13,9 +13,7 @@
         <item
             android:id="@+id/nav_9_day"
             android:title="@string/menu_9_day" />
-        <item
-            android:id="@+id/nav_global"
-            android:title="@string/menu_global" />
+
         <item
             android:id="@+id/nav_abouticons"
             android:title="@string/menu_abouticons" />
