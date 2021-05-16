@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
     public static Boolean isConnected;
 
     private static MenuItem refresh_option;
+    private static boolean testRain = false;
 
     private boolean mToolBarNavigationListenerIsRegistered = false;
     private int firstLaunch = 0;
@@ -491,9 +492,6 @@ public class MainActivity extends AppCompatActivity {
 
             refreshUI();
 
-
-
-
 /*           NavHostFragment navHostFragment =
                     (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
            NavController nc = navHostFragment.getNavController();
@@ -505,7 +503,15 @@ public class MainActivity extends AppCompatActivity {
         } else if (currentId == R.id.nav_9_day){
             NineDaysFragment.update9day();
         }*/
-
+        } else if (id == R.id.action_test_rain){
+            View rain = HomeFragment.root.findViewById(R.id.rain_gif);
+            if(!testRain){
+                testRain = !testRain;
+                rain.setVisibility(View.VISIBLE);
+            } else {
+                testRain = !testRain;
+                rain.setVisibility(View.INVISIBLE);
+            }
         }
             else if (id == android.R.id.home) {
             onBackPressed();
